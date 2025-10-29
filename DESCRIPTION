@@ -1,14 +1,14 @@
 Package: miRNARefine
 Type: Package
-Title: A tool to refine and improve the quality and interpretability
-of miRNA expression data
+Title: A tool to refine and improve the quality and interpretability 
+    of miRNA expression data
 Version: 0.1.0
 Authors@R: person("Feiyang", "Sun", 
     email = "feiyang.sun@mail.utoronto.ca",
     role = c("aut", "cre"))
 Maintainer: Feiyang Sun <feiyang.sun@mail.utoronto.ca>
-Description: Aims to identify and correct potential data 
-    irregularities such as outliers, batch effects, and instability in miRNA 
+Description: Aims to identify and correct potential data
+    irregularities such as outliers, batch effects, and instability in miRNA
     expression across samples, and to provide diagnostic visualizations that
     help researchers assess data reliability before downstream analyses.
 License: MIT + file LICENSE
@@ -23,3 +23,4 @@ Imports:
 Depends: 
     R (>= 3.4.0)
 RoxygenNote: 7.3.3
+Roxygen: list(markdown = TRUE)

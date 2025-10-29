@@ -11,7 +11,11 @@ miRNA Expression Data.
 
 ## Description
 
-miRNARefine is an R package which aims to identify and correct potential data irregularities such as outliers, batch effects, and instability in miRNA expression across samples, and to provide diagnostic visualizations that help researchers assess data reliability before downstream analyses.
+miRNARefine is an R package which aims to identify and correct potential
+data irregularities such as outliers, batch effects, and instability in
+miRNA expression across samples, and to provide diagnostic
+visualizations that help researchers assess data reliability before
+downstream analyses.
 
 ## Installation
 
