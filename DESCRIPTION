@@ -1,11 +1,16 @@
 Package: miRNARefine
 Type: Package
-Title: What the Package Does (Title Case)
+Title: A tool to refine and improve the quality and interpretability
+of miRNA expression data
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Authors@R: person("Feiyang", "Sun", 
+    email = "feiyang.sun@mail.utoronto.ca",
+    role = c("aut", "cre"))
+Maintainer: Feiyang Sun <feiyang.sun@mail.utoronto.ca>
+Description: Aims to identify and correct potential data 
+    irregularities such as outliers, batch effects, and instability in miRNA 
+    expression across samples, and to provide diagnostic visualizations that
+    help researchers assess data reliability before downstream analyses.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
