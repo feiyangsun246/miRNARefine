@@ -32,3 +32,12 @@ values.
 Thresholds are adapted to the dataset's characteristics to retain informative
 features while removing noise.
 }
+\examples{
+filtered_data <- adaptiveFiltering(miRNASeq1,
+                                   min_expression = NULL,
+                                   min_variance = NULL,
+                                   max_na = 0.2,
+                                   report_summary = TRUE)
+filtered_data
+
+}
