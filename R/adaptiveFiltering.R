@@ -50,8 +50,10 @@ adaptiveFiltering <- function(miRNAdata,
   col_var  <- apply(miRNAdata, 2, stats::var, na.rm = TRUE)
 
   # Set adaptive thresholds if not provided
-  if (is.null(min_expression)) min_expression <- stats::quantile(col_mean, 0.25)
-  if (is.null(min_variance))   min_variance   <- stats::quantile(col_var, 0.25)
+  if (is.null(min_expression))
+    min_expression <- stats::quantile(col_mean, 0.25, na.rm = TRUE)
+  if (is.null(min_variance))
+    min_variance   <- stats::quantile(col_var, 0.25, na.rm = TRUE)
 
   # Identify miRNAs to keep
   keep <- (col_mean >= min_expression) &
