@@ -7,10 +7,24 @@
 \format{
 A data frame with 18 columns and 10 rows:
 \describe{
-\item{miRNA1}{RPM value for miRNA1 in each sample}
-\item{miRNA2}{RPM value for miRNA2 in each sample}
-...
-\item{miRNA18}{RPM value for miRNA18 in each sample}
+\item{hsa-let-7a-1}{RPM value for the miRNA in each sample}
+\item{hsa-let-7a-2}{RPM value for the miRNA in each sample}
+\item{hsa-let-7a-3}{RPM value for the miRNA in each sample}
+\item{hsa-let-7b}{RPM value for the miRNA in each sample}
+\item{hsa-let-7c}{RPM value for the miRNA in each sample}
+\item{hsa-let-7d}{RPM value for the miRNA in each sample}
+\item{hsa-let-7e}{RPM value for the miRNA in each sample}
+\item{hsa-let-7f-1}{RPM value for the miRNA in each sample}
+\item{hsa-let-7f-2}{RPM value for the miRNA in each sample}
+\item{hsa-let-7g}{RPM value for the miRNA in each sample}
+\item{hsa-let-7i}{RPM value for the miRNA in each sample}
+\item{hsa-mir-1-1}{RPM value for the miRNA in each sample}
+\item{hsa-mir-1-2}{RPM value for the miRNA in each sample}
+\item{hsa-mir-100}{RPM value for the miRNA in each sample}
+\item{hsa-mir-101-1}{RPM value for the miRNA in each sample}
+\item{hsa-mir-101-2}{RPM value for the miRNA in each sample}
+\item{hsa-mir-103-1}{RPM value for the miRNA in each sample}
+\item{hsa-mir-103-1-as}{RPM value for the miRNA in each sample}
 }
 }
 \source{

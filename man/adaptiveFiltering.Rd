@@ -2,10 +2,33 @@
 % Please edit documentation in R/adaptiveFiltering.R
 \name{adaptiveFiltering}
 \alias{adaptiveFiltering}
-\title{Automatically filters miRNAs based on expression, variance, or missing values.}
+\title{Adaptive Filtering of miRNA Data}
 \usage{
-adaptiveFiltering(miRNAdata)
+adaptiveFiltering(
+  miRNAdata,
+  min_expression = NULL,
+  min_variance = NULL,
+  max_na = 0.2,
+  report_summary = TRUE
+)
+}
+\arguments{
+\item{miRNAdata}{A data frame or matrix of miRNA expression, samples in rows, miRNAs in columns.}
+
+\item{min_expression}{Minimum mean expression threshold. If NULL, use the 25th percentile of means.}
+
+\item{min_variance}{Minimum variance threshold. If NULL, use the 25th percentile of variances.}
+
+\item{max_na}{Maximum proportion of missing values allowed per miRNA. Default 0.2.}
+
+\item{report_summary}{Logical, whether to print filtering summary. Default TRUE.}
+}
+\value{
+A filtered data frame with informative miRNAs retained.
 }
 \description{
-Adjusts thresholds according to the dataset’s characteristics to retain informative features while removing noise.
+Automatically filters miRNAs based on expression, variance, and missing
+values.
+Thresholds are adapted to the dataset's characteristics to retain informative
+features while removing noise.
 }
