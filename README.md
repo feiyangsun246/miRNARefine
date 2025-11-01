@@ -11,18 +11,31 @@ miRNA Expression Data.
 
 ## Description
 
-miRNARefine is an R package which aims to identify and correct potential
-data irregularities such as outliers, batch effects, and instability in
-miRNA expression across samples, and to provide diagnostic
-visualizations that help researchers assess data reliability before
-downstream analyses.
+`miRNARefine` is an R package which aims to identify and correct
+potential data irregularities such as outliers, batch effects, and
+instability in miRNA expression across samples, and to provide
+diagnostic visualizations that help researchers assess data reliability
+before downstream analyses.
+
+miRNARefine was developed in the following environment:  
+R version: 4.5.1 (2025-06-13) - “Great Square Root”  
+Platform: Windows 11 x64(x86_64, mingw32)
 
 ## Installation
 
 You can install the development version of miRNARefine like so:
 
 ``` r
-# FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
+install.packages("devtools")
+library("devtools")
+devtools::install_github("feiyangsun246/miRNARefine", build_vignettes = TRUE)
+library("TestingPackage")
+```
+
+To run the Shiny app:
+
+``` r
+# to be implemented
 ```
 
 ## Example
