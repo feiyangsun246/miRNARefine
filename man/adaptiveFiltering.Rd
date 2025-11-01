@@ -4,7 +4,7 @@
 \alias{adaptiveFiltering}
 \title{Automatically filters miRNAs based on expression, variance, or missing values.}
 \usage{
-adaptiveFiltering()
+adaptiveFiltering(miRNAdata)
 }
 \description{
 Adjusts thresholds according to the dataset’s characteristics to retain informative features while removing noise.

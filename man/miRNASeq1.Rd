@@ -5,12 +5,12 @@
 \alias{miRNASeq1}
 \title{miRNA Sequence dataset from TCGA project}
 \format{
-A data frame with 10 rows and 18 columns:
+A data frame with 18 columns and 10 rows:
 \describe{
-\item{Sample1}{Expression value for miRNA 1 in sample 1}
-\item{Sample2}{Expression value for miRNA 2 in sample 1}
+\item{miRNA1}{RPM value for miRNA1 in each sample}
+\item{miRNA2}{RPM value for miRNA2 in each sample}
 ...
-\item{Sample10}{Expression value for miRNA 18 in sample 1}
+\item{miRNA18}{RPM value for miRNA18 in each sample}
 }
 }
 \source{

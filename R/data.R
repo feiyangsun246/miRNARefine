@@ -7,12 +7,12 @@
 #'
 #' @source \url{https://bioconductor.org/packages/RTCGA.miRNASeq/} (RTCGA.miRNASeq package)
 #'
-#' @format A data frame with 10 rows and 18 columns:
+#' @format A data frame with 18 columns and 10 rows:
 #' \describe{
-#'   \item{Sample1}{Expression value for miRNA 1 in sample 1}
-#'   \item{Sample2}{Expression value for miRNA 2 in sample 1}
+#'   \item{miRNA1}{RPM value for miRNA1 in each sample}
+#'   \item{miRNA2}{RPM value for miRNA2 in each sample}
 #'   ...
-#'   \item{Sample10}{Expression value for miRNA 18 in sample 1}
+#'   \item{miRNA18}{RPM value for miRNA18 in each sample}
 #' }
 #'
 #' @examples
@@ -20,3 +20,26 @@
 #' miRNASeq1
 #' }
 "miRNASeq1"
+
+#' Toy miRNA Dataset
+#'
+#' A small toy miRNA dataset including missing values and outliers.
+#' This dataset is designed for testing preprocessing and filtering functions.
+#' Each row represents a sample, and each column represents a miRNA feature.
+#' Values represent **reads per million miRNA mapped (RPM)**.
+#' Some values are intentionally set as \code{NA} or extreme outliers
+#' to simulate noisy, unclean data.
+#'
+#' @format A data frame with 20 columns and 30 rows:
+#' \describe{
+#'   \item{miRNA1}{RPM value for miRNA1 in each sample}
+#'   \item{miRNA2}{RPM value for miRNA2 in each sample}
+#'   ...
+#'   \item{miRNA20}{RPM value for miRNA20 in each sample}
+#' }
+#'
+#' @examples
+#' \dontrun{
+#' miRNASeq2
+#' }
+"miRNASeq2"

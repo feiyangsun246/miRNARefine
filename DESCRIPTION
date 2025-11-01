@@ -19,7 +19,8 @@ Imports:
     ggplot2,
     preprocessCore,
     stats,
-    sva
+    sva,
+    impute
 Depends: 
     R (>= 3.5)
 RoxygenNote: 7.3.3
