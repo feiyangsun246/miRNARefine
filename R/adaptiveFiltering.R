@@ -13,6 +13,14 @@
 #'
 #' @return A filtered data frame with informative miRNAs retained.
 #'
+#' @examples
+#' filtered_data <- adaptiveFiltering(miRNASeq1,
+#'                                    min_expression = NULL,
+#'                                    min_variance = NULL,
+#'                                    max_na = 0.2,
+#'                                    report_summary = TRUE)
+#' filtered_data
+#'
 #' @export
 #' @import stats
 #'
