@@ -31,9 +31,16 @@ adaptiveFiltering <- function(miRNAdata,
                               report_summary = TRUE) {
 
   # Input check
-  if (!is.data.frame(miRNAdata) && !is.matrix(miRNAdata)) {
-    stop("`data` must be a data frame or matrix with samples in rows and miRNAs in columns.")
+  if (is.matrix(miRNAdata)) {
+    miRNAdata <- as.data.frame(miRNAdata)
+  } else if (is.data.frame(miRNAdata)) {
+    class(miRNAdata) <- "data.frame"
+  } else {
+    stop("`miRNAdata` must be a data frame or matrix.")
   }
+
+  # Converse non-numeric data
+  miRNAdata <- as.data.frame(sapply(miRNAdata, as.numeric))
 
   # Calculate missing value proportion per miRNA
   na_prop <- colSums(is.na(miRNAdata)) / nrow(miRNAdata)
@@ -60,7 +67,6 @@ adaptiveFiltering <- function(miRNAdata,
     message(sprintf("Removed %d miRNAs", ncol(miRNAdata) - ncol(filtered)))
   }
 
-  filtered <- miRNAdata
   return(filtered)
 
 }

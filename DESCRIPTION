@@ -25,3 +25,9 @@ Depends:
     R (>= 3.5)
 RoxygenNote: 7.3.3
 Roxygen: list(markdown = TRUE)
+Suggests: 
+    testthat (>= 3.0.0),
+    rmarkdown,
+    knitr,
+    RTCGA.miRNASeq
+Config/testthat/edition: 3
