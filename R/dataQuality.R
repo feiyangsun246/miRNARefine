@@ -139,7 +139,7 @@ detectOutliersPCA <- function(miRNAdata,
   miRNA_outliers <- abs(z_scores) > z_threshold
 
   # Optional summary
-  if (report_summary) {
+  if (isTRUE(report_summary)) {
     message(sprintf("Detected %d row-level outliers (%.1f%% of samples)",
                     sum(sample_outliers), 100*mean(sample_outliers)))
     message(sprintf("Detected %d individual miRNA outliers (%.1f%% of values)",
@@ -224,7 +224,7 @@ missingValueHandling <- function(miRNAdata,
                                  k = 5,
                                  report_summary = TRUE){
 
-  # Check if method selected is valid
+  # Match method
   method <- match.arg(method)
 
   # Check if input is valid
@@ -275,7 +275,7 @@ missingValueHandling <- function(miRNAdata,
   }
 
   # Report missing values after
-  if (report_summary) {
+  if (isTRUE(report_summary)) {
     message(sprintf("Missing values after imputation: %d",
                     sum(is.na(miRNAdata))))
   }

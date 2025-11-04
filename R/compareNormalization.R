@@ -9,8 +9,13 @@
 #' @param methods A character vector of normalization methods to apply.
 #' Supported: "log2", "zscore", "quantile". Default is all three.
 #' @param report_summary Logical, whether to print summary information. Default TRUE.
+#' @param choose_best Logical, whether to automatically recommend the best method. Default FALSE.
 #'
-#' @return A list where each element is the normalized dataset corresponding to a method.
+#' @return A result list containing:
+#'   \itemize{
+#'     \item normalized: list of normalized datasets
+#'     \item best_method: recommended method if choose_best = TRUE
+#'   }
 #'
 #' @examples
 #' data(toy_miRNA)
@@ -39,11 +44,12 @@
 #'
 #' @export
 #' @import preprocessCore
-#' @importFrom stats scale
+#' @importFrom stats var
 #'
 compareNormalization <- function(miRNAdata,
                                  methods = c("log2", "zscore", "quantile"),
-                                 report_summary = TRUE) {
+                                 report_summary = TRUE,
+                                 choose_best = FALSE) {
 
   # Check if input is valid
   if (is.matrix(miRNAdata)) {
@@ -66,5 +72,56 @@ compareNormalization <- function(miRNAdata,
     })
   )
 
+  # Match methods
+  methods <- match.arg(methods, several.ok = TRUE)
 
+  # Initialize result list
+  normalized <- list()
+
+  # Log2 transformation
+  if ("log2" %in% methods) {
+    # Add small constant to avoid log2(0)
+    normalized$log2 <- log2(miRNAdata + 1)
+  }
+
+  # Z-score scaling (per column)
+  if ("zscore" %in% methods) {
+    normalized$zscore <- as.data.frame(stats::scale(miRNAdata))
+  }
+
+  # Quantile normalization
+  if ("quantile" %in% methods) {
+    if (!requireNamespace("preprocessCore", quietly = TRUE)) {
+      stop("The 'preprocessCore' package is required for quantile
+           normalization.")
+    }
+    normalized$quantile <- as.data.frame(preprocessCore::normalize.quantiles(as.matrix(miRNAdata)))
+    colnames(normalized$quantile) <- colnames(miRNAdata)
+    rownames(normalized$quantile) <- rownames(miRNAdata)
+  }
+
+  # Optional summary
+  if (isTRUE(report_summary)) {
+    message("Normalization applied: ", paste(names(normalized), collapse = ", "))
+    for (nm in names(normalized)) {
+      message(sprintf("%s: min=%g, max=%g", nm,
+                      min(normalized[[nm]], na.rm = TRUE),
+                      max(normalized[[nm]], na.rm = TRUE)))
+    }
+  }
+
+  # Choose best method based on variance uniformity
+  best_method <- NULL
+  if (isTRUE(choose_best)) {
+    score <- sapply(normalized, function(x) {
+      vars <- apply(x, 2, stats::var, na.rm = TRUE)
+      sd(vars)  # smaller SD of variances = more uniform
+    })
+    best_method <- names(which.min(score))
+    if (report_summary) message(sprintf("Recommended method: %s", best_method))
+  }
+
+  return(list(normalized = normalized, best_method = best_method))
+
+  return(normalized)
 }

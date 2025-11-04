@@ -103,7 +103,7 @@ adaptiveFiltering <- function(miRNAdata,
   filtered <- miRNAdata[, keep, drop = FALSE]
 
   # Print summary if needed
-  if (report_summary) {
+  if (isTRUE(report_summary)) {
     message(sprintf("Original miRNAs: %d", ncol(miRNAdata)))
     message(sprintf("Filtered miRNAs: %d", ncol(filtered)))
     message(sprintf("Removed %d miRNAs", ncol(miRNAdata) - ncol(filtered)))
