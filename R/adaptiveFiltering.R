@@ -1,9 +1,8 @@
 #' Adaptive Filtering of miRNA Data
 #'
 #' Automatically filters miRNAs based on expression, variance, and missing
-#' values.
-#' Thresholds are adapted to the dataset's characteristics to retain informative
-#' features while removing noise.
+#' values. Thresholds are adapted to the dataset's characteristics to retain
+#' informative features while removing noise.
 #'
 #' @param miRNAdata A data frame or matrix of miRNA expression, samples in rows, miRNAs in columns.
 #' @param min_expression Minimum mean expression threshold. If NULL, use the 25th percentile of means.
@@ -26,16 +25,25 @@
 #' # Example 2:
 #' # Obtain an external sample miRNASeq dataset
 #' # Example requires the RTCGA.miRNASeq package:
+#' \dontrun{
 #' if (requireNamespace("RTCGA.miRNASeq", quietly = TRUE)) {
-#'   df <- RTCGA.miRNASeq::ACC.miRNASeq
-#'   sample <- df[1:100, 1:20]
+#'   library(RTCGA.miRNASeq)
+#'   dim(ACC.miRNASeq) # 240 1048
+#'
+#'   sample <- RTCGA.miRNASeq::ACC.miRNASeq[1:100, 1:20]
 #'   filtered <- adaptiveFiltering(sample,
 #'                                 min_expression = NULL,
 #'                                 min_variance = NULL,
 #'                                 max_na = 0.2,
 #'                                 report_summary = TRUE)
 #'   head(filtered)
-#' }
+#' }}
+#'
+#' @references
+#' Castelluzzo M, Detassis S, Denti M, Ricci L (2023).
+#' MiRNAQCD: Micro-RNA Quality Control and Diagnosis, R package version 1.1.3,
+#' \href{https://CRAN.R-project.org/package=MiRNAQCD}{Link}.
+#'
 #' @export
 #' @import stats
 #'
