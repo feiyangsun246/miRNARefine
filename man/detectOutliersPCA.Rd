@@ -40,6 +40,11 @@ Identifies anomalous samples using principal component analysis (PCA)
 following the approach of Jolliffe (2002). Samples that deviate strongly from
 the multivariate center are flagged as outliers to improve data quality.
 }
+\details{
+Before running \code{detectOutliersPCA()}, ensure that the dataset contains
+no missing values.
+You may use \code{missingValueHandling()} to fill missing data to avoid errors.
+}
 \examples{
 # Example 1:
 # Using miRNASeq data available with package
@@ -60,7 +65,11 @@ if (requireNamespace("RTCGA.miRNASeq", quietly = TRUE)) {
   library(RTCGA.miRNASeq)
   dim(ACC.miRNASeq) # 240 1048
 
-  sample <- RTCGA.miRNASeq::ACC.miRNASeq[1:100, 1:20]
+  sample_ori <- RTCGA.miRNASeq::ACC.miRNASeq[1:100, 1:20]
+
+  # deal with missing values first in case of errors
+  sample <- missingValue
+
   result <- detectOutliersPCA(sample,
                               n_components = 2,
                               row_threshold = 0.99,

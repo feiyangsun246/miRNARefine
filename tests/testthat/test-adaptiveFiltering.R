@@ -24,6 +24,11 @@ test_that("Check if adaptiveFiltering error upon invalid user input", {
   expect_error(adaptiveFiltering(624),
                "`miRNAdata` must be a data frame or matrix")
 
+  # Empty input
+  df_empty <- data.frame()
+  expect_error(adaptiveFiltering(df_empty),
+               "Empty dataframe input")
+
 })
 
 test_that("Check if output of adaptiveFiltering is a data.frame with expected

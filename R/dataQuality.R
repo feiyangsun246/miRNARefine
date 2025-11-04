@@ -17,6 +17,11 @@
 #'   - pca_res: prcomp object
 #'   - scores: PCA scores
 #'
+#' @details
+#' Before running `detectOutliersPCA()`, ensure that the dataset contains
+#' no missing values.
+#' You may use `missingValueHandling()` to fill missing data to avoid errors.
+#'
 #' @examples
 #' # Example 1:
 #' # Using miRNASeq data available with package
@@ -37,7 +42,11 @@
 #'   library(RTCGA.miRNASeq)
 #'   dim(ACC.miRNASeq) # 240 1048
 #'
-#'   sample <- RTCGA.miRNASeq::ACC.miRNASeq[1:100, 1:20]
+#'   sample_ori <- RTCGA.miRNASeq::ACC.miRNASeq[1:100, 1:20]
+#'
+#'   # deal with missing values first in case of errors
+#'   sample <- missingValue
+#'
 #'   result <- detectOutliersPCA(sample,
 #'                               n_components = 2,
 #'                               row_threshold = 0.99,
@@ -84,6 +93,11 @@ detectOutliersPCA <- function(miRNAdata,
     class(miRNAdata) <- "data.frame"
   } else {
     stop("`miRNAdata` must be a data frame or matrix.")
+  }
+
+  # Stop when input is an empty dataframe
+  if (nrow(miRNAdata) == 0 || ncol(miRNAdata) == 0) {
+    stop("Empty dataframe input")
   }
 
   # Converse non-numeric data
@@ -205,7 +219,12 @@ missingValueHandling <- function(miRNAdata,
   } else if (is.data.frame(miRNAdata)) {
     class(miRNAdata) <- "data.frame"
   } else {
-    stop("`miRNAdata` must be a data frame or matrix.")
+    stop("`miRNAdata` must be a data frame or matrix")
+  }
+
+  # Stop when input is an empty dataframe
+  if (nrow(miRNAdata) == 0 || ncol(miRNAdata) == 0) {
+    stop("Empty dataframe input")
   }
 
   # Converse non-numeric data
@@ -224,7 +243,7 @@ missingValueHandling <- function(miRNAdata,
   # Imputation
   if (method %in% c("mean", "median")) {
     FUN <- ifelse(method == "mean", mean, median)
-    miRNAdata <- data.frame(lapply(miRNAdata, function(col) {
+    filled_miRNA <- data.frame(lapply(miRNAdata, function(col) {
       na_idx <- is.na(col)
       if (any(na_idx)) col[na_idx] <- FUN(col, na.rm = TRUE)
       return(col)
@@ -238,7 +257,7 @@ missingValueHandling <- function(miRNAdata,
     # Convert to matrix
     miRNAdata <- as.matrix(miRNAdata)
     imputed <- impute::impute.knn(miRNAdata, k = k)
-    miRNAdata <- imputed$data
+    filled_miRNA <- imputed$data
   }
 
   # Report missing values after
@@ -247,5 +266,5 @@ missingValueHandling <- function(miRNAdata,
                     sum(is.na(miRNAdata))))
   }
 
-  return(miRNAdata)
+  return(filled_miRNA)
 }

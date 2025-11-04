@@ -70,6 +70,11 @@ adaptiveFiltering <- function(miRNAdata,
     stop("`miRNAdata` must be a data frame or matrix.")
   }
 
+  # Stop when input is an empty dataframe
+  if (nrow(miRNAdata) == 0 || ncol(miRNAdata) == 0) {
+    stop("Empty dataframe input")
+  }
+
   # Converse non-numeric data
   miRNAdata <- as.data.frame(
     lapply(miRNAdata, function(x) {

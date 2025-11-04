@@ -30,5 +30,10 @@ test_that("Check if detectOutliersPCA error upon invalid user input", {
   expect_error(detectOutliersPCA(624),
                "`miRNAdata` must be a data frame or matrix")
 
+  # Empty input
+  df_empty <- data.frame()
+  expect_error(adaptiveFiltering(df_empty),
+               "Empty dataframe input")
+
 })
 

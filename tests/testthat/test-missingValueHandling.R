@@ -24,6 +24,11 @@ test_that("Check if missingValueHandling error upon invalid user input", {
   expect_error(missingValueHandling(624),
                "`miRNAdata` must be a data frame or matrix")
 
+  # Empty input
+  df_empty <- data.frame()
+  expect_error(adaptiveFiltering(df_empty),
+               "Empty dataframe input")
+
 })
 
 test_that("factor columns are converted to numeric", {
