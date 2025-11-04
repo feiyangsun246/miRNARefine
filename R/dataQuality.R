@@ -205,7 +205,11 @@ missingValueHandling <- function(miRNAdata,
   }
 
   # Converse non-numeric data
-  miRNAdata <- as.data.frame(sapply(miRNAdata, as.numeric))
+  miRNAdata <- as.data.frame(
+    lapply(miRNAdata, function(x) {
+      if (is.factor(x)) as.numeric(as.character(x)) else x
+    })
+  )
 
   # Report missing values before
   if (report_summary) {
