@@ -31,3 +31,4 @@ test_that("Check if detectOutliersPCA error upon invalid user input", {
                "`miRNAdata` must be a data frame or matrix")
 
 })
+

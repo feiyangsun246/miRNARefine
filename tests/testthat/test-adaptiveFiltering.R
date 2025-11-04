@@ -1,8 +1,8 @@
 library(miRNARefine)
+data("miRNASeq1")
+data("miRNASeq2")
 
 test_that("Check if adaptiveFiltering error upon invalid user input", {
-  data("miRNASeq1")
-  data("miRNASeq2")
 
   # Valid input
   expect_silent(adaptiveFiltering(miRNAdata = miRNASeq1,
