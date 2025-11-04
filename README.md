@@ -82,9 +82,11 @@ To view the tutorial of the package:
 browseVignettes("miRNARefine")
 ```
 
-## Package workflow overview
+The package also contains two datasets, called miRNASeq1 and miRNASeq2.
+Refer to package vignettes for more details. An overview of the package
+workflow is illustrated below.
 
-![](inst/extdata/flow.png)
+![](inst/extdata/workflow.png)
 
 ## Example
 
