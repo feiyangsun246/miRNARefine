@@ -69,3 +69,4 @@ test_that("Check if plot contains correct layers", {
   layer_classes <- sapply(p$layers, function(x) class(x$geom)[1])
   expect_true(any(layer_classes == "GeomPoint"))
 })
+
