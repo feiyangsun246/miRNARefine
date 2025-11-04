@@ -23,9 +23,9 @@ Supported: "log2", "zscore", "quantile". Default is all three.}
 }
 \value{
 A result list containing:
-\itemize{
-\item normalized: list of normalized datasets
-\item best_method: recommended method if choose_best = TRUE
+\describe{
+\item{normalized}{list of normalized datasets}
+\item{best_method}{recommended method if \code{choose_best = TRUE}}
 }
 }
 \description{

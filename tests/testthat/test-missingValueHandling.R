@@ -2,7 +2,7 @@ library(miRNARefine)
 data("miRNASeq1")
 data("miRNASeq2")
 
-test_that("Check if missingValueHandling error upon invalid user input", {
+test_that("Check if missingValueHandling error upon invalid dataset input", {
 
   # Valid input
   expect_silent(missingValueHandling(miRNAdata = miRNASeq1,

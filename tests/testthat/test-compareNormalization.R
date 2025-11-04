@@ -2,7 +2,7 @@ library(miRNARefine)
 data("miRNASeq1")
 data("miRNASeq2")
 
-test_that("Check if compareNormalization error upon invalid user input", {
+test_that("Check if compareNormalization error upon invalid dataset input", {
 
   # Handling missing values to avoid unexpected errors
   filled1 <- missingValueHandling(miRNAdata = miRNASeq1, method = "median",
