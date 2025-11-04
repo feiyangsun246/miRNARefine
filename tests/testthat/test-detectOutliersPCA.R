@@ -98,6 +98,7 @@ test_that("Check if detectOutliersPCA correctly identifies outliers on
 
 
 test_that("Check if detectOutliersPCA stops when NA values present", {
+
   df <- data.frame(
     x1 = c(1, 2, NA, 4),
     x2 = c(1, 2, 3, 4)
