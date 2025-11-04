@@ -35,7 +35,7 @@ library("TestingPackage")
 To run the Shiny app:
 
 ``` r
-# to be implemented
+# Under construction
 ```
 
 ## Example

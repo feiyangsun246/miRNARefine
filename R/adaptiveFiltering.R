@@ -14,6 +14,8 @@
 #' @return A filtered data frame with informative miRNAs retained.
 #'
 #' @examples
+#' # Example 1:
+#' # Using miRNASeq data available with package
 #' filtered_data <- adaptiveFiltering(miRNASeq1,
 #'                                    min_expression = NULL,
 #'                                    min_variance = NULL,
@@ -21,6 +23,19 @@
 #'                                    report_summary = TRUE)
 #' filtered_data
 #'
+#' # Example 2:
+#' # Obtain an external sample miRNASeq dataset
+#' # Example requires the RTCGA.miRNASeq package:
+#' if (requireNamespace("RTCGA.miRNASeq", quietly = TRUE)) {
+#'   df <- RTCGA.miRNASeq::ACC.miRNASeq
+#'   sample <- df[1:100, 1:20]
+#'   filtered <- adaptiveFiltering(sample,
+#'                                 min_expression = NULL,
+#'                                 min_variance = NULL,
+#'                                 max_na = 0.2,
+#'                                 report_summary = TRUE)
+#'   head(filtered)
+#' }
 #' @export
 #' @import stats
 #'
