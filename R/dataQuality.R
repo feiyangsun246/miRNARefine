@@ -25,7 +25,8 @@
 #' @examples
 #' # Example 1:
 #' # Using miRNASeq data available with package
-#' result <- detectOutliersPCA(miRNASeq1,
+#' data(miRNASeq1)
+#' result <- detectOutliersPCA(miRNAdata = miRNASeq1,
 #'                             n_components = 2,
 #'                             row_threshold = 0.99,
 #'                             z_threshold = 3,
@@ -47,7 +48,7 @@
 #'   # deal with missing values first in case of errors
 #'   sample <- missingValue
 #'
-#'   result <- detectOutliersPCA(sample,
+#'   result <- detectOutliersPCA(miRNAdata = sample,
 #'                               n_components = 2,
 #'                               row_threshold = 0.99,
 #'                               z_threshold = 3,
@@ -172,7 +173,8 @@ detectOutliersPCA <- function(miRNAdata,
 #' @examples
 #' # Example 1:
 #' # Using miRNASeq data available with package
-#' filled <- missingValueHandling(miRNASeq2,
+#' data(miRNASeq2)
+#' filled <- missingValueHandling(miRNAdata = miRNASeq2,
 #'                                method = "median",
 #'                                k = 5,
 #'                                report_summary = TRUE)
@@ -187,7 +189,7 @@ detectOutliersPCA <- function(miRNAdata,
 #'   dim(ACC.miRNASeq) # 240 1048
 #'
 #'   sample <- RTCGA.miRNASeq::ACC.miRNASeq[1:100, 1:20]
-#'   filled <- missingValueHandling(sample,
+#'   filled <- missingValueHandling(miRNAdata = sample,
 #'                                  method = "knn",
 #'                                  k = 5,
 #'                                  report_summary = TRUE)
@@ -281,4 +283,5 @@ missingValueHandling <- function(miRNAdata,
   }
 
   return(filled_miRNA)
+
 }

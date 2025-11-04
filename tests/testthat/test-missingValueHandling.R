@@ -13,20 +13,20 @@ test_that("Check if missingValueHandling error upon invalid user input", {
                                   report_summary = FALSE))
 
   # Invalid input: Vector
-  expect_error(missingValueHandling(miRNASeq1[, 1]),
+  expect_error(missingValueHandling(miRNAdata = miRNASeq1[, 1]),
                "`miRNAdata` must be a data frame or matrix")
 
   # Invalid input: List
-  expect_error(missingValueHandling(as.list(miRNASeq1)),
+  expect_error(missingValueHandling(miRNAdata = as.list(miRNASeq1)),
                "`miRNAdata` must be a data frame or matrix")
 
   # Invalid input: Numeric
-  expect_error(missingValueHandling(624),
+  expect_error(missingValueHandling(miRNAdata = 624),
                "`miRNAdata` must be a data frame or matrix")
 
   # Empty input
   df_empty <- data.frame()
-  expect_error(adaptiveFiltering(df_empty),
+  expect_error(missingValueHandling(miRNAdata = df_empty),
                "Empty dataframe input")
 })
 
@@ -34,7 +34,7 @@ test_that("Check if missingValueHandling error upon invalid user input", {
 test_that("factor columns are converted to numeric", {
 
   toy <- data.frame(miR1 = factor(c(1, 2, NA)))
-  filled <- missingValueHandling(toy, method="median",
+  filled <- missingValueHandling(miRNAdata = toy, method="median",
                                  report_summary = FALSE)
   # Whether all NA handled
   expect_false(any(is.na(filled)))
@@ -47,7 +47,8 @@ test_that("factor columns are converted to numeric", {
 test_that("Check if median imputation works on toy data", {
 
   toy <- data.frame(miR1 = c(1, NA, 3), miR2 = c(NA, 2, 4))
-  filled <- missingValueHandling(toy, method = "median", report_summary = FALSE)
+  filled <- missingValueHandling(miRNAdata = toy, method = "median",
+                                 report_summary = FALSE)
 
   # No more NA should remain after imputation
   expect_false(any(is.na(filled)))
@@ -65,13 +66,13 @@ test_that("Check if median imputation works on actual miRNA data", {
   subpart[1, 1] <- NA
 
   # Whether the value calculated is as expected
-  filled_sub <- missingValueHandling(subpart, method = "median",
+  filled_sub <- missingValueHandling(miRNAdata = subpart, method = "median",
                                      report_summary = FALSE)
   expect_equal(filled_sub[1, 1],
                median(filled_sub[2:10, 1]))
 
   # Test on the whole set of miRNASeq1
-  filled <- missingValueHandling(miRNASeq1, method = "median",
+  filled <- missingValueHandling(miRNAdata = miRNASeq1, method = "median",
                                  report_summary = FALSE)
 
   # Whether all missing data filled
@@ -86,7 +87,7 @@ test_that("Check if median imputation works on actual miRNA data", {
 test_that("Check if mean imputation works on toy data", {
 
   toy <- data.frame(miR1 = c(1, NA, 3))
-  filled <- missingValueHandling(toy, method = "mean",
+  filled <- missingValueHandling(miRNAdata = toy, method = "mean",
                                  report_summary = FALSE)
 
   # Whether mean imputation actually works
@@ -101,13 +102,13 @@ test_that("Check if mean imputation works on actual miRNA data", {
   subpart[1, 1] <- NA
 
   # Whether the value calculated is as expected
-  filled_sub <- missingValueHandling(subpart, method = "mean",
+  filled_sub <- missingValueHandling(miRNAdata = subpart, method = "mean",
                                      report_summary = FALSE)
   expect_equal(filled_sub[1, 1],
                mean(filled_sub[2:10, 1]))
 
   # Test on the whole set of miRNASeq1
-  filled <- missingValueHandling(miRNASeq1, method = "mean",
+  filled <- missingValueHandling(miRNAdata = miRNASeq1, method = "mean",
                                  report_summary = FALSE)
 
   # Whether all missing data filled
@@ -125,7 +126,7 @@ test_that("Check if knn imputation works", {
   skip_if_not_installed("impute")
 
   toy <- matrix(c(1, NA, 3, 4, 3, 2), nrow=3, ncol=2)
-  filled <- missingValueHandling(toy, method="knn", k=2,
+  filled <- missingValueHandling(miRNAdata = toy, method="knn", k=2,
                                  report_summary = FALSE)
 
   # Whether no NA remains

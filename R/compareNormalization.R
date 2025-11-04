@@ -18,9 +18,29 @@
 #'   }
 #'
 #' @examples
-#' data(toy_miRNA)
-#' normalized <- compareNormalization(toy_miRNA)
-#' normalized$log2[1:5, 1:5]
+#' Example 1:
+#' # Using miRNASeq data available with package
+#' data(miRNASeq1)
+#' result <- compareNormalization(miRNAdata = miRNASeq1,
+#'                                choose_best = TRUE)
+#' result$normalized$log2[1:5, 1:5]
+#' result$best_method
+#'
+#' #' # Example 2:
+#' # Obtain an external sample miRNASeq dataset
+#' # Example requires the RTCGA.miRNASeq package:
+#' \dontrun{
+#' if (requireNamespace("RTCGA.miRNASeq", quietly = TRUE)) {
+#'   library(RTCGA.miRNASeq)
+#'   dim(ACC.miRNASeq) # 240 1048
+#'
+#'   sample <- RTCGA.miRNASeq::ACC.miRNASeq[1:100, 1:20]
+#'   result <- compareNormalization(miRNAdata = sample,
+#'                                  methods = c("zscore", "quantile"),
+#'                                  report_summary = TRUE,
+#'                                  choose_best = TRUE)
+#'   head(filtered)
+#' }}
 #'
 #' @references
 #' Bolstad, B. M., Irizarry, R. A., Astrand, M., & Speed, T. P. (2003).
@@ -118,10 +138,11 @@ compareNormalization <- function(miRNAdata,
       sd(vars)  # smaller SD of variances = more uniform
     })
     best_method <- names(which.min(score))
-    if (report_summary) message(sprintf("Recommended method: %s", best_method))
+    if (isTRUE(report_summary)) {
+      message(sprintf("Recommended method: %s", best_method))
+    }
   }
 
   return(list(normalized = normalized, best_method = best_method))
 
-  return(normalized)
 }
