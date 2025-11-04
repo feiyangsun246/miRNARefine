@@ -63,4 +63,7 @@ if (requireNamespace("RTCGA.miRNASeq", quietly = TRUE)) {
 Castelluzzo M, Detassis S, Denti M, Ricci L (2023).
 MiRNAQCD: Micro-RNA Quality Control and Diagnosis, R package version 1.1.3,
 \href{https://CRAN.R-project.org/package=MiRNAQCD}{Link}.
+
+#' Hastie, T., Tibshirani, R., & Friedman, J. (2009).
+\emph{The Elements of Statistical Learning}, 2nd Edition. Springer.
 }
