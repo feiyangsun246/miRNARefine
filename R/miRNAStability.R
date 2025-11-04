@@ -8,7 +8,7 @@
 #' @param miRNAdata A numeric matrix or data frame with miRNAs as columns and samples as rows.
 #' @param metrics A character vector specifying which stability metrics to calculate.
 #'        Options: \code{c("CV", "MAD")}. Default is both.
-#' @param num_top n most/least stable miRNAs to be selected. Default 5.
+#' @param num_top number of most/least stable miRNAs to be selected. Default 5.
 #' @param report_summary Logical, whether to print a short summary of the most/least stable miRNAs. Default TRUE.
 #'
 #' @return A list with:
