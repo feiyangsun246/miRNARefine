@@ -17,9 +17,9 @@ LazyData: true
 Imports: 
     dplyr,
     ggplot2,
-    preprocessCore,
     stats,
-    sva
+    sva,
+    impute
 Depends: 
     R (>= 3.5)
 RoxygenNote: 7.3.3
@@ -28,6 +28,6 @@ Suggests:
     testthat (>= 3.0.0),
     rmarkdown,
     knitr,
-    RTCGA.miRNASeq
-    impute
+    RTCGA.miRNASeq,
+    preprocessCore
 Config/testthat/edition: 3
