@@ -12,6 +12,40 @@
 #'
 #' @return A ggplot object visualizing the distribution of stability metrics.
 #'
+#' @examples
+#' # Example 1:
+#' # Using miRNASeq1 available with package
+#' data(miRNASeq1)
+#' result1 <- miRNAStability(miRNAdata = miRNASeq1, report_summary = FALSE)
+#' plot1 <- plotStabilityDistribution(stability_results = result1)
+#'
+#' # print(plot1)
+#'
+#' #Example 2:
+#' # Using miRNASeq2 available with package
+#' data(miRNASeq2)
+#' filled2 <- missingValueHandling(miRNAdata = miRNASeq2, method = "median",
+#'                                 report_summary = FALSE)
+#' result2 <- miRNAStability(miRNAdata = filled2, metrics = "CV",
+#'                           report_summary = FALSE)
+#' plot2 <- plotStabilityDistribution(stability_results = result2)
+#'
+#' # print(plot2)
+#'
+#' \dontrun{
+#' # Example 3:
+#' # Obtain an external sample miRNASeq dataset
+#' # Example requires the RTCGA.miRNASeq package:
+#' if (requireNamespace("RTCGA.miRNASeq", quietly = TRUE)) {
+#'   library(RTCGA.miRNASeq)
+#'   dim(ACC.miRNASeq) # 240 1048
+#'
+#'   sample <- RTCGA.miRNASeq::ACC.miRNASeq[1:100, 1:20]
+#'   result <- miRNAStability(miRNAdata = sample, report_summary = FALSE)
+#'   plot <- plotStabilityDistribution(stability_results = result)
+#'
+#'}}
+#'
 #' @references
 #' Bolstad B (2025). preprocessCore: A collection of pre-processing functions.
 #' R package version 1.72.0.
@@ -37,9 +71,26 @@ plotStabilityDistribution <- function(stability_results,
                                       num_top = 5,
                                       show_labels = TRUE, ...) {
 
+  # Stop when input is NULL
+  if (is.null(stability_results)) stop("Input is NULL")
+
+  # Check if input is a matrix or dataframe
+  if (!is.list(stability_results)) {
+    stop("`stability_results` must be a list.")
+  }
+
+  # Stop when stability_results input is an empty list
+  if (length(stability_results) == 0) {
+    stop("Empty list input")
+  }
+
   # Check if metric input is valid
   if (!metric %in% c("CV", "MAD")) {
-    stop("`metric` must be either 'CV' or 'MAD'")
+    stop("`metric` must be either 'CV' or 'MAD'.")
+  }
+
+  if(is.null(stability_results$stability_scores)){
+    stop("Wrong format for input list.")
   }
 
   scores_df <- stability_results$stability_scores
@@ -49,6 +100,11 @@ plotStabilityDistribution <- function(stability_results,
 
   # Filter miRNA with NA in stability scores
   scores_df <- scores_df[!is.na(scores_df$CV), ]
+
+  # Stop when scores_df is an empty dataframe after filtering
+  if (nrow(scores_df) == 0 || ncol(scores_df) == 0) {
+    stop("scores_df is empty")
+  }
 
   # Highlight top/bottom features
   scores_df$highlight <- "Normal"
