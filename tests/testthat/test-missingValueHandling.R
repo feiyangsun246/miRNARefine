@@ -26,28 +26,37 @@ test_that("Check if missingValueHandling error upon invalid user input", {
 
 })
 
-test_that("median imputation works on toy data", {
+test_that("Check if median imputation works on toy data", {
   toy <- data.frame(miR1 = c(1, NA, 3), miR2 = c(NA, 2, 4))
   filled <- missingValueHandling(toy, method = "median", report_summary = FALSE)
 
-  # no more NA should remain after imputation
+  # No more NA should remain after imputation
   expect_false(any(is.na(filled)))
 
-  # median imputation actually works
+  # Median imputation actually works
   expect_equal(filled$miR1[2], median(c(1,3)))
   expect_equal(filled$miR2[1], median(c(2,4)))
 
 })
 
-test_that("median imputation works on actual miRNA data", {
-  toy <- data.frame(miR1 = c(1, NA, 3), miR2 = c(NA, 2, 4))
-  filled <- missingValueHandling(toy, method = "median", report_summary = FALSE)
+test_that("Check if median imputation works on actual miRNA data", {
+  # Test on a subpart of miRNASeq2
+  subpart <- miRNASeq2[1:5, 1:2]
 
-  # no more NA should remain after imputation
+  # Whether the value calculated is as expected
+  filled_sub <- missingValueHandling(subpart, method = "median",
+                                     report_summary = FALSE)
+  expect_equal(filled_sub$miRNA1[5], median(miRNASeq2$miRNA1[1:4]))
+
+  # Test on the whole set of miRNASeq2
+  filled <- missingValueHandling(miRNASeq2, method = "median",
+                                 report_summary = FALSE)
+
+  # Whether all missing data filled
   expect_false(any(is.na(filled)))
 
-  # median imputation actually works
-  expect_equal(filled$miR1[2], median(c(1,3)))
-  expect_equal(filled$miR2[1], median(c(2,4)))
+  # Whether dataset structure remains the same
+  expect_equal(ncol(filled), ncol(miRNASeq2))
+  expect_equal(nrow(filled), nrow(miRNASeq2))
 
 })

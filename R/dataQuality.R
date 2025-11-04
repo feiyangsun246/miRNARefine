@@ -140,7 +140,7 @@ detectOutliersPCA <- function(miRNAdata,
 #' @examples
 #' # Example 1:
 #' # Using miRNASeq data available with package
-#' filled <- missingValueHandling(miRNAdata,
+#' filled <- missingValueHandling(miRNASeq2,
 #'                                method = "median",
 #'                                k = 5,
 #'                                report_summary = TRUE)
@@ -235,7 +235,8 @@ missingValueHandling <- function(miRNAdata,
 
   # Report missing values after
   if (report_summary) {
-    message(sprintf("Missing values after imputation: %d", sum(is.na(miRNAdata))))
+    message(sprintf("Missing values after imputation: %d",
+                    sum(is.na(miRNAdata))))
   }
 
   return(miRNAdata)

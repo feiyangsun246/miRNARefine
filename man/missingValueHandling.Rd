@@ -28,6 +28,32 @@ Detects and imputes missing values in a miRNA dataset. Supports adaptive
 methods like mean, median, or KNN imputation (Campesato, 2023), ensuring
 completeness for downstream analysis.
 }
+\examples{
+# Example 1:
+# Using miRNASeq data available with package
+filled <- missingValueHandling(miRNASeq2,
+                               method = "median",
+                               k = 5,
+                               report_summary = TRUE)
+head(filled)
+
+# Example 2:
+# Obtain an external sample miRNASeq dataset
+# Example requires the RTCGA.miRNASeq package:
+\dontrun{
+if (requireNamespace("RTCGA.miRNASeq", quietly = TRUE)) {
+  library(RTCGA.miRNASeq)
+  dim(ACC.miRNASeq) # 240 1048
+
+  sample <- RTCGA.miRNASeq::ACC.miRNASeq[1:100, 1:20]
+  filled <- missingValueHandling(sample,
+                                 method = "knn",
+                                 k = 5,
+                                 report_summary = TRUE)
+  head(filtered)
+}}
+
+}
 \references{
 BioConductor Project (2025). \emph{impute: Imputation for microarray data.}
 \href{https://bioconductor.org/packages/impute/}{Link}.
@@ -44,4 +70,9 @@ Genome Atlas Project}. R package version 1.36.0.
 
 Hastie, T., Tibshirani, R., & Friedman, J. (2009).
 \emph{The Elements of Statistical Learning}, 2nd Edition. Springer.
+
+Robinson, M. D., McCarthy, D. J. and Smyth, G. K. (2010). edgeR: a
+Bioconductor package for differential expression analysis of digital gene
+expression data. \emph{Bioinformatics}, 26, 139-140.
+\href{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2796818/}{Link}
 }
