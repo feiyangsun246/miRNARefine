@@ -41,9 +41,8 @@ following the approach of Jolliffe (2002). Samples that deviate strongly from
 the multivariate center are flagged as outliers to improve data quality.
 }
 \examples{
-\dontrun{
 # Example 1:
-Using miRNASeq data available with package
+# Using miRNASeq data available with package
 result <- detectOutliersPCA(miRNASeq1,
                             n_components = 2,
                             row_threshold = 0.99,
@@ -53,6 +52,7 @@ result <- detectOutliersPCA(miRNASeq1,
 result
 which(result$sample_outliers)
 
+\dontrun{
 # Example 2:
 # Obtain an external sample miRNASeq dataset
 # Example requires the RTCGA.miRNASeq package:

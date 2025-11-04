@@ -1,6 +1,6 @@
 library(miRNARefine)
 
-test_that("Check if input is valid", {
+test_that("Check if adaptiveFiltering error upon invalid user input", {
   data("miRNASeq1")
   data("miRNASeq2")
 
@@ -21,12 +21,13 @@ test_that("Check if input is valid", {
                "`miRNAdata` must be a data frame or matrix")
 
   # Invalid input: Numeric
-  expect_error(adaptiveFiltering(42),
+  expect_error(adaptiveFiltering(624),
                "`miRNAdata` must be a data frame or matrix")
 
 })
 
-test_that("Check if output is a data.frame with expected dimensions", {
+test_that("Check if output of adaptiveFiltering is a data.frame with expected
+          dimensions", {
   data("miRNASeq1")
   data("miRNASeq2")
   filtered1 <- adaptiveFiltering(miRNASeq1, report_summary = FALSE)
@@ -49,7 +50,8 @@ test_that("Check if output is a data.frame with expected dimensions", {
 
 })
 
-test_that("Check if low-expression and low-variance miRNAs are filtered", {
+test_that("Check if low-expression and low-variance miRNAs are filtered by
+          adaptiveFiltering", {
   # Processing with toy data
   toy <- data.frame(
     miR1 = c(0.1, 0.2, 0.1, 0.2),
@@ -70,7 +72,8 @@ test_that("Check if low-expression and low-variance miRNAs are filtered", {
 
 })
 
-test_that("Check if function removes columns with too many missing values", {
+test_that("Check if adaptiveFiltering removes columns with too many
+          missing values", {
   # Processing with toy data
   toy <- data.frame(
     miR1 = c(1, 2, 3, NA),      # 25% NA
@@ -78,7 +81,10 @@ test_that("Check if function removes columns with too many missing values", {
   )
 
   # Check whether miR2 is removed
-  result <- adaptiveFiltering(toy, max_na = 0.5)
+  result <- adaptiveFiltering(toy,
+                              max_na = 0.5,
+                              report_summary = FALSE)
   expect_true("miR1" %in% colnames(result))
   expect_false("miR2" %in% colnames(result))
+
 })
