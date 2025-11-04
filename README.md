@@ -106,3 +106,43 @@ stability distribution plots.
 structure, debug code, and look up function information.
 
 ## References
+
+Bolstad, B. M., Irizarry, R. A., Astrand, M., & Speed, T. P. (2003). A
+comparison of normalization methods for high density oligonucleotide
+array data based on variance and bias. Bioinformatics, 19(2), 185–193.
+
+Bolstad B (2025). `preprocessCore`: A collection of pre-processing
+functions. R package version 1.72.0.
+<https://bioconductor.org/packages/preprocessCore>
+
+Castelluzzo M, Detassis S, Denti M, Ricci L (2023). `MiRNAQCD`:
+Micro-RNA Quality Control and Diagnosis. R package version
+1.1.3.<https://CRAN.R-project.org/package=MiRNAQCD>
+
+Chodor, W. (2025). `RTCGA.miRNASeq`: miRNASeq datasets from The Cancer
+Genome Atlas Project. R package version 1.36.0.
+
+CRAN Project (2023). `factoextra`: Extract and visualize the results of
+multivariate data analyses.
+<https://CRAN.R-project.org/package=factoextra>
+
+Hastie, T., Tibshirani, R., & Friedman, J. (2009). The Elements of
+Statistical Learning, 2nd Edition. Springer.
+
+Hima Bindu, A., Suresh, P., Reddy, R., et al. (2019). Systematic
+evaluation of miRNA stability across biological replicates. Frontiers in
+Molecular Biosciences, 6, 153.
+
+Johnson, W. E., Li, C., & Rabinovic, A. (2007). Adjusting batch effects
+in microarray expression data using empirical Bayes methods.
+Biostatistics, 8(1), 118-127.
+
+Jolliffe, I. T. (2002). Principal Component Analysis. Springer.
+
+Leek, J. T., et al. (2010). Tackling the widespread and critical impact
+of batch effects in high-throughput data. Nature Reviews Genetics,
+11(10), 733-739.
+
+Li, R., et al. (2016). Evaluation of microRNA expression stability for
+normalization in quantitative PCR assays. Biochemical and Biophysical
+Research Communications}, 471(4), 567-574.
