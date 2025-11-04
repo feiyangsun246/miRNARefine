@@ -1,8 +1,8 @@
 library(miRNARefine)
+data("miRNASeq1")
+data("miRNASeq2")
 
 test_that("Check if detectOutliersPCA error upon invalid user input", {
-  data("miRNASeq1")
-  data("miRNASeq2")
 
   # Handling missing values to avoid unexpected errors
   filled1 <- missingValueHandling(miRNASeq1, method = "median",
