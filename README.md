@@ -146,3 +146,10 @@ of batch effects in high-throughput data. Nature Reviews Genetics,
 Li, R., et al. (2016). Evaluation of microRNA expression stability for
 normalization in quantitative PCR assays. Biochemical and Biophysical
 Research Communications}, 471(4), 567-574.
+
+## Acknowledgements
+
+This package was developed as part of an assessment for 2025 BCB410H:
+Applied Bioinformatics course at the University of Toronto, Toronto,
+CANADA. `miRNARefine` welcomes issues, enhancement requests, and other
+contributions. To submit an issue, use the GitHub issues.
