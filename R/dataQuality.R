@@ -107,6 +107,12 @@ detectOutliersPCA <- function(miRNAdata,
     })
   )
 
+  # Stop when there is NA in the dataset
+  if (any(is.na(miRNAdata))) {
+    stop("Dataset contains missing values (NA).
+         Consider running missingValueHandling() first.")
+  }
+
   # Row-level outliers: PCA + Mahalanobis
   # tag constant columns to avoid error
   constant_cols <- sapply(miRNAdata, function(x) sd(x, na.rm=TRUE) == 0)
