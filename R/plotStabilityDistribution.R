@@ -47,6 +47,9 @@ plotStabilityDistribution <- function(stability_results,
     stop(paste("Metric", metric, "not found in stability_scores"))
   }
 
+  # Filter miRNA with NA in stability scores
+  scores_df <- scores_df[!is.na(scores_df$CV), ]
+
   # Highlight top/bottom features
   scores_df$highlight <- "Normal"
   sorted_idx <- order(scores_df[[metric]], decreasing = FALSE)
@@ -73,6 +76,8 @@ plotStabilityDistribution <- function(stability_results,
                                       size = 3,
                                       max.overlaps = Inf)
   }
+
+  return(p)
 
 }
 

@@ -17,7 +17,7 @@ miRNAStability(
 \item{metrics}{A character vector specifying which stability metrics to calculate.
 Options: \code{c("CV", "MAD")}. Default is both.}
 
-\item{num_top}{n most/least stable miRNAs to be selected. Default 5.}
+\item{num_top}{number of most/least stable miRNAs to be selected. Default 5.}
 
 \item{report_summary}{Logical, whether to print a short summary of the most/least stable miRNAs. Default TRUE.}
 }
