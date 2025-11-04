@@ -31,6 +31,41 @@ Visualizes the distribution of miRNA stability metrics across all features.
 Highlights highly stable or highly variable miRNAs, helping users quickly
 assess feature quality.
 }
+\examples{
+# Example 1:
+# Using miRNASeq1 available with package
+data(miRNASeq1)
+result1 <- miRNAStability(miRNAdata = miRNASeq1, report_summary = FALSE)
+plot1 <- plotStabilityDistribution(stability_results = result1)
+
+# print(plot1)
+
+#Example 2:
+# Using miRNASeq2 available with package
+data(miRNASeq2)
+filled2 <- missingValueHandling(miRNAdata = miRNASeq2, method = "median",
+                                report_summary = FALSE)
+result2 <- miRNAStability(miRNAdata = filled2, metrics = "CV",
+                          report_summary = FALSE)
+plot2 <- plotStabilityDistribution(stability_results = result2)
+
+# print(plot2)
+
+\dontrun{
+# Example 3:
+# Obtain an external sample miRNASeq dataset
+# Example requires the RTCGA.miRNASeq package:
+if (requireNamespace("RTCGA.miRNASeq", quietly = TRUE)) {
+  library(RTCGA.miRNASeq)
+  dim(ACC.miRNASeq) # 240 1048
+
+  sample <- RTCGA.miRNASeq::ACC.miRNASeq[1:100, 1:20]
+  result <- miRNAStability(miRNAdata = sample, report_summary = FALSE)
+  plot <- plotStabilityDistribution(stability_results = result)
+
+}}
+
+}
 \references{
 Bolstad B (2025). preprocessCore: A collection of pre-processing functions.
 R package version 1.72.0.

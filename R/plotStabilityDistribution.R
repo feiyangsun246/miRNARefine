@@ -63,7 +63,7 @@
 #' Research Communications}, 471(4), 567-574.
 #'
 #' @export
-#' @import ggplot2
+#' @import ggplot2 ggrepel
 #' @importFrom utils tail
 #'
 plotStabilityDistribution <- function(stability_results,
@@ -115,8 +115,8 @@ plotStabilityDistribution <- function(stability_results,
   scores_df$highlight[bottom_stable] <- "Least Stable"
 
   p <- ggplot2::ggplot(scores_df, aes(x = .data[[metric]],
-                                      y = reorder(miRNA, .data[[metric]]),
-                                      color = highlight)) +
+                                      y = reorder(scores_df$miRNA, .data[[metric]]),
+                                      color = scores_df$highlight)) +
                                       geom_point(size = 3) +
     scale_color_manual(values = c("Most Stable" = "blue",
                                   "Least Stable" = "red",
@@ -127,8 +127,9 @@ plotStabilityDistribution <- function(stability_results,
     theme_minimal()
 
   if (isTRUE(show_labels)) {
-    p <- p + ggrepel::geom_text_repel(data = subset(scores_df, highlight != "Normal"),
-                                      aes(label = miRNA),
+    p <- p + ggrepel::geom_text_repel(data = subset(scores_df,
+                                                    scores_df$highlight != "Normal"),
+                                      aes(label = scores_df$miRNA),
                                       size = 3,
                                       max.overlaps = Inf)
   }
