@@ -34,7 +34,8 @@ informative features while removing noise.
 \examples{
 # Example 1:
 # Using miRNASeq data available with package
-filtered_data <- adaptiveFiltering(miRNASeq1,
+data(miRNASeq1)
+filtered_data <- adaptiveFiltering(miRNAdata = miRNASeq1,
                                    min_expression = NULL,
                                    min_variance = NULL,
                                    max_na = 0.2,
@@ -50,7 +51,7 @@ if (requireNamespace("RTCGA.miRNASeq", quietly = TRUE)) {
   dim(ACC.miRNASeq) # 240 1048
 
   sample <- RTCGA.miRNASeq::ACC.miRNASeq[1:100, 1:20]
-  filtered <- adaptiveFiltering(sample,
+  filtered <- adaptiveFiltering(miRNAdata = sample,
                                 min_expression = NULL,
                                 min_variance = NULL,
                                 max_na = 0.2,

@@ -18,7 +18,7 @@
 #'   }
 #'
 #' @examples
-#' Example 1:
+#' # Example 1:
 #' # Using miRNASeq data available with package
 #' data(miRNASeq1)
 #' result <- compareNormalization(miRNAdata = miRNASeq1,
@@ -26,10 +26,10 @@
 #' result$normalized$log2[1:5, 1:5]
 #' result$best_method
 #'
-#' #' # Example 2:
+#' \dontrun{
+#' # Example 2:
 #' # Obtain an external sample miRNASeq dataset
 #' # Example requires the RTCGA.miRNASeq package:
-#' \dontrun{
 #' if (requireNamespace("RTCGA.miRNASeq", quietly = TRUE)) {
 #'   library(RTCGA.miRNASeq)
 #'   dim(ACC.miRNASeq) # 240 1048
@@ -63,8 +63,7 @@
 #' \emph{The Elements of Statistical Learning}, 2nd Edition. Springer.
 #'
 #' @export
-#' @import preprocessCore
-#' @importFrom stats var
+#' @import preprocessCore stats
 #'
 compareNormalization <- function(miRNAdata,
                                  methods = c("log2", "zscore", "quantile"),
@@ -92,6 +91,12 @@ compareNormalization <- function(miRNAdata,
     })
   )
 
+  # Stop when there is NA in the dataset
+  if (any(is.na(miRNAdata))) {
+    stop("Dataset contains missing values (NA).
+         Consider running missingValueHandling() first.")
+  }
+
   # Match methods
   methods <- match.arg(methods, several.ok = TRUE)
 
@@ -106,7 +111,15 @@ compareNormalization <- function(miRNAdata,
 
   # Z-score scaling (per column)
   if ("zscore" %in% methods) {
-    normalized$zscore <- as.data.frame(stats::scale(miRNAdata))
+    # There might be constant columns
+    constant_cols <- apply(miRNAdata, 2, sd, na.rm = TRUE) == 0
+    zscore_norm <- as.data.frame(scale(miRNAdata))
+    if (any(constant_cols)) {
+      warning("Some columns have zero variance; z-score normalization skipped
+              for these columns.")
+      zscore_norm[, constant_cols] <- miRNAdata[, constant_cols]
+    }
+    normalized$zscore <- zscore_norm
   }
 
   # Quantile normalization

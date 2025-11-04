@@ -35,9 +35,29 @@ data. Helps select the most appropriate normalization strategy for consistent
 and comparable expression levels.
 }
 \examples{
-data(toy_miRNA)
-normalized <- compareNormalization(toy_miRNA)
-normalized$log2[1:5, 1:5]
+# Example 1:
+# Using miRNASeq data available with package
+data(miRNASeq1)
+result <- compareNormalization(miRNAdata = miRNASeq1,
+                               choose_best = TRUE)
+result$normalized$log2[1:5, 1:5]
+result$best_method
+
+\dontrun{
+# Example 2:
+# Obtain an external sample miRNASeq dataset
+# Example requires the RTCGA.miRNASeq package:
+if (requireNamespace("RTCGA.miRNASeq", quietly = TRUE)) {
+  library(RTCGA.miRNASeq)
+  dim(ACC.miRNASeq) # 240 1048
+
+  sample <- RTCGA.miRNASeq::ACC.miRNASeq[1:100, 1:20]
+  result <- compareNormalization(miRNAdata = sample,
+                                 methods = c("zscore", "quantile"),
+                                 report_summary = TRUE,
+                                 choose_best = TRUE)
+  head(filtered)
+}}
 
 }
 \references{

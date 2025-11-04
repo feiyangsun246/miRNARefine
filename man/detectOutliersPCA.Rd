@@ -48,7 +48,8 @@ You may use \code{missingValueHandling()} to fill missing data to avoid errors.
 \examples{
 # Example 1:
 # Using miRNASeq data available with package
-result <- detectOutliersPCA(miRNASeq1,
+data(miRNASeq1)
+result <- detectOutliersPCA(miRNAdata = miRNASeq1,
                             n_components = 2,
                             row_threshold = 0.99,
                             z_threshold = 3,
@@ -70,7 +71,7 @@ if (requireNamespace("RTCGA.miRNASeq", quietly = TRUE)) {
   # deal with missing values first in case of errors
   sample <- missingValue
 
-  result <- detectOutliersPCA(sample,
+  result <- detectOutliersPCA(miRNAdata = sample,
                               n_components = 2,
                               row_threshold = 0.99,
                               z_threshold = 3,

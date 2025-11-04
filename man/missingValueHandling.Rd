@@ -31,7 +31,8 @@ completeness for downstream analysis.
 \examples{
 # Example 1:
 # Using miRNASeq data available with package
-filled <- missingValueHandling(miRNASeq2,
+data(miRNASeq2)
+filled <- missingValueHandling(miRNAdata = miRNASeq2,
                                method = "median",
                                k = 5,
                                report_summary = TRUE)
@@ -46,7 +47,7 @@ if (requireNamespace("RTCGA.miRNASeq", quietly = TRUE)) {
   dim(ACC.miRNASeq) # 240 1048
 
   sample <- RTCGA.miRNASeq::ACC.miRNASeq[1:100, 1:20]
-  filled <- missingValueHandling(sample,
+  filled <- missingValueHandling(miRNAdata = sample,
                                  method = "knn",
                                  k = 5,
                                  report_summary = TRUE)
