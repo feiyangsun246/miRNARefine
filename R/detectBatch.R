@@ -15,6 +15,34 @@
 #'    \item{corrected_data}{Batch-corrected expression matrix if \code{correct = TRUE}}
 #' }
 #'
+#' @examples
+#' # Example 1:
+#' # Using miRNASeq data available with package
+#' data(miRNASeq2)
+#' filled2 <- missingValueHandling(miRNAdata = miRNASeq2,
+#'                                 method = "median",
+#'                                 report_summary = FALSE)
+#' result <- detectBatch(miRNAdata = filled2, correct = TRUE,
+#'                       report_summary = FALSE)
+#' result$corrected_data
+#' result$batch_effects
+#'
+#' \dontrun{
+#' # Example 2:
+#' # Obtain an external sample miRNASeq dataset
+#' # Example requires the RTCGA.miRNASeq package:
+#' if (requireNamespace("RTCGA.miRNASeq", quietly = TRUE)) {
+#'   library(RTCGA.miRNASeq)
+#'   dim(ACC.miRNASeq) # 240 1048
+#'
+#'   sample <- RTCGA.miRNASeq::ACC.miRNASeq[1:100, 1:20]
+#'   result <- detectBatch(miRNAdata = sample, correct = TRUE,
+#'                         batch = rep(1:2, each = 50)
+#'                         report_summary = FALSE)
+#' result$corrected_data
+#' result$batch_effects
+#'}}
+#'
 #' @references
 #' Bolstad B (2025). preprocessCore: A collection of pre-processing functions.
 #' R package version 1.72.0.
@@ -70,15 +98,11 @@ detectBatch <- function(miRNAdata, batch = NULL, correct = FALSE,
 
   # When no batch factor provided, set it same for each row
   if (is.null(batch)) {
-    if (isTRUE(report_summary)) {
-      warning("No 'batch' information provided. Assuming all samples belong
-              to one batch.")
-    }
     batch <- rep("Batch1", nrow(miRNAdata))
   }
 
   if (length(batch) != nrow(miRNAdata)) {
-    stop("Length of 'batch' must match the number of samples.")
+    stop("Length of batch must match the number of samples.")
   }
 
   batch <- as.factor(batch)
@@ -99,19 +123,24 @@ detectBatch <- function(miRNAdata, batch = NULL, correct = FALSE,
 
   # Optional correction
   corrected_data <- NULL
+
   if (isTRUE(correct)) {
+    if (is.null(batch) || length(unique(batch)) < 2) {
+      warning("Batch is NULL or has fewer than 2 levels. Skipping batch
+              correction.")
+      return(list(corrected_data = miRNAdata, batch_effects = summary_df))
+    }
+
     if (!requireNamespace("sva", quietly = TRUE)) {
       stop("Package 'sva' is required for batch correction. Please install it.")
     }
     mod <- model.matrix(~1, data = data.frame(batch))
 
     # Perform Batch correction
-    corrected_data <- sva::ComBat(
-      dat = t(miRNAdata),
-      batch = batch,
-      mod = mod,
-      par.prior = TRUE
-    )
+    corrected_data <- suppressMessages(sva::ComBat(dat = t(miRNAdata),
+                                                  batch = batch,
+                                                  mod = mod,
+                                                  par.prior = TRUE))
     corrected_data <- t(corrected_data)
 
     if (report_summary) {
@@ -121,7 +150,6 @@ detectBatch <- function(miRNAdata, batch = NULL, correct = FALSE,
 
   return(list(
     batch_effects = summary_df,
-    pca_plot = p,
     corrected_data = corrected_data
   ))
 
