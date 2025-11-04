@@ -87,7 +87,7 @@ detectOutliersPCA <- function(miRNAdata,
                               whether_scale = TRUE,
                               report_summary = TRUE){
 
-  # Check if input is valid
+  # Check if input is a matrix or dataframe
   if (is.matrix(miRNAdata)) {
     miRNAdata <- as.data.frame(miRNAdata)
   } else if (is.data.frame(miRNAdata)) {

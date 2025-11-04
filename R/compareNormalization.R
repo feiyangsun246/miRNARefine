@@ -12,10 +12,10 @@
 #' @param choose_best Logical, whether to automatically recommend the best method. Default FALSE.
 #'
 #' @return A result list containing:
-#'   \itemize{
-#'     \item normalized: list of normalized datasets
-#'     \item best_method: recommended method if choose_best = TRUE
-#'   }
+#' \describe{
+#'    \item{normalized}{list of normalized datasets}
+#'    \item{best_method}{recommended method if \code{choose_best = TRUE}}
+#' }
 #'
 #' @examples
 #' # Example 1:
@@ -70,7 +70,7 @@ compareNormalization <- function(miRNAdata,
                                  report_summary = TRUE,
                                  choose_best = FALSE) {
 
-  # Check if input is valid
+  # Check if input is a matrix or dataframe
   if (is.matrix(miRNAdata)) {
     miRNAdata <- as.data.frame(miRNAdata)
   } else if (is.data.frame(miRNAdata)) {
