@@ -38,6 +38,50 @@ To run the Shiny app:
 # Under construction
 ```
 
+## Overview
+
+To list all functions available in the package:
+
+``` r
+ls("package:miRNARefine")
+```
+
+`miRNARefine` contains 7 functions:
+
+1.  **adaptiveFiltering** Automatically filters miRNAs based on
+    expression, variance, or missing values.
+2.  **detectOutliersPCA** Identifies anomalous samples using principal
+    component analysis.
+3.  **missingValueHandling** Detects and imputes missing values in the
+    miRNA dataset. Supports adaptive methods like mean, median, or KNN
+    imputation.
+4.  **compareNormalization** Applies multiple normalization methods
+    (e.g., log2, z-score, quantile) and compares their effects.
+5.  **detectBatch** Detects and optionally corrects batch effects in the
+    dataset.
+6.  **miRNAStability** Calculates feature-level stability metrics such
+    as coefficient of variation (CV) or median absolute deviation (MAD).
+7.  **plotStabilityDistribution** Visualizes the distribution of miRNA
+    stability metrics across all features. Highlights highly stable or
+    highly variable miRNAs, helping users quickly assess feature
+    quality.
+
+<br>
+
+To view datasets available in the package:
+
+``` r
+data(package = "miRNARefine") 
+```
+
+<br>
+
+To view the tutorial of the package:
+
+``` r
+browseVignettes("miRNARefine")
+```
+
 ## Example
 
 This is a basic example which shows you how to solve a common problem:
