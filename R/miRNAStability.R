@@ -29,7 +29,9 @@
 #' #Example 2:
 #' # Using miRNASeq2 available with package
 #' data(miRNASeq2)
-#' result2 <- miRNAStability(miRNAdata = miRNASeq2, metrics = "CV",
+#' filled2 <- missingValueHandling(miRNAdata = miRNASeq2, method = "median",
+#'                                 report_summary = FALSE)
+#' result2 <- miRNAStability(miRNAdata = filled2, metrics = "CV",
 #'                           report_summary = FALSE)
 #' result2$most_stable
 #' result2$least_stable
@@ -65,8 +67,7 @@
 #' Biosciences}, 6, 153.
 #'
 #' @export
-#' @import tidyr
-#' @importFrom dplyr group_by summarise arrange
+#' @importFrom utils head
 #'
 miRNAStability <- function(miRNAdata,
                            metrics = c("CV", "MAD"),
@@ -101,30 +102,31 @@ miRNAStability <- function(miRNAdata,
 
   metrics <- match.arg(metrics, choices = c("CV", "MAD"), several.ok = TRUE)
 
-  # Reshape and compute metrics using dplyr
-  df_long <- miRNAdata %>%
-    tibble::rownames_to_column("Sample") %>%
-    tidyr::pivot_longer(-Sample, names_to = "miRNA",
-                        values_to = "Expression")
+  # Initialize results
+  results <- data.frame(miRNA = colnames(miRNAdata))
 
-  results <- df_long %>%
-    dplyr::group_by(miRNA) %>%
-    dplyr::summarise(
-      CV = if ("CV" %in% metrics) sd(Expression) / mean(Expression)
-           else NA_real_,
-      MAD = if ("MAD" %in% metrics) mad(Expression)
-            else NA_real_,
-      .groups = "drop"
-    )
+  # Compute metrics
+  if ("CV" %in% metrics) {
+    results$CV <- apply(miRNAdata, 2, function(x) {
+      if (mean(x) == 0) return(NA)
+      sd(x) / mean(x)
+    })
+  }
+
+  if ("MAD" %in% metrics) {
+    results$MAD <- apply(miRNAdata, 2, mad)
+  }
 
   # Identify stable/unstable miRNAs
-  stability_metric <- if ("CV" %in% metrics) "CV" else "MAD"
+  if ("CV" %in% colnames(results)) {
+    stability_order <- order(results$CV, decreasing = FALSE)
+  } else {
+    stability_order <- order(results$MAD, decreasing = FALSE)
+  }
 
-  stability_order <- results %>%
-    dplyr::arrange(.data[[stability_metric]])
-
-  most_stable <- head(stability_order$miRNA, 5)
-  least_stable <- tail(stability_order$miRNA, 5)
+  n_top <- min(5, ncol(miRNAdata))
+  most_stable <- results$miRNA[utils::head(stability_order, n_top)]
+  least_stable <- results$miRNA[utils::head(rev(stability_order), n_top)]
 
   # Optional summary
   if (isTRUE(report_summary)) {

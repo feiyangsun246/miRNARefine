@@ -56,11 +56,11 @@
 #'
 #' Johnson, W. E., Li, C., & Rabinovic, A. (2007). Adjusting batch effects in
 #' microarray expression data using empirical Bayes methods.
-#' \emph{Biostatistics}, 8(1), 118–127.
+#' \emph{Biostatistics}, 8(1), 118-127.
 #'
 #' Leek, J. T., et al. (2010). Tackling the widespread and critical impact
 #' of batch effects in high-throughput data. \emph{Nature Reviews Genetics},
-#' 11(10), 733–739.
+#' 11(10), 733-739.
 #'
 #' @export
 #' @importFrom stats prcomp aov
@@ -117,7 +117,7 @@ detectBatch <- function(miRNAdata, batch = NULL, correct = FALSE,
   )
 
   if (isTRUE(report_summary)) {
-    cat("Batch effect summary (mean ± variance across miRNAs):\n")
+    cat("Batch effect summary (mean +/- variance across miRNAs):\n")
     print(summary_df)
   }
 

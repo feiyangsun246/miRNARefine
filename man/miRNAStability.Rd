@@ -39,7 +39,9 @@ result$least_stable
 #Example 2:
 # Using miRNASeq2 available with package
 data(miRNASeq2)
-result2 <- miRNAStability(miRNAdata = miRNASeq2, metrics = "CV",
+filled2 <- missingValueHandling(miRNAdata = miRNASeq2, method = "median",
+                                report_summary = FALSE)
+result2 <- miRNAStability(miRNAdata = filled2, metrics = "CV",
                           report_summary = FALSE)
 result2$most_stable
 result2$least_stable
