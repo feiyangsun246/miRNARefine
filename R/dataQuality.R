@@ -115,6 +115,14 @@ detectOutliersPCA <- function(miRNAdata,
   scores <- pca_res$x[, 1:n_components, drop = FALSE]
 
   cov_matrix <- stats::cov(scores)
+
+  # Check if the covariance matrix is singular or nearly singular
+  if (any(is.na(cov_matrix)) || det(cov_matrix) < .Machine$double.eps) {
+    warning("Covariance matrix is singular or ill-conditioned;
+            skipping Mahalanobis computation.")
+    return(data.frame(Sample = rownames(miRNAdata), IsOutlier = FALSE))
+  }
+
   center <- colMeans(scores)
   distances <- stats::mahalanobis(scores, center, cov_matrix)
   cutoff <- stats::quantile(distances, row_threshold)

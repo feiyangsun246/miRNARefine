@@ -28,11 +28,12 @@ test_that("Check if adaptiveFiltering error upon invalid user input", {
   df_empty <- data.frame()
   expect_error(adaptiveFiltering(df_empty),
                "Empty dataframe input")
-
 })
+
 
 test_that("Check if output of adaptiveFiltering is a data.frame with expected
           dimensions", {
+
   data("miRNASeq1")
   data("miRNASeq2")
   filtered1 <- adaptiveFiltering(miRNASeq1, report_summary = FALSE)
@@ -52,18 +53,18 @@ test_that("Check if output of adaptiveFiltering is a data.frame with expected
   # Number of columns and rows in output for miRNASeq2
   expect_true(nrow(filtered2) == nrow(miRNASeq2))
   expect_true(ncol(filtered2) <= ncol(miRNASeq2))
-
 })
+
 
 test_that("Check if low-expression and low-variance miRNAs are filtered by
           adaptiveFiltering", {
+
   # Processing with toy data
   toy <- data.frame(
     miR1 = c(0.1, 0.2, 0.1, 0.2),
     miR2 = c(1, 1, 1, 1),
     miR3 = c(1, 2, 3, 4)
   )
-
   result <- adaptiveFiltering(toy,
                               min_expression = 0.3,
                               min_variance = 0.1,
@@ -74,11 +75,12 @@ test_that("Check if low-expression and low-variance miRNAs are filtered by
   expect_true("miR3" %in% colnames(result))
   expect_false("miR1" %in% colnames(result))
   expect_false("miR2" %in% colnames(result))
-
 })
+
 
 test_that("Check if adaptiveFiltering removes columns with too many
           missing values", {
+
   # Processing with toy data
   toy <- data.frame(
     miR1 = c(1, 2, 3, NA),      # 25% NA
@@ -91,5 +93,5 @@ test_that("Check if adaptiveFiltering removes columns with too many
                               report_summary = FALSE)
   expect_true("miR1" %in% colnames(result))
   expect_false("miR2" %in% colnames(result))
-
 })
+
