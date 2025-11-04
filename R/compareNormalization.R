@@ -38,4 +38,33 @@
 #' \emph{The Elements of Statistical Learning}, 2nd Edition. Springer.
 #'
 #' @export
+#' @import preprocessCore
 #' @importFrom stats scale
+#'
+compareNormalization <- function(miRNAdata,
+                                 methods = c("log2", "zscore", "quantile"),
+                                 report_summary = TRUE) {
+
+  # Check if input is valid
+  if (is.matrix(miRNAdata)) {
+    miRNAdata <- as.data.frame(miRNAdata)
+  } else if (is.data.frame(miRNAdata)) {
+    class(miRNAdata) <- "data.frame"
+  } else {
+    stop("`miRNAdata` must be a data frame or matrix.")
+  }
+
+  # Stop when input is an empty dataframe
+  if (nrow(miRNAdata) == 0 || ncol(miRNAdata) == 0) {
+    stop("Empty dataframe input")
+  }
+
+  # Converse non-numeric data
+  miRNAdata <- as.data.frame(
+    lapply(miRNAdata, function(x) {
+      if (is.factor(x)) as.numeric(as.character(x)) else x
+    })
+  )
+
+
+}

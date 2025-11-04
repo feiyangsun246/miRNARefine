@@ -61,7 +61,7 @@ adaptiveFiltering <- function(miRNAdata,
                               max_na = 0.2,
                               report_summary = TRUE) {
 
-  # Input check
+  # Check if input is valid
   if (is.matrix(miRNAdata)) {
     miRNAdata <- as.data.frame(miRNAdata)
   } else if (is.data.frame(miRNAdata)) {

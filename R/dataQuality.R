@@ -86,7 +86,7 @@ detectOutliersPCA <- function(miRNAdata,
                               whether_scale = TRUE,
                               report_summary = TRUE){
 
-  # Input check
+  # Check if input is valid
   if (is.matrix(miRNAdata)) {
     miRNAdata <- as.data.frame(miRNAdata)
   } else if (is.data.frame(miRNAdata)) {
@@ -227,7 +227,7 @@ missingValueHandling <- function(miRNAdata,
   # Check if method selected is valid
   method <- match.arg(method)
 
-  # Input check
+  # Check if input is valid
   if (is.matrix(miRNAdata)) {
     miRNAdata <- as.data.frame(miRNAdata)
   } else if (is.data.frame(miRNAdata)) {
