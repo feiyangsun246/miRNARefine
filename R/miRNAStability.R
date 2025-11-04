@@ -33,7 +33,8 @@
 #' Biosciences}, 6, 153.
 #'
 #' @export
-#' @import dplyr tidyr
+#' @import tidyr
+#' @importFrom dplyr group_by summarise arrange
 #'
 miRNAStability <- function(miRNAdata,
                            metrics = c("CV", "MAD"),

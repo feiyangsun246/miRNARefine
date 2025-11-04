@@ -27,6 +27,35 @@ Detects and optionally corrects batch effects in the dataset. Ensures that
 technical or experimental batch differences do not confound downstream
 analyses.
 }
+\examples{
+# Example 1:
+# Using miRNASeq data available with package
+data(miRNASeq2)
+filled2 <- missingValueHandling(miRNAdata = miRNASeq2,
+                                method = "median",
+                                report_summary = FALSE)
+result <- detectBatch(miRNAdata = filled2, correct = TRUE,
+                      report_summary = FALSE)
+result$corrected_data
+result$batch_effects
+
+\dontrun{
+# Example 2:
+# Obtain an external sample miRNASeq dataset
+# Example requires the RTCGA.miRNASeq package:
+if (requireNamespace("RTCGA.miRNASeq", quietly = TRUE)) {
+  library(RTCGA.miRNASeq)
+  dim(ACC.miRNASeq) # 240 1048
+
+  sample <- RTCGA.miRNASeq::ACC.miRNASeq[1:100, 1:20]
+  result <- detectBatch(miRNAdata = sample, correct = TRUE,
+                        batch = rep(1:2, each = 50)
+                        report_summary = FALSE)
+result$corrected_data
+result$batch_effects
+}}
+
+}
 \references{
 Bolstad B (2025). preprocessCore: A collection of pre-processing functions.
 R package version 1.72.0.
