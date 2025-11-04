@@ -8,6 +8,7 @@
 #' @param miRNAdata A numeric matrix or data frame with miRNAs as columns and samples as rows.
 #' @param metrics A character vector specifying which stability metrics to calculate.
 #'        Options: \code{c("CV", "MAD")}. Default is both.
+#' @param num_top n most/least stable miRNAs to be selected. Default 5.
 #' @param report_summary Logical, whether to print a short summary of the most/least stable miRNAs. Default TRUE.
 #'
 #' @return A list with:
@@ -71,6 +72,7 @@
 #'
 miRNAStability <- function(miRNAdata,
                            metrics = c("CV", "MAD"),
+                           num_top = 5,
                            report_summary = TRUE) {
 
   # Check if input is a matrix or dataframe
@@ -124,7 +126,7 @@ miRNAStability <- function(miRNAdata,
     stability_order <- order(results$MAD, decreasing = FALSE)
   }
 
-  n_top <- min(5, ncol(miRNAdata))
+  n_top <- min(num_top, ncol(miRNAdata))
   most_stable <- results$miRNA[utils::head(stability_order, n_top)]
   least_stable <- results$miRNA[utils::head(rev(stability_order), n_top)]
 
