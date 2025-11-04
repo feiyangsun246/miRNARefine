@@ -79,6 +79,8 @@ To view the tutorial of the package:
 browseVignettes("miRNARefine")
 ```
 
+## Package workflow overview
+![](inst/extdata/flow.png)
 
 
 ## Example

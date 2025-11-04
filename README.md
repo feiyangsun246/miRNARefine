@@ -82,6 +82,10 @@ To view the tutorial of the package:
 browseVignettes("miRNARefine")
 ```
 
+## Package workflow overview
+
+![](inst/extdata/flow.png)
+
 ## Example
 
 This is a basic example which shows you how to solve a common problem:

@@ -1,24 +1,43 @@
 ---
 title: "A tour of package miRNARefine"
 author: "Feiyang Sun"
-date: "`r format(Sys.time(), '%d %b %Y')`"
+date: "`r {Sys.setlocale('LC_TIME', 'C'); format(Sys.time(), '%d %b %Y')}`"
 output: 
   rmarkdown::html_vignette:
     toc: true
     number_sections: false
 vignette: >
-  %\VignetteIndexEntry{Introduction_miRNARefine}
+  %\VignetteIndexEntry{A tour of package miRNARefine}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 ```
 
-```{r setup}
+## Introduction
+
+`miRNARefine` is an R package which aims to identify and correct potential data irregularities such as outliers, batch effects, and instability in miRNA expression across samples, and to provide diagnostic visualizations that help researchers assess data reliability before downstream analyses.
+
+To download **miRNARefine**, use the following commands:
+
+```r
+require("devtools")
+devtools::install_github("feiyangsun246/miRNARefine", build_vignettes = TRUE)
 library(miRNARefine)
 ```
+
+To list all sample functions available in the package:
+``` r
+ls("package:miRNARefine")
+```
+
+To list all sample datasets available in the package:
+``` r
+data(package = "miRNARefine")
+```
+<br>
