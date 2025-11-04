@@ -2,6 +2,8 @@
 
 export(adaptiveFiltering)
 export(detectOutliersPCA)
+export(missingValueHandling)
+import(impute)
 import(stats)
 importFrom(stats,cov)
 importFrom(stats,mahalanobis)

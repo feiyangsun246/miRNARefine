@@ -73,6 +73,10 @@ if (requireNamespace("RTCGA.miRNASeq", quietly = TRUE)) {
 
 }
 \references{
+Bolstad B (2025). preprocessCore: A collection of pre-processing functions.
+R package version 1.72.0.
+\href{https://bioconductor.org/packages/preprocessCore}{Link}.
+
 Castelluzzo M, Detassis S, Denti M, Ricci L (2023).
 \emph{MiRNAQCD: Micro-RNA Quality Control and Diagnosis}.
 R package version 1.1.3.
@@ -80,7 +84,7 @@ R package version 1.1.3.
 
 CRAN Project (2023). \emph{factoextra: Extract and visualize the results of
 multivariate data analyses.}
-\href{https://CRAN.R-project.org/package=factoextra}{Link}
+\href{https://CRAN.R-project.org/package=factoextra}{Link}.
 
 Chodor, W. (2025). \emph{RTCGA.miRNASeq: miRNASeq datasets from The Cancer
 Genome Atlas Project}. R package version 1.36.0.

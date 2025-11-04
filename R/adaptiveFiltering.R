@@ -40,6 +40,10 @@
 #' }}
 #'
 #' @references
+#' Bolstad B (2025). preprocessCore: A collection of pre-processing functions.
+#' R package version 1.72.0.
+#' \href{https://bioconductor.org/packages/preprocessCore}{Link}.
+#'
 #' Castelluzzo M, Detassis S, Denti M, Ricci L (2023).
 #' \emph{MiRNAQCD: Micro-RNA Quality Control and Diagnosis}.
 #' R package version 1.1.3.
