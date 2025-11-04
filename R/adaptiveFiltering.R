@@ -71,8 +71,11 @@ adaptiveFiltering <- function(miRNAdata,
   }
 
   # Converse non-numeric data
-  miRNAdata <- as.data.frame(sapply(miRNAdata, as.numeric))
-  head(miRNAdata)
+  miRNAdata <- as.data.frame(
+    lapply(miRNAdata, function(x) {
+      if (is.factor(x)) as.numeric(as.character(x)) else x
+    })
+  )
 
   # Calculate missing value proportion per miRNA
   na_prop <- colSums(is.na(miRNAdata)) / nrow(miRNAdata)

@@ -26,6 +26,18 @@ test_that("Check if missingValueHandling error upon invalid user input", {
 
 })
 
+test_that("factor columns are converted to numeric", {
+  toy <- data.frame(miR1 = factor(c(1, 2, NA)))
+  filled <- missingValueHandling(toy, method="median",
+                                 report_summary = FALSE)
+  # Whether all NA handled
+  expect_false(any(is.na(filled)))
+
+  # Whether conversion is completed
+  expect_true(is.numeric(filled$miR1))
+
+})
+
 test_that("Check if median imputation works on toy data", {
   toy <- data.frame(miR1 = c(1, NA, 3), miR2 = c(NA, 2, 4))
   filled <- missingValueHandling(toy, method = "median", report_summary = FALSE)
@@ -70,6 +82,7 @@ test_that("Check if mean imputation works on toy data", {
 
   # Whether mean imputation actually works
   expect_equal(filled$miR1[2], mean(c(1,3)))
+
 })
 
 test_that("Check if mean imputation works on actual miRNA data", {
@@ -94,5 +107,21 @@ test_that("Check if mean imputation works on actual miRNA data", {
   # Whether dataset structure remains the same
   expect_equal(ncol(filled), ncol(miRNASeq1))
   expect_equal(nrow(filled), nrow(miRNASeq1))
+
+})
+
+test_that("Check if knn imputation works", {
+  # Whether package impute is installed
+  skip_if_not_installed("impute")
+
+  toy <- matrix(c(1, NA, 3, 4, 3, 2), nrow=3, ncol=2)
+  filled <- missingValueHandling(toy, method="knn", k=2,
+                                 report_summary = FALSE)
+
+  # Whether no NA remains
+  expect_false(any(is.na(filled)))
+
+  # Whether structure of dataset remains the same
+  expect_equal(dim(filled), dim(toy))
 
 })
