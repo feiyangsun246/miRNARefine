@@ -88,35 +88,21 @@ workflow is illustrated below.
 
 ![](inst/extdata/workflow.png)
 
-## Example
+## Contributions
 
-This is a basic example which shows you how to solve a common problem:
+The author of the package is Feiyang Sun. Feiyang designed the overall
+package structure, implemented all functions, wrote the documentation
+and vignettes, and performed testing and debugging. All analyses,
+visualizations, and examples included in the package were created by
+Feiyang, who is also responsible for maintaining and updating the
+package. `preprocessCore` is used to Provide quantile normalization
+methods for miRNA expression data. `stats` is used for feature stability
+and outlier detection. `impute` provides functions for KNN-based
+imputation of missing values. `sva` helps implement batch effect
+detection and correction methods. `ggplot2` is used for creating
+stability distribution plots.
 
-``` r
-library(miRNARefine)
-## basic example code
-```
+`ChatGPT-5` from OpenAI was used to polish and format documentation
+structure, debug code, and look up function information.
 
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
-
-``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
-```
-
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this.
-
-You can also embed plots, for example:
-
-<img src="man/figures/README-pressure-1.png" width="100%" />
-
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.
+## References
