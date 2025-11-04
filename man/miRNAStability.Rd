@@ -4,13 +4,20 @@
 \alias{miRNAStability}
 \title{miRNA Stability Analysis}
 \usage{
-miRNAStability(miRNAdata, metrics = c("CV", "MAD"), report_summary = TRUE)
+miRNAStability(
+  miRNAdata,
+  metrics = c("CV", "MAD"),
+  num_top = 5,
+  report_summary = TRUE
+)
 }
 \arguments{
 \item{miRNAdata}{A numeric matrix or data frame with miRNAs as columns and samples as rows.}
 
 \item{metrics}{A character vector specifying which stability metrics to calculate.
 Options: \code{c("CV", "MAD")}. Default is both.}
+
+\item{num_top}{n most/least stable miRNAs to be selected. Default 5.}
 
 \item{report_summary}{Logical, whether to print a short summary of the most/least stable miRNAs. Default TRUE.}
 }

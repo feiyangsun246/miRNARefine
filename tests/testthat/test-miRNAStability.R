@@ -95,3 +95,44 @@ test_that("Check if handles NA values correctly", {
 })
 
 
+test_that("Check if top stable miRNAs selected correctly on simple data", {
+
+  set.seed(624)
+  df <- matrix(runif(50, 1, 10), nrow = 10)
+  res1 <- miRNAStability(miRNAdata = df, num_top = 3, report_summary = FALSE)
+  res2 <- miRNAStability(miRNAdata = df, report_summary = FALSE)
+
+  # Check res1
+  expect_length(res1$most_stable, 3)
+  expect_true(all(res1$most_stable %in% res1$stability_scores$miRNA))
+
+  # Check res2
+  expect_length(res2$most_stable, 5)
+  expect_true(all(res2$most_stable %in% res1$stability_scores$miRNA))
+})
+
+
+test_that("Check if top stable miRNAs selected correctly on actual
+          miRNA data", {
+
+  res1 <- miRNAStability(miRNAdata = miRNASeq1, num_top = 3,
+                         report_summary = FALSE)
+  res2 <- miRNAStability(miRNAdata = miRNASeq1, report_summary = FALSE)
+
+  # Check res1
+  expect_length(res1$most_stable, 3)
+  expect_true(all(res1$most_stable %in% res1$stability_scores$miRNA))
+
+  # Check res2
+  expect_length(res2$most_stable, 5)
+  expect_true(all(res2$most_stable %in% res1$stability_scores$miRNA))
+})
+
+
+test_that("Check if report_summary runs silently when FALSE", {
+
+  set.seed(624)
+  df <- matrix(runif(20, 1, 10), nrow = 5)
+  expect_silent(miRNAStability(miRNAdata = df, report_summary = FALSE))
+})
+
