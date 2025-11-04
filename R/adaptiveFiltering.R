@@ -113,3 +113,4 @@ adaptiveFiltering <- function(miRNAdata,
   return(filtered)
 
 }
+

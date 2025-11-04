@@ -67,4 +67,63 @@ detectBatch <- function(miRNAdata, batch = NULL, correct = FALSE,
     stop("Dataset contains missing values (NA).
          Consider running missingValueHandling() first.")
   }
+
+  # When no batch factor provided, set it same for each row
+  if (is.null(batch)) {
+    if (isTRUE(report_summary)) {
+      warning("No 'batch' information provided. Assuming all samples belong
+              to one batch.")
+    }
+    batch <- rep("Batch1", nrow(miRNAdata))
+  }
+
+  if (length(batch) != nrow(miRNAdata)) {
+    stop("Length of 'batch' must match the number of samples.")
+  }
+
+  batch <- as.factor(batch)
+
+  # Detect batch differences
+  batch_means <- aggregate(miRNAdata, by = list(Batch = batch), FUN = mean)
+  batch_vars  <- aggregate(miRNAdata, by = list(Batch = batch), FUN = var)
+  summary_df <- data.frame(
+    Batch = levels(batch),
+    MeanAcrossGenes = rowMeans(batch_means[,-1]),
+    VarAcrossGenes  = rowMeans(batch_vars[,-1])
+  )
+
+  if (isTRUE(report_summary)) {
+    cat("Batch effect summary (mean ± variance across miRNAs):\n")
+    print(summary_df)
+  }
+
+  # Optional correction
+  corrected_data <- NULL
+  if (isTRUE(correct)) {
+    if (!requireNamespace("sva", quietly = TRUE)) {
+      stop("Package 'sva' is required for batch correction. Please install it.")
+    }
+    mod <- model.matrix(~1, data = data.frame(batch))
+
+    # Perform Batch correction
+    corrected_data <- sva::ComBat(
+      dat = t(miRNAdata),
+      batch = batch,
+      mod = mod,
+      par.prior = TRUE
+    )
+    corrected_data <- t(corrected_data)
+
+    if (report_summary) {
+      cat("\nBatch correction applied using ComBat.\n")
+    }
+  }
+
+  return(list(
+    batch_effects = summary_df,
+    pca_plot = p,
+    corrected_data = corrected_data
+  ))
+
 }
+
