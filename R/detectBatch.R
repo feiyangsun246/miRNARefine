@@ -39,8 +39,8 @@
 #'   result <- detectBatch(miRNAdata = sample, correct = TRUE,
 #'                         batch = rep(1:2, each = 50)
 #'                         report_summary = FALSE)
-#' result$corrected_data
-#' result$batch_effects
+#'   result$corrected_data
+#'   result$batch_effects
 #'}}
 #'
 #' @references

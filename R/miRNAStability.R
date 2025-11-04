@@ -17,6 +17,38 @@
 #'   \item{least_stable}{Names of the top 5 least stable miRNAs.}
 #' }
 #'
+#' @examples
+#' # Example 1:
+#' # Using miRNASeq1 available with package
+#' data(miRNASeq1)
+#' result <- miRNAStability(miRNAdata = miRNASeq1, report_summary = FALSE)
+#'
+#' result$most_stable
+#' result$least_stable
+#'
+#' #Example 2:
+#' # Using miRNASeq2 available with package
+#' data(miRNASeq2)
+#' result2 <- miRNAStability(miRNAdata = miRNASeq2, metrics = "CV",
+#'                           report_summary = FALSE)
+#' result2$most_stable
+#' result2$least_stable
+#'
+#' \dontrun{
+#' # Example 3:
+#' # Obtain an external sample miRNASeq dataset
+#' # Example requires the RTCGA.miRNASeq package:
+#' if (requireNamespace("RTCGA.miRNASeq", quietly = TRUE)) {
+#'   library(RTCGA.miRNASeq)
+#'   dim(ACC.miRNASeq) # 240 1048
+#'
+#'   sample <- RTCGA.miRNASeq::ACC.miRNASeq[1:100, 1:20]
+#'   result <- miRNAStability(miRNAdata = sample, report_summary = FALSE)
+#'
+#'   result3$most_stable
+#'   result3$least_stable
+#'}}
+#'
 #' @references
 #' Bolstad B (2025). preprocessCore: A collection of pre-processing functions.
 #' R package version 1.72.0.
