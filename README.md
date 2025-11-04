@@ -17,7 +17,7 @@ instability in miRNA expression across samples, and to provide
 diagnostic visualizations that help researchers assess data reliability
 before downstream analyses.
 
-miRNARefine was developed in the following environment:  
+`miRNARefine` was developed in the following environment:  
 R version: 4.5.1 (2025-06-13) - “Great Square Root”  
 Platform: Windows 11 x64(x86_64, mingw32)
 
