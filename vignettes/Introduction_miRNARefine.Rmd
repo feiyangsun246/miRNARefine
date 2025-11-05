@@ -90,6 +90,8 @@ dataset. Supports adaptive methods like mean, median, or KNN imputation
 ``` r
 # Using miRNASeq data available with package
 data(miRNASeq1)
+data(miRNASeq2)
+
 result <- detectOutliersPCA(miRNAdata = miRNASeq1,
                             n_components = 2,
                             row_threshold = 0.99,
@@ -99,8 +101,6 @@ result <- detectOutliersPCA(miRNAdata = miRNASeq1,
 result
 which(result$sample_outliers)
 
-
-data(miRNASeq2)
 filled <- missingValueHandling(miRNAdata = miRNASeq2,
                                method = "median",
                                k = 5,
@@ -114,6 +114,73 @@ Function `compareNormalization` applies multiple normalization methods (e.g.,
 log2, z-score, quantile) and compares their effects. Helps select the most 
 appropriate normalization strategy for consistent and comparable expression 
 data.
+
+### usage
+``` r
+# Using miRNASeq data available with package
+data(miRNASeq1)
+result <- compareNormalization(miRNAdata = miRNASeq1,
+                               choose_best = TRUE)
+result$normalized$log2[1:5, 1:5]
+result$best_method
+```
+
+## Batch effect detect
+
+### description
+Function `detectBatch` detects and optionally corrects batch effects in the 
+dataset. Ensures that technical or experimental batch differences do not 
+confound downstream analyses.
+
+### usage
+``` r
+# Using miRNASeq data available with package
+data(miRNASeq2)
+filled2 <- missingValueHandling(miRNAdata = miRNASeq2,
+                                method = "median",
+                                report_summary = FALSE)
+result <- detectBatch(miRNAdata = filled2, correct = TRUE,
+                      report_summary = FALSE)
+result$corrected_data
+result$batch_effects
+```
+
+## miRNA stability calculation
+
+### description
+Function `miRNAStability` calculates feature-level stability metrics such as 
+coefficient of variation (CV) or median absolute deviation (MAD). Identifies 
+the most reliable miRNAs for robust downstream analyses (Hima Bindu et al., 
+2019).
+
+### usage
+``` r
+# Using miRNASeq1 available with package
+data(miRNASeq1)
+result <- miRNAStability(miRNAdata = miRNASeq1, report_summary = FALSE)
+
+result$most_stable
+result$least_stable
+```
+
+## Generate stability distribution plot
+
+### description
+Function `plotStabilityDistribution` visualizes the distribution of miRNA 
+stability metrics across all features. Highlights highly stable or highly 
+variable miRNAs, helping users quickly assess feature quality.
+
+### usage
+``` r
+# Using miRNASeq1 available with package
+data(miRNASeq1)
+result1 <- miRNAStability(miRNAdata = miRNASeq1, report_summary = FALSE)
+plot1 <- plotStabilityDistribution(stability_results = result1)
+
+# print(plot1)
+```
+
+<br>
 
 ## Package References
 
