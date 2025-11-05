@@ -188,9 +188,17 @@ Bolstad B (2025). `preprocessCore`: A collection of pre-processing functions. R 
 
 Castelluzzo M, Detassis S, Denti M, Ricci L (2023). `MiRNAQCD`: Micro-RNA Quality Control and Diagnosis. R package version 1.1.3.<https://CRAN.R-project.org/package=MiRNAQCD>
 
-Chodor, W. (2025). `RTCGA.miRNASeq`: miRNASeq datasets from The Cancer Genome Atlas Project. R package version 1.36.0. <https://bioconductor.org/packages/RTCGA.miRNASeq>
+Chodor W. (2025). `RTCGA.miRNASeq`: miRNASeq datasets from The Cancer Genome Atlas Project. R package version 1.36.0. <https://bioconductor.org/packages/RTCGA.miRNASeq>
 
 CRAN Project (2023). `factoextra`: Extract and visualize the results of multivariate data analyses. <https://CRAN.R-project.org/package=factoextra>
+
+Hastie T, Tibshirani R, Narasimhan B, Chu G (2025). `impute`: Imputation for microarray data. doi:10.18129/B9.bioc.impute. R package version 1.85.0, <https://bioconductor.org/packages/impute>
+
+Leek JT, Johnson WE, Parker HS, Fertig EJ, Jaffe AE, Zhang Y, Storey JD, Torres LC (2025). `sva`: Surrogate Variable Analysis. doi:10.18129/B9.bioc.sva, R package version 3.58.0, <https://bioconductor.org/packages/sva>
+
+R Core Team. (2025). Package `stats`. *R: A Language and Environment for Statistical Computing.* R Foundation for Statistical Computing, Vienna, Austria. <https://www.R-project.org/>
+
+Wickham, H. (2016). `ggplot2`: Elegant graphics for data analysis. Springer-Verlag New York. <https://ggplot2.tidyverse.org>
 
 ## Other References
 
@@ -207,3 +215,6 @@ Jolliffe, I. T. (2002). Principal Component Analysis. Springer.
 Leek, J. T., et al. (2010). Tackling the widespread and critical impact of batch effects in high-throughput data. Nature Reviews Genetics, 11(10), 733-739.
 
 Li, R., et al. (2016). Evaluation of microRNA expression stability for normalization in quantitative PCR assays. Biochemical and Biophysical Research Communications}, 471(4), 567-574.
+
+OpenAI. (2025). ChatGPT (Nov 3 version) [Large language model]. <https://chat.openai.com/>
+
