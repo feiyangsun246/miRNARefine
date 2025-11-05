@@ -7,7 +7,7 @@
 <!-- badges: end -->
 
 Useful Tool to Refine and Improve the Quality and Interpretability of
-miRNA Expression Data.
+miRNA Expression Data
 
 ## Description
 
