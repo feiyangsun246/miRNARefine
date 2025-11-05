@@ -105,11 +105,7 @@ stability distribution plots.
 `ChatGPT-5` from OpenAI was used to polish and format documentation
 structure, debug code, and look up function information.
 
-## References
-
-Bolstad, B. M., Irizarry, R. A., Astrand, M., & Speed, T. P. (2003). A
-comparison of normalization methods for high density oligonucleotide
-array data based on variance and bias. Bioinformatics, 19(2), 185–193.
+## Package References
 
 Bolstad B (2025). `preprocessCore`: A collection of pre-processing
 functions. R package version 1.72.0.
@@ -121,10 +117,17 @@ Micro-RNA Quality Control and Diagnosis. R package version
 
 Chodor, W. (2025). `RTCGA.miRNASeq`: miRNASeq datasets from The Cancer
 Genome Atlas Project. R package version 1.36.0.
+<https://bioconductor.org/packages/RTCGA.miRNASeq>
 
 CRAN Project (2023). `factoextra`: Extract and visualize the results of
 multivariate data analyses.
 <https://CRAN.R-project.org/package=factoextra>
+
+## Other References
+
+Bolstad, B. M., Irizarry, R. A., Astrand, M., & Speed, T. P. (2003). A
+comparison of normalization methods for high density oligonucleotide
+array data based on variance and bias. Bioinformatics, 19(2), 185–193.
 
 Hastie, T., Tibshirani, R., & Friedman, J. (2009). The Elements of
 Statistical Learning, 2nd Edition. Springer.
