@@ -56,7 +56,7 @@ represents a sample, and each column represents a miRNA feature.
 
 <br>
 
-## Automatically filters miRNAs based on expression, variance, or missing Values
+## Automatic filter of miRNAs
 
 ### description
 Function `adaptiveFiltering` automatically filters miRNAs based on expression, 
@@ -64,7 +64,56 @@ variance, or missing values. Adjusts thresholds according to the dataset’s
 characteristics to retain informative features while removing noise.
 
 ### usage
+``` r
+# Using miRNASeq data available with package
+data(miRNASeq1)
+filtered_data <- adaptiveFiltering(miRNAdata = miRNASeq1,
+                                   min_expression = NULL,
+                                   min_variance = NULL,
+                                   max_na = 0.2,
+                                   report_summary = TRUE)
+filtered_data
+```
 
+## Outlier detect and missing value handling
+
+### description
+Function `detectOutliersPCA` identifies anomalous samples using principal 
+component analysis (Jolliffe, 2002). Flags samples that deviate strongly from 
+the majority, helping to improve overall data quality.
+
+Function `missingValueHandling` detects and imputes missing values in the miRNA 
+dataset. Supports adaptive methods like mean, median, or KNN imputation 
+(Campesato, 2023), ensuring completeness for downstream analysis.
+
+### usage
+``` r
+# Using miRNASeq data available with package
+data(miRNASeq1)
+result <- detectOutliersPCA(miRNAdata = miRNASeq1,
+                            n_components = 2,
+                            row_threshold = 0.99,
+                            z_threshold = 3,
+                            whether_scale = TRUE,
+                            report_summary = TRUE)
+result
+which(result$sample_outliers)
+
+
+data(miRNASeq2)
+filled <- missingValueHandling(miRNAdata = miRNASeq2,
+                               method = "median",
+                               k = 5,
+                               report_summary = TRUE)
+head(filled)
+```
+## Compare normalization methods
+
+### description
+Function `compareNormalization` applies multiple normalization methods (e.g., 
+log2, z-score, quantile) and compares their effects. Helps select the most 
+appropriate normalization strategy for consistent and comparable expression 
+data.
 
 ## Package References
 
