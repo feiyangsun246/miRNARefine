@@ -26,6 +26,12 @@ Platform: Windows 11 x64(x86_64, mingw32)
 You can install the development version of miRNARefine like so:
 
 ``` r
+# Install Bioconductor dependencies
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install(c("preprocessCore", "impute", "sva"))
+
 install.packages("devtools")
 library("devtools")
 devtools::install_github("feiyangsun246/miRNARefine", build_vignettes = TRUE)
