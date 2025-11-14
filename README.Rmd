@@ -34,7 +34,7 @@ You can install the development version of miRNARefine like so:
 install.packages("devtools")
 library("devtools")
 devtools::install_github("feiyangsun246/miRNARefine", build_vignettes = TRUE)
-library("TestingPackage")
+library("miRNARefine")
 ```
 To run the Shiny app:
 ```r
