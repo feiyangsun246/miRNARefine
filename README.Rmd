@@ -35,7 +35,7 @@ You can install the development version of miRNARefine like so:
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 
-BiocManager::install(c("preprocessCore", "impute", "sva"))
+BiocManager::install(c("preprocessCore", "impute", "sva"), force = TRUE)
 
 install.packages("devtools")
 library("devtools")
