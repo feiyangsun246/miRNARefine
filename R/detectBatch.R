@@ -35,7 +35,8 @@
 #'   library(RTCGA.miRNASeq)
 #'   dim(ACC.miRNASeq) # 240 1048
 #'
-#'   sample <- RTCGA.miRNASeq::ACC.miRNASeq[1:100, 1:20]
+#'   subset <- RTCGA.miRNASeq::ACC.miRNASeq[1:200, 1:20]
+#'   sample <- subset[subset$miRNA_ID == "read_count", ]
 #'   result <- detectBatch(miRNAdata = sample, correct = TRUE,
 #'                         batch = rep(1:2, each = 50)
 #'                         report_summary = FALSE)

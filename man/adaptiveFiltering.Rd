@@ -50,7 +50,8 @@ if (requireNamespace("RTCGA.miRNASeq", quietly = TRUE)) {
   library(RTCGA.miRNASeq)
   dim(ACC.miRNASeq) # 240 1048
 
-  sample <- RTCGA.miRNASeq::ACC.miRNASeq[1:100, 1:20]
+  subset <- RTCGA.miRNASeq::ACC.miRNASeq[1:200, 1:20]
+  sample <- subset[subset$miRNA_ID == "read_count", ]
   filtered <- adaptiveFiltering(miRNAdata = sample,
                                 min_expression = NULL,
                                 min_variance = NULL,
