@@ -29,11 +29,20 @@ The function performs the following checks:
 # Example 1:
 # Input a dataframe
 df <- data.frame(a = factor(c("1", "2")), b = c(3, 4))
-inputCheckGeneral(df)
+res1 <- inputCheckGeneral(df)
+class(res1) # "data.frame"
 
 # Example 2:
 # Input a matrix
 mat <- matrix(1:4, nrow = 2)
-inputCheckGeneral(mat)
+res2 <- inputCheckGeneral(mat)
+class(res2) # "data.frame"
+
+# Example 3:
+# Use dataset provided in the package
+data(miRNASeq1)
+res3 <- inputCheckGeneral(miRNASeq1)
+class(res3) # "data.frame"
+dim(res3)
 
 }
