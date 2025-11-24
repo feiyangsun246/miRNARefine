@@ -154,12 +154,10 @@ detectOutliersPCA <- function(miRNAdata,
                     sum(miRNA_outliers), 100*mean(miRNA_outliers)))
   }
 
-  return(list(
-    sample_outliers = sample_outliers,
-    miRNA_outliers = miRNA_outliers,
-    pca_res = pca_res,
-    scores = scores
-  ))
+  return(list(sample_outliers = sample_outliers,
+              miRNA_outliers = miRNA_outliers,
+              pca_res = pca_res,
+              scores = scores))
 
 }
 

@@ -39,7 +39,7 @@
 #'
 #' \dontrun{
 #' # Example 3:
-#' # Obtain an external sample miRNASeq dataset
+#' # Obtain an external sample miRNASeq dataset (Chodor, 2025)
 #' # Example requires the RTCGA.miRNASeq package:
 #' if (requireNamespace("RTCGA.miRNASeq", quietly = TRUE)) {
 #'   library(RTCGA.miRNASeq)
@@ -54,17 +54,17 @@
 #'}}
 #'
 #' @references
-#' Bolstad B (2025). preprocessCore: A collection of pre-processing functions.
+#' Bolstad B. (2025). preprocessCore: A collection of pre-processing functions.
 #' R package version 1.72.0.
 #' \href{https://bioconductor.org/packages/preprocessCore}{Link}.
 #'
-#' Chodor, W. (2025). \emph{RTCGA.miRNASeq: miRNASeq datasets from The Cancer
+#' Chodor W. (2025). \emph{RTCGA.miRNASeq: miRNASeq datasets from The Cancer
 #' Genome Atlas Project}. R package version 1.36.0.
 #'
-#' Hastie, T., Tibshirani, R., & Friedman, J. (2009).
+#' Hastie T., Tibshirani R., and Friedman J. (2009).
 #' \emph{The Elements of Statistical Learning}, 2nd Edition. Springer.
 #'
-#' Hima Bindu, A., Suresh, P., Reddy, R., et al. (2019). Systematic evaluation
+#' Hima Bindu A., Suresh P., Reddy R., et al. (2019). Systematic evaluation
 #' of miRNA stability across biological replicates. \emph{Frontiers in Molecular
 #' Biosciences}, 6, 153.
 #'
@@ -85,12 +85,15 @@ miRNAStability <- function(miRNAdata,
          Consider running missingValueHandling() first.")
   }
 
-  metrics <- match.arg(metrics, choices = c("CV", "MAD"), several.ok = TRUE)
+  # Check if input metrics are valid
+  if (!all(metrics %in% c("CV", "MAD"))) {
+    stop("`metrics` must be one or more of 'CV', 'MAD'.")
+  }
 
   # Initialize results
   results <- data.frame(miRNA = colnames(miRNAdata))
 
-  # Compute metrics
+  # Compute metrics (Hastie et al., 2009; Hima Bindu et al., 2019)
   if ("CV" %in% metrics) {
     results$CV <- apply(miRNAdata, 2, function(x) {
       if (mean(x) == 0) return(NA)
@@ -121,11 +124,9 @@ miRNAStability <- function(miRNAdata,
     print(least_stable)
   }
 
-  return(list(
-    stability_scores = results,
-    most_stable = most_stable,
-    least_stable = least_stable
-  ))
+  return(list(stability_scores = results,
+              most_stable = most_stable,
+              least_stable = least_stable))
 
 }
 

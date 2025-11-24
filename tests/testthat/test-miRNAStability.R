@@ -32,6 +32,37 @@ test_that("Check if miRNAStability error upon invalid dataset input", {
 })
 
 
+test_that("Check if miRNAStability error upon invalid metrics input", {
+
+  filled2 <- missingValueHandling(miRNAdata = miRNASeq2, method = "median",
+                                  report_summary = FALSE)
+
+  # Invalid metrics: empty
+  expect_error(miRNAStability(miRNAdata = filled2,
+                              metrics = "",
+                              report_summary = FALSE),
+               "`metrics` must be one or more of 'CV', 'MAD'")
+
+  # Invalid metrics: something other than the two options
+  expect_error(miRNAStability(miRNAdata = filled2,
+                              metrics = "something",
+                              report_summary = FALSE),
+               "`metrics` must be one or more of 'CV', 'MAD'")
+
+  # Invalid metrics: invalid combinations/vector
+  expect_error(miRNAStability(miRNAdata = filled2,
+                              metrics = c("CV", "something"),
+                              report_summary = FALSE),
+               "`metrics` must be one or more of 'CV', 'MAD'")
+
+  # Invalid metrics: a single number
+  expect_error(miRNAStability(miRNAdata = filled2,
+                              metrics = 624,
+                              report_summary = FALSE),
+               "`metrics` must be one or more of 'CV', 'MAD'")
+})
+
+
 test_that("Check if output structure is correct", {
 
   set.seed(624)

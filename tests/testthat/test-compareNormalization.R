@@ -61,6 +61,12 @@ test_that("Check if compareNormalization error upon invalid methods input", {
                                     report_summary = FALSE),
                "`methods` must be one or more of 'log2', 'zscore', or 'quantile'")
 
+  # Invalid method: invalid combinations
+  expect_error(compareNormalization(miRNAdata = filled2,
+                                    methods = c("log2", "something"),
+                                    report_summary = FALSE),
+               "`methods` must be one or more of 'log2', 'zscore', or 'quantile'")
+
   # Invalid method: numeric
   expect_error(compareNormalization(miRNAdata = filled2,
                                     methods = 624,

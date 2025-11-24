@@ -47,6 +47,10 @@ test_that("Check if error appears when length of batch doesn't match number
   expect_error(detectBatch(miRNAdata = matrix(1:10, 5, 2), batch = 1,
                            report_summary = FALSE),
                "Length of batch")
+
+  # Valid batch input: NULL
+  expect_silent(detectBatch(miRNAdata = matrix(1:10, 5, 2), batch = NULL,
+                           report_summary = FALSE))
 })
 
 

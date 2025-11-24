@@ -133,10 +133,8 @@ detectBatch <- function(miRNAdata,
     }
   }
 
-  return(list(
-    batch_effects = summary_df,
-    corrected_data = corrected_data
-  ))
+  return(list(batch_effects = summary_df,
+              corrected_data = corrected_data))
 
 }
 

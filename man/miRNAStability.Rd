@@ -55,7 +55,7 @@ result2$least_stable
 
 \dontrun{
 # Example 3:
-# Obtain an external sample miRNASeq dataset
+# Obtain an external sample miRNASeq dataset (Chodor, 2025)
 # Example requires the RTCGA.miRNASeq package:
 if (requireNamespace("RTCGA.miRNASeq", quietly = TRUE)) {
   library(RTCGA.miRNASeq)
@@ -71,17 +71,17 @@ if (requireNamespace("RTCGA.miRNASeq", quietly = TRUE)) {
 
 }
 \references{
-Bolstad B (2025). preprocessCore: A collection of pre-processing functions.
+Bolstad B. (2025). preprocessCore: A collection of pre-processing functions.
 R package version 1.72.0.
 \href{https://bioconductor.org/packages/preprocessCore}{Link}.
 
-Chodor, W. (2025). \emph{RTCGA.miRNASeq: miRNASeq datasets from The Cancer
+Chodor W. (2025). \emph{RTCGA.miRNASeq: miRNASeq datasets from The Cancer
 Genome Atlas Project}. R package version 1.36.0.
 
-Hastie, T., Tibshirani, R., & Friedman, J. (2009).
+Hastie T., Tibshirani R., and Friedman J. (2009).
 \emph{The Elements of Statistical Learning}, 2nd Edition. Springer.
 
-Hima Bindu, A., Suresh, P., Reddy, R., et al. (2019). Systematic evaluation
+Hima Bindu A., Suresh P., Reddy R., et al. (2019). Systematic evaluation
 of miRNA stability across biological replicates. \emph{Frontiers in Molecular
 Biosciences}, 6, 153.
 }

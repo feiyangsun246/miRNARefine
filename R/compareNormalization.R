@@ -80,6 +80,7 @@ compareNormalization <- function(miRNAdata,
          Consider running missingValueHandling() first.")
   }
 
+  # Check if input method is valid
   if (!all(methods %in% c("log2", "zscore", "quantile"))) {
     stop("`methods` must be one or more of 'log2', 'zscore', or 'quantile'.")
   }
@@ -141,7 +142,8 @@ compareNormalization <- function(miRNAdata,
     }
   }
 
-  return(list(normalized = normalized, best_method = best_method))
+  return(list(normalized = normalized,
+              best_method = best_method))
 
 }
 
