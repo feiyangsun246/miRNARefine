@@ -64,25 +64,28 @@ adaptiveFiltering <- function(miRNAdata,
                               report_summary = TRUE) {
 
   # Check if input is a matrix or dataframe
-  if (is.matrix(miRNAdata)) {
-    miRNAdata <- as.data.frame(miRNAdata)
-  } else if (is.data.frame(miRNAdata)) {
-    class(miRNAdata) <- "data.frame"
-  } else {
-    stop("`miRNAdata` must be a data frame or matrix.")
-  }
+  miRNAdata <- inputCheckGeneral(miRNAdata)
 
-  # Stop when input is an empty dataframe
-  if (nrow(miRNAdata) == 0 || ncol(miRNAdata) == 0) {
-    stop("Empty dataframe input")
-  }
-
-  # Converse non-numeric data
-  miRNAdata <- as.data.frame(
-    lapply(miRNAdata, function(x) {
-      if (is.factor(x)) as.numeric(as.character(x)) else x
-    })
-  )
+  # # Check if input is a matrix or dataframe
+  # if (is.matrix(miRNAdata)) {
+  #   miRNAdata <- as.data.frame(miRNAdata)
+  # } else if (is.data.frame(miRNAdata)) {
+  #   class(miRNAdata) <- "data.frame"
+  # } else {
+  #   stop("`miRNAdata` must be a data frame or matrix.")
+  # }
+  #
+  # # Stop when input is an empty dataframe
+  # if (nrow(miRNAdata) == 0 || ncol(miRNAdata) == 0) {
+  #   stop("Empty dataframe input")
+  # }
+  #
+  # # Converse non-numeric data
+  # miRNAdata <- as.data.frame(
+  #   lapply(miRNAdata, function(x) {
+  #     if (is.factor(x)) as.numeric(as.character(x)) else x
+  #   })
+  # )
 
   # Calculate missing value proportion per miRNA
   na_prop <- colSums(is.na(miRNAdata)) / nrow(miRNAdata)
@@ -92,10 +95,12 @@ adaptiveFiltering <- function(miRNAdata,
   col_var  <- apply(miRNAdata, 2, stats::var, na.rm = TRUE)
 
   # Set adaptive thresholds if not provided
-  if (is.null(min_expression))
+  if (is.null(min_expression)) {
     min_expression <- stats::quantile(col_mean, 0.25, na.rm = TRUE)
-  if (is.null(min_variance))
+  }
+  if (is.null(min_variance)) {
     min_variance   <- stats::quantile(col_var, 0.25, na.rm = TRUE)
+  }
 
   # Identify miRNAs to keep
   keep <- (col_mean >= min_expression) &

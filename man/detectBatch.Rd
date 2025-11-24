@@ -62,10 +62,10 @@ Bolstad B (2025). preprocessCore: A collection of pre-processing functions.
 R package version 1.72.0.
 \href{https://bioconductor.org/packages/preprocessCore}{Link}.
 
-#' Chodor, W. (2025). \emph{RTCGA.miRNASeq: miRNASeq datasets from The Cancer
+Chodor, W. (2025). \emph{RTCGA.miRNASeq: miRNASeq datasets from The Cancer
 Genome Atlas Project}. R package version 1.36.0.
 
-#' Hastie, T., Tibshirani, R., & Friedman, J. (2009).
+Hastie, T., Tibshirani, R., & Friedman, J. (2009).
 \emph{The Elements of Statistical Learning}, 2nd Edition. Springer.
 
 Johnson, W. E., Li, C., & Rabinovic, A. (2007). Adjusting batch effects in

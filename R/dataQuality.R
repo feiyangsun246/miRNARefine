@@ -257,7 +257,7 @@ missingValueHandling <- function(miRNAdata,
                     sum(is.na(miRNAdata))))
   }
 
-  # Imputation
+  # Imputation using mean or median methods
   if (method %in% c("mean", "median")) {
     FUN <- ifelse(method == "mean", mean, median)
     filled_miRNA <- data.frame(lapply(miRNAdata, function(col) {
@@ -271,6 +271,7 @@ missingValueHandling <- function(miRNAdata,
       stop("Package 'impute' is required for KNN imputation.
            Please install it from Bioconductor.")
     }
+
     # Convert to matrix
     miRNAdata <- as.matrix(miRNAdata)
     imputed <- impute::impute.knn(miRNAdata, k = k)
