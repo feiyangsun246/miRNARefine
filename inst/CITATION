@@ -9,6 +9,6 @@ citEntry(entry = "Unpublished",
 
 
   textVersion  =
-  paste("Feiyang, S. (2025) miRNARefine: Useful Tool to Refine and Improve the Quality and Interpretability of miRNA Expression Data.
+  paste("Sun, F. (2025) miRNARefine: Useful Tool to Refine and Improve the Quality and Interpretability of miRNA Expression Data.
         Unpublished. URL https://github.com/feiyangsun246/miRNARefine.")
 )
