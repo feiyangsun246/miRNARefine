@@ -80,8 +80,9 @@ compareNormalization <- function(miRNAdata,
          Consider running missingValueHandling() first.")
   }
 
-  # Match methods
-  methods <- match.arg(methods, several.ok = TRUE)
+  if (!all(methods %in% c("log2", "zscore", "quantile"))) {
+    stop("`methods` must be one or more of 'log2', 'zscore', or 'quantile'.")
+  }
 
   # Initialize result list
   normalized <- list()
@@ -134,6 +135,7 @@ compareNormalization <- function(miRNAdata,
       sd(vars)  # smaller SD of variances = more uniform
     })
     best_method <- names(which.min(score))
+
     if (isTRUE(report_summary)) {
       message(sprintf("Recommended method: %s", best_method))
     }

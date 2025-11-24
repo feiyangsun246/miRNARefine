@@ -39,8 +39,33 @@ test_that("Check if compareNormalization stops when NA values present", {
     x1 = c(1, 2, NA, 4),
     x2 = c(1, 2, 3, 4)
   )
-  expect_error(compareNormalization(miRNAdata = df, report_summary = FALSE),
+  expect_error(compareNormalization(miRNAdata = df,
+                                    report_summary = FALSE),
                "Dataset contains missing values")
+})
+
+
+test_that("Check if compareNormalization error upon invalid methods input", {
+
+  filled2 <- missingValueHandling(miRNAdata = miRNASeq2, method = "median",
+                                  report_summary = FALSE)
+  # Invalid method: empty input
+  expect_error(compareNormalization(miRNAdata = filled2,
+                                    methods = "",
+                                    report_summary = FALSE),
+               "`methods` must be one or more of 'log2', 'zscore', or 'quantile'")
+
+  # Invalid method: something other than the three options
+  expect_error(compareNormalization(miRNAdata = filled2,
+                                    methods = "something",
+                                    report_summary = FALSE),
+               "`methods` must be one or more of 'log2', 'zscore', or 'quantile'")
+
+  # Invalid method: numeric
+  expect_error(compareNormalization(miRNAdata = filled2,
+                                    methods = 624,
+                                    report_summary = FALSE),
+               "`methods` must be one or more of 'log2', 'zscore', or 'quantile'")
 })
 
 
@@ -48,7 +73,8 @@ test_that("Check if output structure is correct", {
 
   set.seed(624)
   df <- matrix(abs(rnorm(20)), nrow = 5, ncol = 4)
-  res <- compareNormalization(miRNAdata = df, report_summary = FALSE)
+  res <- compareNormalization(miRNAdata = df,
+                              report_summary = FALSE)
 
   # Whether output is a list
   expect_type(res, "list")
@@ -65,7 +91,8 @@ test_that("Check if best method selection", {
 
   set.seed(624)
   df <- matrix(abs(rnorm(20)), nrow = 5)
-  res <- compareNormalization(miRNAdata = df, report_summary = FALSE,
+  res <- compareNormalization(miRNAdata = df,
+                              report_summary = FALSE,
                               choose_best = TRUE)
 
   # Whether the best_method is valid
@@ -77,7 +104,8 @@ test_that("Check if normalized values are reasonable", {
 
   set.seed(624)
   df <- matrix(abs(rnorm(20, mean = 5)), nrow = 5, ncol = 4)
-  res <- compareNormalization(miRNAdata = df, report_summary = FALSE)
+  res <- compareNormalization(miRNAdata = df,
+                              report_summary = FALSE)
 
   # log2
   expect_true(all(res$normalized$log2 >= 0))
@@ -96,12 +124,13 @@ test_that("Check if edge cases are correctly handled", {
 
   set.seed(624)
   df <- matrix(5, nrow = 5, ncol = 4)
-  expect_warning(compareNormalization(miRNAdata = df, report_summary = FALSE),
+  expect_warning(compareNormalization(miRNAdata = df,
+                                      report_summary = FALSE),
                  "Some columns have zero variance")
 
   # miRNASeq1 also contains constant columns, warning should appear
   expect_warning(res <- compareNormalization(miRNAdata = miRNASeq1,
-                                      report_summary = FALSE),
+                                             report_summary = FALSE),
                  "Some columns have zero variance")
 
   # Whether the process still continues
