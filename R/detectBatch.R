@@ -29,7 +29,7 @@
 #'
 #' \dontrun{
 #' # Example 2:
-#' # Obtain an external sample miRNASeq dataset
+#' # Obtain an external sample miRNASeq dataset (Chodor, 2025)
 #' # Example requires the RTCGA.miRNASeq package:
 #' if (requireNamespace("RTCGA.miRNASeq", quietly = TRUE)) {
 #'   library(RTCGA.miRNASeq)
@@ -52,10 +52,10 @@
 #' Chodor, W. (2025). \emph{RTCGA.miRNASeq: miRNASeq datasets from The Cancer
 #' Genome Atlas Project}. R package version 1.36.0.
 #'
-#' Hastie, T., Tibshirani, R., & Friedman, J. (2009).
+#' Hastie, T., Tibshirani, R., and Friedman, J. (2009).
 #' \emph{The Elements of Statistical Learning}, 2nd Edition. Springer.
 #'
-#' Johnson, W. E., Li, C., & Rabinovic, A. (2007). Adjusting batch effects in
+#' Johnson, W. E., Li, C., and Rabinovic, A. (2007). Adjusting batch effects in
 #' microarray expression data using empirical Bayes methods.
 #' \emph{Biostatistics}, 8(1), 118-127.
 #'
@@ -81,7 +81,7 @@ detectBatch <- function(miRNAdata,
          Consider running missingValueHandling() first.")
   }
 
-  # When no batch factor provided, set it same for each row
+  # When no batch factor provided, set it same for each row (Hastie et al., 2009)
   if (is.null(batch)) {
     batch <- rep("Batch1", nrow(miRNAdata))
   }
@@ -92,7 +92,7 @@ detectBatch <- function(miRNAdata,
 
   batch <- as.factor(batch)
 
-  # Detect batch differences
+  # Detect batch differences (Johnson et al., 2007)
   batch_means <- aggregate(miRNAdata, by = list(Batch = batch), FUN = mean)
   batch_vars  <- aggregate(miRNAdata, by = list(Batch = batch), FUN = var)
   summary_df <- data.frame(

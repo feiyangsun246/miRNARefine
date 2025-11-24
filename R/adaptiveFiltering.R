@@ -43,19 +43,19 @@
 #' }}
 #'
 #' @references
-#' Bolstad B (2025). preprocessCore: A collection of pre-processing functions.
+#' Bolstad B. (2025). preprocessCore: A collection of pre-processing functions.
 #' R package version 1.72.0.
 #' \href{https://bioconductor.org/packages/preprocessCore}{Link}.
 #'
-#' Castelluzzo M, Detassis S, Denti M, Ricci L (2023).
+#' Castelluzzo M., Detassis S., Denti M., and Ricci L. (2023).
 #' \emph{MiRNAQCD: Micro-RNA Quality Control and Diagnosis}.
 #' R package version 1.1.3.
 #' \href{https://CRAN.R-project.org/package=MiRNAQCD}{Link}.
 #'
-#' Chodor, W. (2025). \emph{RTCGA.miRNASeq: miRNASeq datasets from The Cancer
+#' Chodor W. (2025). \emph{RTCGA.miRNASeq: miRNASeq datasets from The Cancer
 #' Genome Atlas Project}. R package version 1.36.0.
 #'
-#' Hastie, T., Tibshirani, R., & Friedman, J. (2009).
+#' Hastie T., Tibshirani R., and Friedman J. (2009).
 #' \emph{The Elements of Statistical Learning}, 2nd Edition. Springer.
 #'
 #' @export
