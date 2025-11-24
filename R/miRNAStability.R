@@ -90,6 +90,12 @@ miRNAStability <- function(miRNAdata,
     stop("`metrics` must be one or more of 'CV', 'MAD'.")
   }
 
+  # Check if num_top input is valid
+  if (!is.numeric(num_top) || length(num_top) != 1 || num_top <= 0 ||
+      num_top != round(num_top)) {
+    stop("`num_top` must be a single positive integer.")
+  }
+
   # Initialize results
   results <- data.frame(miRNA = colnames(miRNAdata))
 

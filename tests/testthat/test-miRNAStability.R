@@ -63,6 +63,37 @@ test_that("Check if miRNAStability error upon invalid metrics input", {
 })
 
 
+test_that("Check if miRNAStability error upon invalid num_top", {
+
+  filled2 <- missingValueHandling(miRNAdata = miRNASeq2, method = "median",
+                                  report_summary = FALSE)
+
+  # Invalid num_top: negative
+  expect_error(miRNAStability(miRNAdata = filled2,
+                              num_top = -200,
+                              report_summary = FALSE),
+               "`num_top` must be a single positive integer")
+
+  # Invalid num_top: zero
+  expect_error(miRNAStability(miRNAdata = filled2,
+                              num_top = 0,
+                              report_summary = FALSE),
+               "`num_top` must be a single positive integer")
+
+  # Invalid num_top: vector
+  expect_error(miRNAStability(miRNAdata = filled2,
+                              num_top = c(5, 3),
+                              report_summary = FALSE),
+               "`num_top` must be a single positive integer")
+
+  # Invalid num_top: not an integer
+  expect_error(miRNAStability(miRNAdata = filled2,
+                              num_top = 2.5,
+                              report_summary = FALSE),
+               "`num_top` must be a single positive integer")
+})
+
+
 test_that("Check if output structure is correct", {
 
   set.seed(624)

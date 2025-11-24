@@ -53,7 +53,7 @@ plot2 <- plotStabilityDistribution(stability_results = result2)
 
 \dontrun{
 # Example 3:
-# Obtain an external sample miRNASeq dataset
+# Obtain an external sample miRNASeq dataset (Chodor, 2025)
 # Example requires the RTCGA.miRNASeq package:
 if (requireNamespace("RTCGA.miRNASeq", quietly = TRUE)) {
   library(RTCGA.miRNASeq)
@@ -68,18 +68,21 @@ if (requireNamespace("RTCGA.miRNASeq", quietly = TRUE)) {
 
 }
 \references{
-Bolstad B (2025). preprocessCore: A collection of pre-processing functions.
+Bolstad B. (2025). preprocessCore: A collection of pre-processing functions.
 R package version 1.72.0.
 \href{https://bioconductor.org/packages/preprocessCore}{Link}.
 
-Chodor, W. (2025). \emph{RTCGA.miRNASeq: miRNASeq datasets from The Cancer
+Chodor W. (2025). \emph{RTCGA.miRNASeq: miRNASeq datasets from The Cancer
 Genome Atlas Project}. R package version 1.36.0.
 
-Hima Bindu, S., et al. (2019). Identification of stable microRNA reference
+Hima Bindu S., et al. (2019). Identification of stable microRNA reference
 genes for normalization in miRNA expression studies. \emph{BMC Molecular
 Biology}, 20, 7.
 
-Li, R., et al. (2016). Evaluation of microRNA expression stability for
+Li R., et al. (2016). Evaluation of microRNA expression stability for
 normalization in quantitative PCR assays. \emph{Biochemical and Biophysical
 Research Communications}, 471(4), 567-574.
+
+Wickham, H. (2016). \code{ggplot2}: Elegant graphics for data analysis.
+Springer-Verlag New York. \href{https://ggplot2.tidyverse.org}{Link}.
 }

@@ -34,7 +34,7 @@
 #'
 #' \dontrun{
 #' # Example 3:
-#' # Obtain an external sample miRNASeq dataset
+#' # Obtain an external sample miRNASeq dataset (Chodor, 2025)
 #' # Example requires the RTCGA.miRNASeq package:
 #' if (requireNamespace("RTCGA.miRNASeq", quietly = TRUE)) {
 #'   library(RTCGA.miRNASeq)
@@ -48,20 +48,23 @@
 #'}}
 #'
 #' @references
-#' Bolstad B (2025). preprocessCore: A collection of pre-processing functions.
+#' Bolstad B. (2025). preprocessCore: A collection of pre-processing functions.
 #' R package version 1.72.0.
 #' \href{https://bioconductor.org/packages/preprocessCore}{Link}.
 #'
-#' Chodor, W. (2025). \emph{RTCGA.miRNASeq: miRNASeq datasets from The Cancer
+#' Chodor W. (2025). \emph{RTCGA.miRNASeq: miRNASeq datasets from The Cancer
 #' Genome Atlas Project}. R package version 1.36.0.
 #'
-#' Hima Bindu, S., et al. (2019). Identification of stable microRNA reference
+#' Hima Bindu S., et al. (2019). Identification of stable microRNA reference
 #' genes for normalization in miRNA expression studies. \emph{BMC Molecular
 #' Biology}, 20, 7.
 #'
-#' Li, R., et al. (2016). Evaluation of microRNA expression stability for
+#' Li R., et al. (2016). Evaluation of microRNA expression stability for
 #' normalization in quantitative PCR assays. \emph{Biochemical and Biophysical
 #' Research Communications}, 471(4), 567-574.
+#'
+#' Wickham, H. (2016). `ggplot2`: Elegant graphics for data analysis.
+#' Springer-Verlag New York. \href{https://ggplot2.tidyverse.org}{Link}.
 #'
 #' @export
 #' @import ggplot2 ggrepel
@@ -99,7 +102,7 @@ plotStabilityDistribution <- function(stability_results,
     stop(paste("Metric", metric, "not found in stability_scores"))
   }
 
-  # Filter miRNA with NA in stability scores
+  # Filter miRNA with NA in stability scores (Li et al., 2016)
   scores_df <- scores_df[!is.na(scores_df$CV), ]
 
   # Stop when scores_df is an empty dataframe after filtering
@@ -115,6 +118,7 @@ plotStabilityDistribution <- function(stability_results,
   scores_df$highlight[top_stable] <- "Most Stable"
   scores_df$highlight[bottom_stable] <- "Least Stable"
 
+  # Generate plot using ggplot2 (Wickham, 2016)
   p <- ggplot2::ggplot(scores_df, aes(x = .data[[metric]],
                                       y = reorder(scores_df$miRNA, .data[[metric]]),
                                       color = scores_df$highlight)) +
