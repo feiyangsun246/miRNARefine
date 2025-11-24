@@ -21,9 +21,16 @@ test_that("Check if handles invalid metric input correctly", {
 
   res <- miRNAStability(miRNAdata = miRNASeq1, report_summary = FALSE)
 
+  # Invalid metric: something other than the two options
   expect_error(plotStabilityDistribution(stability_results = res,
                                          metric = "WHAT"),
                "`metric` must be either 'CV' or 'MAD'")
+
+  # Invalid metric: empty
+  expect_error(plotStabilityDistribution(stability_results = res,
+                                         metric = ""),
+               "`metric` must be either 'CV' or 'MAD'")
+
   expect_silent(plotStabilityDistribution(stability_results = res))
 })
 
