@@ -22,6 +22,7 @@
 #'                                    max_na = 0.2,
 #'                                    report_summary = TRUE)
 #' filtered_data
+#' class(filtered_data) # "data.frame"
 #'
 #' # Example 2:
 #' # Obtain an external sample miRNASeq dataset
