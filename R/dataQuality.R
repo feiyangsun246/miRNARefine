@@ -37,7 +37,7 @@
 #'
 #' \dontrun{
 #' # Example 2:
-#' # Obtain an external sample miRNASeq dataset
+#' # Obtain an external sample miRNASeq dataset (Chodor, 2025)
 #' # Example requires the RTCGA.miRNASeq package:
 #' if (requireNamespace("RTCGA.miRNASeq", quietly = TRUE)) {
 #'   library(RTCGA.miRNASeq)
@@ -81,6 +81,10 @@
 #'
 #' Jolliffe, I. T. (2002). Principal Component Analysis. Springer.
 #'
+#' R Core Team. (2025). Package `stats`. R: A Language and Environment for
+#' Statistical Computing. R Foundation for Statistical Computing, Vienna,
+#' Austria <https://www.R-project.org/>
+#'
 #' @export
 #' @importFrom stats prcomp cov mahalanobis
 #'
@@ -116,7 +120,7 @@ detectOutliersPCA <- function(miRNAdata,
     stop("`z_threshold` must be a single positive number.")
   }
 
-  # Row-level outliers: PCA + Mahalanobis
+  # Row-level outliers: PCA + Mahalanobis (Jolliffe, 2002; CRAN Project, 2023)
   # tag constant columns to avoid error
   constant_cols <- sapply(miRNAdata, function(x) sd(x, na.rm=TRUE) == 0)
 
@@ -132,6 +136,7 @@ detectOutliersPCA <- function(miRNAdata,
     return(data.frame(Sample = rownames(miRNAdata), IsOutlier = FALSE))
   }
 
+  # Perform outliers calculation (R Core Team, 2025)
   center <- colMeans(scores)
   distances <- stats::mahalanobis(scores, center, cov_matrix)
   cutoff <- stats::quantile(distances, row_threshold)
@@ -183,7 +188,7 @@ detectOutliersPCA <- function(miRNAdata,
 #' head(filled)
 #'
 #' # Example 2:
-#' # Obtain an external sample miRNASeq dataset
+#' # Obtain an external sample miRNASeq dataset (Chodor, 2025)
 #' # Example requires the RTCGA.miRNASeq package:
 #' \dontrun{
 #' if (requireNamespace("RTCGA.miRNASeq", quietly = TRUE)) {
@@ -200,9 +205,6 @@ detectOutliersPCA <- function(miRNAdata,
 #' }}
 #'
 #' @references
-#' BioConductor Project (2025). \emph{impute: Imputation for microarray data.}
-#' \href{https://bioconductor.org/packages/impute/}{Link}.
-#'
 #' Bolstad B (2025). preprocessCore: A collection of pre-processing functions.
 #' R package version 1.72.0.
 #' \href{https://bioconductor.org/packages/preprocessCore}{Link}.
@@ -213,13 +215,17 @@ detectOutliersPCA <- function(miRNAdata,
 #' Chodor, W. (2025). \emph{RTCGA.miRNASeq: miRNASeq datasets from The Cancer
 #' Genome Atlas Project}. R package version 1.36.0.
 #'
-#' Hastie, T., Tibshirani, R., & Friedman, J. (2009).
+#' Hastie, T., Tibshirani, R., and Friedman, J. (2009).
 #' \emph{The Elements of Statistical Learning}, 2nd Edition. Springer.
 #'
-#' Robinson, M. D., McCarthy, D. J. and Smyth, G. K. (2010). edgeR: a
+#' Hastie T., Tibshirani R., Narasimhan B., and Chu G. (2025). impute: impute:
+#' Imputation for microarray data. R package version 1.84.0,
+#' \href{https://bioconductor.org/packages/impute/}{Link}.
+#'
+#' Robinson, M. D., McCarthy, D. J., and Smyth, G. K. (2010). edgeR: a
 #' Bioconductor package for differential expression analysis of digital gene
 #' expression data. \emph{Bioinformatics}, 26, 139-140.
-#' \href{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2796818/}{Link}
+#' \href{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2796818/}{Link}.
 #'
 #' @export
 #' @import stats impute
@@ -249,7 +255,7 @@ missingValueHandling <- function(miRNAdata,
                     sum(is.na(miRNAdata))))
   }
 
-  # Imputation using mean or median methods
+  # Imputation using mean or median methods (Hastie et al., 2009; Campesato, 2023)
   if (method %in% c("mean", "median")) {
     FUN <- ifelse(method == "mean", mean, median)
     filled_miRNA <- data.frame(lapply(miRNAdata, function(col) {
@@ -259,7 +265,7 @@ missingValueHandling <- function(miRNAdata,
     }))
 
   } else if (method == "knn") {
-    # KNN imputation using impute::impute.knn
+    # KNN imputation using impute::impute.knn (Hastie et al., 2025)
     if (!requireNamespace("impute", quietly = TRUE)) {
       stop("Package 'impute' is required for KNN imputation.
            Please install it from Bioconductor.")

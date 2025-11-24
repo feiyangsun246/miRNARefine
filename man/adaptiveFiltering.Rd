@@ -44,7 +44,7 @@ filtered_data
 class(filtered_data) # "data.frame"
 
 # Example 2:
-# Obtain an external sample miRNASeq dataset
+# Obtain an external sample miRNASeq dataset (Chodor, 2025)
 # Example requires the RTCGA.miRNASeq package:
 \dontrun{
 if (requireNamespace("RTCGA.miRNASeq", quietly = TRUE)) {
@@ -71,6 +71,9 @@ Castelluzzo M, Detassis S, Denti M, Ricci L (2023).
 \emph{MiRNAQCD: Micro-RNA Quality Control and Diagnosis}.
 R package version 1.1.3.
 \href{https://CRAN.R-project.org/package=MiRNAQCD}{Link}.
+
+Chodor, W. (2025). \emph{RTCGA.miRNASeq: miRNASeq datasets from The Cancer
+Genome Atlas Project}. R package version 1.36.0.
 
 Hastie, T., Tibshirani, R., & Friedman, J. (2009).
 \emph{The Elements of Statistical Learning}, 2nd Edition. Springer.

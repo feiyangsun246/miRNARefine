@@ -28,7 +28,7 @@
 #'
 #' \dontrun{
 #' # Example 2:
-#' # Obtain an external sample miRNASeq dataset
+#' # Obtain an external sample miRNASeq dataset (Chodor, 2025)
 #' # Example requires the RTCGA.miRNASeq package:
 #' if (requireNamespace("RTCGA.miRNASeq", quietly = TRUE)) {
 #'   library(RTCGA.miRNASeq)
@@ -40,7 +40,7 @@
 #'                                  methods = c("zscore", "quantile"),
 #'                                  report_summary = TRUE,
 #'                                  choose_best = TRUE)
-#'   head(filtered)
+#'   head(result)
 #' }}
 #'
 #' @references
@@ -69,7 +69,7 @@
 compareNormalization <- function(miRNAdata,
                                  methods = c("log2", "zscore", "quantile"),
                                  report_summary = TRUE,
-                                 choose_best = FALSE) {
+                                 choose_best = TRUE) {
 
   # Check if input is a matrix or dataframe
   miRNAdata <- inputCheckGeneral(miRNAdata)
@@ -105,7 +105,7 @@ compareNormalization <- function(miRNAdata,
     normalized$zscore <- zscore_norm
   }
 
-  # Quantile normalization
+  # Quantile normalization using preprocessCore (Bolstad, 2025)
   if ("quantile" %in% methods) {
     if (!requireNamespace("preprocessCore", quietly = TRUE)) {
       stop("The 'preprocessCore' package is required for quantile
@@ -126,7 +126,7 @@ compareNormalization <- function(miRNAdata,
     }
   }
 
-  # Choose best method based on variance uniformity
+  # Choose best method based on variance uniformity (Castelluzzo et al., 2023; Hastie et al., 2009)
   best_method <- NULL
   if (isTRUE(choose_best)) {
     score <- sapply(normalized, function(x) {

@@ -8,7 +8,7 @@ compareNormalization(
   miRNAdata,
   methods = c("log2", "zscore", "quantile"),
   report_summary = TRUE,
-  choose_best = FALSE
+  choose_best = TRUE
 )
 }
 \arguments{
@@ -45,7 +45,7 @@ result$best_method
 
 \dontrun{
 # Example 2:
-# Obtain an external sample miRNASeq dataset
+# Obtain an external sample miRNASeq dataset (Chodor, 2025)
 # Example requires the RTCGA.miRNASeq package:
 if (requireNamespace("RTCGA.miRNASeq", quietly = TRUE)) {
   library(RTCGA.miRNASeq)
@@ -57,7 +57,7 @@ if (requireNamespace("RTCGA.miRNASeq", quietly = TRUE)) {
                                  methods = c("zscore", "quantile"),
                                  report_summary = TRUE,
                                  choose_best = TRUE)
-  head(filtered)
+  head(result)
 }}
 
 }

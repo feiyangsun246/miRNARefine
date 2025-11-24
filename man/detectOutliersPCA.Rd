@@ -60,7 +60,7 @@ which(result$sample_outliers)
 
 \dontrun{
 # Example 2:
-# Obtain an external sample miRNASeq dataset
+# Obtain an external sample miRNASeq dataset (Chodor, 2025)
 # Example requires the RTCGA.miRNASeq package:
 if (requireNamespace("RTCGA.miRNASeq", quietly = TRUE)) {
   library(RTCGA.miRNASeq)
@@ -104,4 +104,8 @@ Chodor, W. (2025). \emph{RTCGA.miRNASeq: miRNASeq datasets from The Cancer
 Genome Atlas Project}. R package version 1.36.0.
 
 Jolliffe, I. T. (2002). Principal Component Analysis. Springer.
+
+R Core Team. (2025). Package \code{stats}. R: A Language and Environment for
+Statistical Computing. R Foundation for Statistical Computing, Vienna,
+Austria \url{https://www.R-project.org/}
 }

@@ -6,7 +6,7 @@
 \usage{
 missingValueHandling(
   miRNAdata,
-  method = c("median", "mean", "knn"),
+  method = "median",
   k = 5,
   report_summary = TRUE
 )
@@ -39,7 +39,7 @@ filled <- missingValueHandling(miRNAdata = miRNASeq2,
 head(filled)
 
 # Example 2:
-# Obtain an external sample miRNASeq dataset
+# Obtain an external sample miRNASeq dataset (Chodor, 2025)
 # Example requires the RTCGA.miRNASeq package:
 \dontrun{
 if (requireNamespace("RTCGA.miRNASeq", quietly = TRUE)) {
@@ -57,9 +57,6 @@ if (requireNamespace("RTCGA.miRNASeq", quietly = TRUE)) {
 
 }
 \references{
-BioConductor Project (2025). \emph{impute: Imputation for microarray data.}
-\href{https://bioconductor.org/packages/impute/}{Link}.
-
 Bolstad B (2025). preprocessCore: A collection of pre-processing functions.
 R package version 1.72.0.
 \href{https://bioconductor.org/packages/preprocessCore}{Link}.
@@ -70,11 +67,15 @@ data. \emph{Bioinformatics}, 39(7), btab789.
 Chodor, W. (2025). \emph{RTCGA.miRNASeq: miRNASeq datasets from The Cancer
 Genome Atlas Project}. R package version 1.36.0.
 
-Hastie, T., Tibshirani, R., & Friedman, J. (2009).
+Hastie, T., Tibshirani, R., and Friedman, J. (2009).
 \emph{The Elements of Statistical Learning}, 2nd Edition. Springer.
 
-Robinson, M. D., McCarthy, D. J. and Smyth, G. K. (2010). edgeR: a
+Hastie T., Tibshirani R., Narasimhan B., and Chu G. (2025). impute: impute:
+Imputation for microarray data. R package version 1.84.0,
+\href{https://bioconductor.org/packages/impute/}{Link}.
+
+Robinson, M. D., McCarthy, D. J., and Smyth, G. K. (2010). edgeR: a
 Bioconductor package for differential expression analysis of digital gene
 expression data. \emph{Bioinformatics}, 26, 139-140.
-\href{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2796818/}{Link}
+\href{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2796818/}{Link}.
 }
