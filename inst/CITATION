@@ -1,0 +1,14 @@
+citHeader("To cite MiRNARefine in publications use:")
+
+citEntry(entry = "Unpublished",
+  title        = "miRNARefine: Useful Tool to Refine and Improve the Quality and Interpretability of miRNA Expression Data",
+  author       = "Feiyang Sun",
+  note         = "Updated version with revisions",
+  year         = "2025",
+  url          = "https://github.com/feiyangsun246/miRNARefine",
+
+
+  textVersion  =
+  paste("Feiyang, S. (2025) miRNARefine: Useful Tool to Refine and Improve the Quality and Interpretability of miRNA Expression Data.
+        Unpublished. URL https://github.com/feiyangsun246/miRNARefine.")
+)
