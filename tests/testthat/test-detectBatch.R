@@ -38,7 +38,13 @@ test_that("Check if detectBatch error upon invalid dataset input", {
 test_that("Check if error appears when length of batch doesn't match number
           of samples", {
 
+  # Invalid batch input: vector
   expect_error(detectBatch(miRNAdata = matrix(1:10, 5, 2), batch = 1:3,
+                           report_summary = FALSE),
+               "Length of batch")
+
+  # Invalid batch input: a single number
+  expect_error(detectBatch(miRNAdata = matrix(1:10, 5, 2), batch = 1,
                            report_summary = FALSE),
                "Length of batch")
 })
@@ -50,6 +56,7 @@ test_that("Check if situation is correctly handled when batch factor is
   filled2 <- missingValueHandling(miRNAdata = miRNASeq2,
                                   method = "median",
                                   report_summary = FALSE)
+
   expect_warning(res <- detectBatch(miRNAdata = filled2,
                                     correct = TRUE,
                                     report_summary = FALSE))
@@ -109,11 +116,15 @@ test_that("Check if Batch effect correction works on real miRNA datasets", {
   filled1 <- missingValueHandling(miRNAdata = miRNASeq1, method = "median",
                                   report_summary = FALSE)
 
+  filled1 <- filled1[, colSums(filled1 != 0) > 0]
+
   # Add batch effect
   filled1[bat == 2, ] <- filled1[bat == 2, ] + 5
 
-  res <- detectBatch(miRNAdata = filled1, batch = bat, correct = TRUE,
-                     report_summary = FALSE)
+  res <- suppressMessages(detectBatch(miRNAdata = filled1,
+                                      batch = bat,
+                                      correct = TRUE,
+                                      report_summary = FALSE))
 
   # Before correction, mean difference between batches
   mean_diff_before <- mean(colMeans(filled1[bat == 1, , drop=FALSE])) -

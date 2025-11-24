@@ -57,24 +57,24 @@ if (requireNamespace("RTCGA.miRNASeq", quietly = TRUE)) {
 
 }
 \references{
-Bolstad B (2025). preprocessCore: A collection of pre-processing functions.
+Bolstad B. (2025). preprocessCore: A collection of pre-processing functions.
 R package version 1.72.0.
 \href{https://bioconductor.org/packages/preprocessCore}{Link}.
 
-Campesato, L. F. (2023). Adaptive missing value imputation methods for omics
+Campesato L. F. (2023). Adaptive missing value imputation methods for omics
 data. \emph{Bioinformatics}, 39(7), btab789.
 
-Chodor, W. (2025). \emph{RTCGA.miRNASeq: miRNASeq datasets from The Cancer
+Chodor W. (2025). \emph{RTCGA.miRNASeq: miRNASeq datasets from The Cancer
 Genome Atlas Project}. R package version 1.36.0.
 
-Hastie, T., Tibshirani, R., and Friedman, J. (2009).
+Hastie T., Tibshirani R., and Friedman J. (2009).
 \emph{The Elements of Statistical Learning}, 2nd Edition. Springer.
 
 Hastie T., Tibshirani R., Narasimhan B., and Chu G. (2025). impute: impute:
 Imputation for microarray data. R package version 1.84.0,
 \href{https://bioconductor.org/packages/impute/}{Link}.
 
-Robinson, M. D., McCarthy, D. J., and Smyth, G. K. (2010). edgeR: a
+Robinson M. D., McCarthy D. J., and Smyth G. K. (2010). edgeR: a
 Bioconductor package for differential expression analysis of digital gene
 expression data. \emph{Bioinformatics}, 26, 139-140.
 \href{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2796818/}{Link}.

@@ -41,7 +41,7 @@ result$batch_effects
 
 \dontrun{
 # Example 2:
-# Obtain an external sample miRNASeq dataset
+# Obtain an external sample miRNASeq dataset (Chodor, 2025)
 # Example requires the RTCGA.miRNASeq package:
 if (requireNamespace("RTCGA.miRNASeq", quietly = TRUE)) {
   library(RTCGA.miRNASeq)
@@ -58,21 +58,21 @@ if (requireNamespace("RTCGA.miRNASeq", quietly = TRUE)) {
 
 }
 \references{
-Bolstad B (2025). preprocessCore: A collection of pre-processing functions.
+Bolstad B. (2025). preprocessCore: A collection of pre-processing functions.
 R package version 1.72.0.
 \href{https://bioconductor.org/packages/preprocessCore}{Link}.
 
-Chodor, W. (2025). \emph{RTCGA.miRNASeq: miRNASeq datasets from The Cancer
+Chodor W. (2025). \emph{RTCGA.miRNASeq: miRNASeq datasets from The Cancer
 Genome Atlas Project}. R package version 1.36.0.
 
-Hastie, T., Tibshirani, R., & Friedman, J. (2009).
+Hastie T., Tibshirani R., and Friedman J. (2009).
 \emph{The Elements of Statistical Learning}, 2nd Edition. Springer.
 
-Johnson, W. E., Li, C., & Rabinovic, A. (2007). Adjusting batch effects in
+Johnson W. E., Li C., and Rabinovic A. (2007). Adjusting batch effects in
 microarray expression data using empirical Bayes methods.
 \emph{Biostatistics}, 8(1), 118-127.
 
-Leek, J. T., et al. (2010). Tackling the widespread and critical impact
+Leek J. T., et al. (2010). Tackling the widespread and critical impact
 of batch effects in high-throughput data. \emph{Nature Reviews Genetics},
 11(10), 733-739.
 }
