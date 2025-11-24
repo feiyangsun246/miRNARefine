@@ -44,10 +44,42 @@ test_that("Check if detectOutliersPCA error upon negative thresholds", {
                                  n_components = -200,
                                  report_summary = FALSE),
                "`n_components` must be a single positive number")
+
+  # Invalid n_components: not a single number
   expect_error(detectOutliersPCA(miRNAdata = miRNASeq1,
                                  n_components = c(1, 2),
                                  report_summary = FALSE),
                "`n_components` must be a single positive number")
+
+  # Invalid row_threshold: negative
+  expect_error(detectOutliersPCA(miRNAdata = miRNASeq1,
+                                 row_threshold = -200,
+                                 report_summary = FALSE),
+               "`row_threshold` must be a single number")
+
+  # Invalid row_threshold: larger than 1
+  expect_error(detectOutliersPCA(miRNAdata = miRNASeq1,
+                                 row_threshold = 200,
+                                 report_summary = FALSE),
+               "`row_threshold` must be a single number")
+
+  # Invalid row_threshold: not a single number
+  expect_error(detectOutliersPCA(miRNAdata = miRNASeq1,
+                                 row_threshold = c(1, 2),
+                                 report_summary = FALSE),
+               "`row_threshold` must be a single number")
+
+  # Invalid z_threshold: negative
+  expect_error(detectOutliersPCA(miRNAdata = miRNASeq1,
+                                 z_threshold = -200,
+                                 report_summary = FALSE),
+               "`z_threshold` must be a single positive number")
+
+  # Invalid z_threshold: not a single number
+  expect_error(detectOutliersPCA(miRNAdata = miRNASeq1,
+                                 z_threshold = c(1, 2),
+                                 report_summary = FALSE),
+               "`z_threshold` must be a single positive number")
 
 })
 
