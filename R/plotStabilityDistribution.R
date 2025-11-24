@@ -118,7 +118,7 @@ plotStabilityDistribution <- function(stability_results,
   p <- ggplot2::ggplot(scores_df, aes(x = .data[[metric]],
                                       y = reorder(scores_df$miRNA, .data[[metric]]),
                                       color = scores_df$highlight)) +
-                                      ggplot_2::geom_point(size = 3) +
+                                      ggplot2::geom_point(size = 3) +
     scale_color_manual(values = c("Most Stable" = "blue",
                                   "Least Stable" = "red",
                                   "Normal" = "gray")) +

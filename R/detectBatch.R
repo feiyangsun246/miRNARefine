@@ -73,25 +73,7 @@ detectBatch <- function(miRNAdata,
                         report_summary = TRUE) {
 
   # Check if input is a matrix or dataframe
-  if (is.matrix(miRNAdata)) {
-    miRNAdata <- as.data.frame(miRNAdata)
-  } else if (is.data.frame(miRNAdata)) {
-    class(miRNAdata) <- "data.frame"
-  } else {
-    stop("`miRNAdata` must be a data frame or matrix.")
-  }
-
-  # Stop when input is an empty dataframe
-  if (nrow(miRNAdata) == 0 || ncol(miRNAdata) == 0) {
-    stop("Empty dataframe input")
-  }
-
-  # Converse non-numeric data
-  miRNAdata <- as.data.frame(
-    lapply(miRNAdata, function(x) {
-      if (is.factor(x)) as.numeric(as.character(x)) else x
-    })
-  )
+  miRNAdata <- inputCheckGeneral(miRNAdata)
 
   # Stop when there is NA in the dataset
   if (any(is.na(miRNAdata))) {

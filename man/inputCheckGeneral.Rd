@@ -43,6 +43,6 @@ class(res2) # "data.frame"
 data(miRNASeq1)
 res3 <- inputCheckGeneral(miRNASeq1)
 class(res3) # "data.frame"
-dim(res3)
+dim(res3) # 10 18
 
 }
