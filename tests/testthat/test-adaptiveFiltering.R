@@ -54,6 +54,7 @@ test_that("Check if adaptiveFiltering error upon negative thresholds", {
                "thresholds must all be non-negative.")
 })
 
+
 test_that("Check if output of adaptiveFiltering is a data.frame with expected
           dimensions", {
 

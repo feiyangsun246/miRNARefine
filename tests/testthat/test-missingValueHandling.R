@@ -6,11 +6,11 @@ test_that("Check if missingValueHandling error upon invalid dataset input", {
 
   # Valid input
   expect_silent(missingValueHandling(miRNAdata = miRNASeq1,
-                                  report_summary = FALSE))
+                                     report_summary = FALSE))
 
   # Valid input
   expect_silent(missingValueHandling(miRNAdata = miRNASeq2,
-                                  report_summary = FALSE))
+                                     report_summary = FALSE))
 
   # Invalid input: Vector
   expect_error(missingValueHandling(miRNAdata = miRNASeq1[, 1]),
@@ -34,7 +34,8 @@ test_that("Check if missingValueHandling error upon invalid dataset input", {
 test_that("Check if factor columns are converted to numeric", {
 
   toy <- data.frame(miR1 = factor(c(1, 2, NA)))
-  filled <- missingValueHandling(miRNAdata = toy, method="median",
+  filled <- missingValueHandling(miRNAdata = toy,
+                                 method="median",
                                  report_summary = FALSE)
   # Whether all NA handled
   expect_false(any(is.na(filled)))
@@ -43,8 +44,26 @@ test_that("Check if factor columns are converted to numeric", {
   expect_true(is.numeric(filled$miR1))
 })
 
+
+test_that("Check if missingValueHandling error upon invalid method input", {
+
+  # Empty input
+  expect_error(missingValueHandling(miRNAdata = miRNASeq1,
+                                    method = "",
+                                    report_summary = FALSE),
+               "`method` must be one of 'mean', 'median', or 'knn'")
+
+  # Non-empty input
+  expect_error(missingValueHandling(miRNAdata = miRNASeq1,
+                                    method = "something",
+                                    report_summary = FALSE),
+               "`method` must be one of 'mean', 'median', or 'knn'")
+})
+
+
 test_that("Check if missingValueHandling error upon columns contain
           only NA values.", {
+
   df <- data.frame(
     x = c(1, 2, 3),
     y = c(NA, NA, NA)   # all column NA
@@ -57,6 +76,45 @@ test_that("Check if missingValueHandling error upon columns contain
   sample[ ,2] <- NA
   expect_error(missingValueHandling(miRNAdata = sample),
                "One or more columns contain only NA values")
+})
+
+
+test_that("Check if missingValueHandling error upon invalid k value", {
+
+  # Invalid `k`: not numeric
+  expect_error(missingValueHandling(miRNAdata = miRNASeq1,
+                                    method = "knn",
+                                    k = "something",
+                                    report_summary = FALSE),
+               "`k` must be a positive integer")
+
+  # Invalid `k`: not an integer
+  expect_error(missingValueHandling(miRNAdata = miRNASeq1,
+                                    method = "knn",
+                                    k = 2.5,
+                                    report_summary = FALSE),
+               "`k` must be a positive integer")
+
+  # Invalid `k`: zero
+  expect_error(missingValueHandling(miRNAdata = miRNASeq1,
+                                    method = "knn",
+                                    k = 0,
+                                    report_summary = FALSE),
+               "`k` must be a positive integer")
+
+  # Invalid `k`: negative
+  expect_error(missingValueHandling(miRNAdata = miRNASeq1,
+                                    method = "knn",
+                                    k = -200,
+                                    report_summary = FALSE),
+               "`k` must be a positive integer")
+
+  # Invalid `k`: too large
+  expect_error(missingValueHandling(miRNAdata = miRNASeq1,
+                                    method = "knn",
+                                    k = 624,
+                                    report_summary = FALSE),
+               "`k` must be smaller than the number of samples")
 })
 
 
@@ -82,13 +140,15 @@ test_that("Check if median imputation works on actual miRNA data", {
   subpart[1, 1] <- NA
 
   # Whether the value calculated is as expected
-  filled_sub <- missingValueHandling(miRNAdata = subpart, method = "median",
+  filled_sub <- missingValueHandling(miRNAdata = subpart,
+                                     method = "median",
                                      report_summary = FALSE)
   expect_equal(filled_sub[1, 1],
                median(filled_sub[2:10, 1]))
 
   # Test on the whole set of miRNASeq1
-  filled <- missingValueHandling(miRNAdata = miRNASeq1, method = "median",
+  filled <- missingValueHandling(miRNAdata = miRNASeq1,
+                                 method = "median",
                                  report_summary = FALSE)
 
   # Whether all missing data filled
@@ -103,7 +163,8 @@ test_that("Check if median imputation works on actual miRNA data", {
 test_that("Check if mean imputation works on toy data", {
 
   toy <- data.frame(miR1 = c(1, NA, 3))
-  filled <- missingValueHandling(miRNAdata = toy, method = "mean",
+  filled <- missingValueHandling(miRNAdata = toy,
+                                 method = "mean",
                                  report_summary = FALSE)
 
   # Whether mean imputation actually works
@@ -118,13 +179,15 @@ test_that("Check if mean imputation works on actual miRNA data", {
   subpart[1, 1] <- NA
 
   # Whether the value calculated is as expected
-  filled_sub <- missingValueHandling(miRNAdata = subpart, method = "mean",
+  filled_sub <- missingValueHandling(miRNAdata = subpart,
+                                     method = "mean",
                                      report_summary = FALSE)
   expect_equal(filled_sub[1, 1],
                mean(filled_sub[2:10, 1]))
 
   # Test on the whole set of miRNASeq1
-  filled <- missingValueHandling(miRNAdata = miRNASeq1, method = "mean",
+  filled <- missingValueHandling(miRNAdata = miRNASeq1,
+                                 method = "mean",
                                  report_summary = FALSE)
 
   # Whether all missing data filled
@@ -142,7 +205,9 @@ test_that("Check if knn imputation works", {
   skip_if_not_installed("impute")
 
   toy <- matrix(c(1, NA, 3, 4, 3, 2), nrow=3, ncol=2)
-  filled <- missingValueHandling(miRNAdata = toy, method="knn", k=2,
+  filled <- missingValueHandling(miRNAdata = toy,
+                                 method = "knn",
+                                 k = 2,
                                  report_summary = FALSE)
 
   # Whether no NA remains

@@ -13,8 +13,8 @@ test_that("Check if detectBatch error upon invalid dataset input", {
   # Valid input
   batch1 <- rep(1:3, each = 10)
   expect_silent(detectBatch(miRNAdata = filled2,
-                                     batch = batch1,
-                                     report_summary = FALSE))
+                            batch = batch1,
+                            report_summary = FALSE))
 
   # Invalid input: Vector
   expect_error(detectBatch(miRNAdata = miRNASeq1[, 1]),
@@ -47,9 +47,11 @@ test_that("Check if error appears when length of batch doesn't match number
 test_that("Check if situation is correctly handled when batch factor is
           provided as NULL", {
 
-  filled2 <- missingValueHandling(miRNAdata = miRNASeq2, method = "median",
+  filled2 <- missingValueHandling(miRNAdata = miRNASeq2,
+                                  method = "median",
                                   report_summary = FALSE)
-  expect_warning(res <- detectBatch(miRNAdata = filled2, correct = TRUE,
+  expect_warning(res <- detectBatch(miRNAdata = filled2,
+                                    correct = TRUE,
                                     report_summary = FALSE))
   expect_equal(res$corrected_data, filled2)
 })

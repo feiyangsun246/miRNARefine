@@ -225,12 +225,14 @@ detectOutliersPCA <- function(miRNAdata,
 #' @import stats impute
 #'
 missingValueHandling <- function(miRNAdata,
-                                 method = c("median", "mean", "knn"),
+                                 method = "median",
                                  k = 5,
                                  report_summary = TRUE){
 
-  # Match method
-  method <- match.arg(method)
+  # Check if method is valid
+  if (!method %in% c("mean", "median", "knn")) {
+    stop("`method` must be one of 'mean', 'median', or 'knn'.")
+  }
 
   # Check if input is a matrix or dataframe
   miRNAdata <- inputCheckGeneral(miRNAdata)
@@ -255,12 +257,21 @@ missingValueHandling <- function(miRNAdata,
       if (any(na_idx)) col[na_idx] <- FUN(col, na.rm = TRUE)
       return(col)
     }))
+
   } else if (method == "knn") {
     # KNN imputation using impute::impute.knn
     if (!requireNamespace("impute", quietly = TRUE)) {
       stop("Package 'impute' is required for KNN imputation.
            Please install it from Bioconductor.")
     }
+
+    if (!is.numeric(k) || k <= 0 || k != round(k)) {
+      stop("`k` must be a positive integer for kNN imputation.")
+    }
+
+    if (k >= nrow(miRNAdata)) {
+      stop("`k` must be smaller than the number of samples.")
+      }
 
     # Convert to matrix
     miRNAdata <- as.matrix(miRNAdata)

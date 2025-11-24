@@ -83,6 +83,7 @@ test_that("Check if detectOutliersPCA error upon negative thresholds", {
 
 })
 
+
 test_that("Check if detectOutliersPCA output structure is correct", {
 
   result <- detectOutliersPCA(miRNAdata = miRNASeq1,
