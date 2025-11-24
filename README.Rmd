@@ -56,18 +56,13 @@ ls("package:miRNARefine")
 ```
 `miRNARefine` contains 7 functions:
 
-1. _*adaptiveFiltering*_ Automatically filters miRNAs based on expression, variance, or missing
-values.
-2. _*detectOutliersPCA*_ Identifies anomalous samples using principal component analysis.
-3. _*missingValueHandling*_ Detects and imputes missing values in the miRNA dataset. Supports
-adaptive methods like mean, median, or KNN imputation.
-4. _*compareNormalization*_ Applies multiple normalization methods (e.g., log2, z-score, quantile)
-and compares their effects.
+1. _*adaptiveFiltering*_ Automatically filters miRNAs based on expression, variance, or missing values.
+2. _*detectOutliersPCA*_ Identifies anomalous samples using principal component analysis (PCA) following the approach of Jolliffe (2002).
+3. _*missingValueHandling*_ Detects and imputes missing values in the miRNA dataset. Supports adaptive methods like mean, median, or KNN imputation.
+4. _*compareNormalization*_ Applies multiple normalization methods (e.g., log2, z-score, quantile) and compares their effects.
 5. _*detectBatch*_ Detects and optionally corrects batch effects in the dataset.
 6. _*miRNAStability*_ Calculates feature-level stability metrics such as coefficient of variation (CV) or median absolute deviation (MAD).
-7. _*plotStabilityDistribution*_ Visualizes the distribution of miRNA stability metrics across
-all features. Highlights highly stable or highly variable miRNAs, helping users quickly assess
-feature quality.
+7. _*plotStabilityDistribution*_ Visualizes the distribution of miRNA stability metrics across all features. Highlights highly stable or highly variable miRNAs, helping users quickly assess feature quality.
 
 <br>
 

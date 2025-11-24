@@ -67,6 +67,11 @@ adaptiveFiltering <- function(miRNAdata,
   # Check if input is a matrix or dataframe
   miRNAdata <- inputCheckGeneral(miRNAdata)
 
+  # Check that thresholds are non-negative
+  if (any(c(min_expression, min_variance, max_na) < 0, na.rm = TRUE)) {
+    stop("`min_expression`, `min_variance`, and `max_na` thresholds must all be non-negative.")
+  }
+
   # Calculate missing value proportion per miRNA
   na_prop <- colSums(is.na(miRNAdata)) / nrow(miRNAdata)
 

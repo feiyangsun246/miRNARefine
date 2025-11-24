@@ -43,10 +43,14 @@
 #'   library(RTCGA.miRNASeq)
 #'   dim(ACC.miRNASeq) # 240 1048
 #'
-#'   sample_ori <- RTCGA.miRNASeq::ACC.miRNASeq[1:100, 1:20]
+#'   subset <- RTCGA.miRNASeq::ACC.miRNASeq[1:200, 1:20]
+#'   sample_ori <- subset[subset$miRNA_ID == "read_count", ]
 #'
 #'   # deal with missing values first in case of errors
-#'   sample <- missingValue
+#'   sample <- missingValueHandling(miRNAdata = sample_ori,
+#'                                  method = "knn",
+#'                                  k = 5,
+#'                                  report_summary = TRUE))
 #'
 #'   result <- detectOutliersPCA(miRNAdata = sample,
 #'                               n_components = 2,
@@ -94,6 +98,22 @@ detectOutliersPCA <- function(miRNAdata,
   if (any(is.na(miRNAdata))) {
     stop("Dataset contains missing values (NA).
          Consider running missingValueHandling() first.")
+  }
+
+  # Stop when n_components is not valid
+  if (!is.numeric(n_components) || length(n_components) != 1 || n_components <= 0) {
+    stop("`n_components` must be a single positive number.")
+  }
+
+  # Stop when row_threshold is not valid
+  if (!is.numeric(row_threshold) || length(row_threshold) != 1 ||
+      row_threshold <= 0 || row_threshold > 1) {
+    stop("`row_threshold` must be a single number in (0, 1].")
+  }
+
+  # Stop when z_threshold is not valid
+  if (!is.numeric(z_threshold) || length(z_threshold) != 1 || z_threshold <= 0) {
+    stop("`z_threshold` must be a single positive number.")
   }
 
   # Row-level outliers: PCA + Mahalanobis
@@ -214,6 +234,12 @@ missingValueHandling <- function(miRNAdata,
 
   # Check if input is a matrix or dataframe
   miRNAdata <- inputCheckGeneral(miRNAdata)
+
+  # Check if any column is entirely NA
+  if (any(colSums(is.na(miRNAdata)) == nrow(miRNAdata))) {
+    stop("One or more columns contain only NA values.
+         Consider remove such columns first.")
+  }
 
   # Report missing values before
   if (report_summary) {

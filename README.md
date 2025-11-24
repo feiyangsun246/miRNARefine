@@ -57,7 +57,7 @@ ls("package:miRNARefine")
 1.  **adaptiveFiltering** Automatically filters miRNAs based on
     expression, variance, or missing values.
 2.  **detectOutliersPCA** Identifies anomalous samples using principal
-    component analysis.
+    component analysis (PCA) following the approach of Jolliffe (2002).
 3.  **missingValueHandling** Detects and imputes missing values in the
     miRNA dataset. Supports adaptive methods like mean, median, or KNN
     imputation.

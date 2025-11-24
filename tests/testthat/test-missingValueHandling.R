@@ -31,7 +31,7 @@ test_that("Check if missingValueHandling error upon invalid dataset input", {
 })
 
 
-test_that("factor columns are converted to numeric", {
+test_that("Check if factor columns are converted to numeric", {
 
   toy <- data.frame(miR1 = factor(c(1, 2, NA)))
   filled <- missingValueHandling(miRNAdata = toy, method="median",
@@ -41,6 +41,22 @@ test_that("factor columns are converted to numeric", {
 
   # Whether conversion is completed
   expect_true(is.numeric(filled$miR1))
+})
+
+test_that("Check if missingValueHandling error upon columns contain
+          only NA values.", {
+  df <- data.frame(
+    x = c(1, 2, 3),
+    y = c(NA, NA, NA)   # all column NA
+  )
+  expect_error(missingValueHandling(miRNAdata = df),
+               "One or more columns contain only NA values")
+
+  # Perform on dataset provided in the package
+  sample <- miRNASeq1
+  sample[ ,2] <- NA
+  expect_error(missingValueHandling(miRNAdata = sample),
+               "One or more columns contain only NA values")
 })
 
 

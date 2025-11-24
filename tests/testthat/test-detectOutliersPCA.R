@@ -37,6 +37,20 @@ test_that("Check if detectOutliersPCA error upon invalid dataset input", {
 })
 
 
+test_that("Check if detectOutliersPCA error upon negative thresholds", {
+
+  # Invalid n_components: negative
+  expect_error(detectOutliersPCA(miRNAdata = miRNASeq1,
+                                 n_components = -200,
+                                 report_summary = FALSE),
+               "`n_components` must be a single positive number")
+  expect_error(detectOutliersPCA(miRNAdata = miRNASeq1,
+                                 n_components = c(1, 2),
+                                 report_summary = FALSE),
+               "`n_components` must be a single positive number")
+
+})
+
 test_that("Check if detectOutliersPCA output structure is correct", {
 
   result <- detectOutliersPCA(miRNAdata = miRNASeq1,

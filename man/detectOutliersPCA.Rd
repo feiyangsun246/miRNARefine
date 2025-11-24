@@ -66,10 +66,14 @@ if (requireNamespace("RTCGA.miRNASeq", quietly = TRUE)) {
   library(RTCGA.miRNASeq)
   dim(ACC.miRNASeq) # 240 1048
 
-  sample_ori <- RTCGA.miRNASeq::ACC.miRNASeq[1:100, 1:20]
+  subset <- RTCGA.miRNASeq::ACC.miRNASeq[1:200, 1:20]
+  sample_ori <- subset[subset$miRNA_ID == "read_count", ]
 
   # deal with missing values first in case of errors
-  sample <- missingValue
+  sample <- missingValueHandling(miRNAdata = sample_ori,
+                                 method = "knn",
+                                 k = 5,
+                                 report_summary = TRUE))
 
   result <- detectOutliersPCA(miRNAdata = sample,
                               n_components = 2,

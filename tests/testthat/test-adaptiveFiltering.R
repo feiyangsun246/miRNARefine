@@ -30,6 +30,29 @@ test_that("Check if adaptiveFiltering error upon invalid dataset input", {
                "Empty dataframe input")
 })
 
+test_that("Check if adaptiveFiltering error upon negative thresholds", {
+
+  # Use dataset provided in the package
+  expect_silent(adaptiveFiltering(miRNAdata = miRNASeq1,
+                                  report_summary = FALSE))
+  # Negative min_expression
+  expect_error(adaptiveFiltering(miRNAdata = miRNASeq1,
+                                 min_expression = -200,
+                                 report_summary = FALSE),
+               "thresholds must all be non-negative.")
+
+  # Negative min_variance
+  expect_error(adaptiveFiltering(miRNAdata = miRNASeq1,
+                                 min_variance = -200,
+                                 report_summary = FALSE),
+               "thresholds must all be non-negative.")
+
+  # Negative max_na
+  expect_error(adaptiveFiltering(miRNAdata = miRNASeq1,
+                                 max_na = -200,
+                                 report_summary = FALSE),
+               "thresholds must all be non-negative.")
+})
 
 test_that("Check if output of adaptiveFiltering is a data.frame with expected
           dimensions", {
