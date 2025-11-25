@@ -23,6 +23,8 @@ Useful Tool to Refine and Improve the Quality and Interpretability of miRNA Expr
 
 `miRNARefine` is an R package which aims to identify and correct potential data irregularities such as outliers, batch effects, and instability in miRNA expression across samples, and to provide diagnostic visualizations that help researchers assess data reliability before downstream analyses.
 
+Existing R packages handle aspects like normalization or batch correction, but none specifically combine outlier detection, batch effect adjustment, and miRNA stability assessment in one workflow. `miRNARefine` fills this gap, providing a set of functions that can be used independently or combined into a pipeline for miRNA data refinement.
+
 `miRNARefine` was developed in the following environment:  
 R version: 4.5.1 (2025-06-13) - "Great Square Root"  
 Platform: Windows 11 x64(x86_64, mingw32)
@@ -56,12 +58,12 @@ ls("package:miRNARefine")
 ```
 `miRNARefine` contains 7 functions:
 
-1. _*adaptiveFiltering*_ Automatically filters miRNAs based on expression, variance, or missing values.
+1. _*adaptiveFiltering*_ Automatically filters miRNAs based on expression, variance, or missing values. Adjusts thresholds according to the dataset’s characteristics to retain informative features while removing noise.
 2. _*detectOutliersPCA*_ Identifies anomalous samples using principal component analysis (PCA) following the approach of Jolliffe (2002).
-3. _*missingValueHandling*_ Detects and imputes missing values in the miRNA dataset. Supports adaptive methods like mean, median, or KNN imputation.
-4. _*compareNormalization*_ Applies multiple normalization methods (e.g., log2, z-score, quantile) and compares their effects.
-5. _*detectBatch*_ Detects and optionally corrects batch effects in the dataset.
-6. _*miRNAStability*_ Calculates feature-level stability metrics such as coefficient of variation (CV) or median absolute deviation (MAD).
+3. _*missingValueHandling*_ Detects and imputes missing values in the miRNA dataset. Supports adaptive methods like mean, median, or KNN imputation (Campesato, 2023), ensuring completeness for downstream analysis.
+4. _*compareNormalization*_ Applies multiple normalization methods (e.g., log2, z-score, quantile) and compares their effects. Helps select the most appropriate normalization strategy for consistent and comparable expression data.
+5. _*detectBatch*_ Detects and optionally corrects batch effects in the dataset. Ensures that technical or experimental batch differences do not confound downstream analyses.
+6. _*miRNAStability*_ Calculates feature-level stability metrics such as coefficient of variation (CV) or median absolute deviation (MAD). Identifies the most reliable miRNAs for robust downstream analyses (Hima Bindu et al., 2019).
 7. _*plotStabilityDistribution*_ Visualizes the distribution of miRNA stability metrics across all features. Highlights highly stable or highly variable miRNAs, helping users quickly assess feature quality.
 
 <br>
@@ -112,6 +114,9 @@ Wickham, H. (2016). `ggplot2`: Elegant graphics for data analysis. Springer-Verl
 ## Other References
 
 Bolstad, B. M., Irizarry, R. A., Astrand, M., & Speed, T. P. (2003). A comparison of normalization methods for high density oligonucleotide array data based on variance and bias. Bioinformatics, 19(2), 185–193.
+
+Campesato, O. (2023). Managing Datasets and Models (First edition.). Mercury Learning
+and Information LLC. https://doi.org/10.1515/9781683929512
 
 Hastie, T., Tibshirani, R., & Friedman, J. (2009). The Elements of Statistical Learning, 2nd Edition. Springer.
 

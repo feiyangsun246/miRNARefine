@@ -17,6 +17,13 @@ instability in miRNA expression across samples, and to provide
 diagnostic visualizations that help researchers assess data reliability
 before downstream analyses.
 
+Existing R packages handle aspects like normalization or batch
+correction, but none specifically combine outlier detection, batch
+effect adjustment, and miRNA stability assessment in one workflow.
+`miRNARefine` fills this gap, providing a set of functions that can be
+used independently or combined into a pipeline for miRNA data
+refinement.
+
 `miRNARefine` was developed in the following environment:  
 R version: 4.5.1 (2025-06-13) - “Great Square Root”  
 Platform: Windows 11 x64(x86_64, mingw32)
@@ -55,18 +62,26 @@ ls("package:miRNARefine")
 `miRNARefine` contains 7 functions:
 
 1.  **adaptiveFiltering** Automatically filters miRNAs based on
-    expression, variance, or missing values.
+    expression, variance, or missing values. Adjusts thresholds
+    according to the dataset’s characteristics to retain informative
+    features while removing noise.
 2.  **detectOutliersPCA** Identifies anomalous samples using principal
     component analysis (PCA) following the approach of Jolliffe (2002).
 3.  **missingValueHandling** Detects and imputes missing values in the
     miRNA dataset. Supports adaptive methods like mean, median, or KNN
-    imputation.
+    imputation (Campesato, 2023), ensuring completeness for downstream
+    analysis.
 4.  **compareNormalization** Applies multiple normalization methods
-    (e.g., log2, z-score, quantile) and compares their effects.
+    (e.g., log2, z-score, quantile) and compares their effects. Helps
+    select the most appropriate normalization strategy for consistent
+    and comparable expression data.
 5.  **detectBatch** Detects and optionally corrects batch effects in the
-    dataset.
+    dataset. Ensures that technical or experimental batch differences do
+    not confound downstream analyses.
 6.  **miRNAStability** Calculates feature-level stability metrics such
     as coefficient of variation (CV) or median absolute deviation (MAD).
+    Identifies the most reliable miRNAs for robust downstream analyses
+    (Hima Bindu et al., 2019).
 7.  **plotStabilityDistribution** Visualizes the distribution of miRNA
     stability metrics across all features. Highlights highly stable or
     highly variable miRNAs, helping users quickly assess feature
@@ -150,6 +165,10 @@ Springer-Verlag New York. <https://ggplot2.tidyverse.org>
 Bolstad, B. M., Irizarry, R. A., Astrand, M., & Speed, T. P. (2003). A
 comparison of normalization methods for high density oligonucleotide
 array data based on variance and bias. Bioinformatics, 19(2), 185–193.
+
+Campesato, O. (2023). Managing Datasets and Models (First edition.).
+Mercury Learning and Information LLC.
+<https://doi.org/10.1515/9781683929512>
 
 Hastie, T., Tibshirani, R., & Friedman, J. (2009). The Elements of
 Statistical Learning, 2nd Edition. Springer.
