@@ -42,6 +42,9 @@
 #'
 #'   subset <- RTCGA.miRNASeq::ACC.miRNASeq[1:200, 1:20]
 #'   sample <- subset[subset$miRNA_ID == "read_count", ]
+#'   # remove non-numeric columns
+#'   sample <- sample[, 3:20]
+#'
 #'   result <- miRNAStability(miRNAdata = sample, report_summary = FALSE)
 #'   plot <- plotStabilityDistribution(stability_results = result)
 #'
@@ -120,9 +123,9 @@ plotStabilityDistribution <- function(stability_results,
 
   # Generate plot using ggplot2 (Wickham, 2016)
   p <- ggplot2::ggplot(scores_df, aes(x = .data[[metric]],
-                                      y = reorder(scores_df$miRNA, .data[[metric]]),
-                                      color = scores_df$highlight)) +
-                                      ggplot2::geom_point(size = 3) +
+                                      y = reorder(miRNA, .data[[metric]]),
+                                      color = highlight)) +
+    ggplot2::geom_point(size = 3) +
     scale_color_manual(values = c("Most Stable" = "blue",
                                   "Least Stable" = "red",
                                   "Normal" = "gray")) +
@@ -133,8 +136,8 @@ plotStabilityDistribution <- function(stability_results,
 
   if (isTRUE(show_labels)) {
     p <- p + ggrepel::geom_text_repel(data = subset(scores_df,
-                                                    scores_df$highlight != "Normal"),
-                                      aes(label = scores_df$miRNA),
+                                                    highlight != "Normal"),
+                                      aes(label = miRNA),
                                       size = 3,
                                       max.overlaps = Inf)
   }

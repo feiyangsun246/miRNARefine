@@ -36,6 +36,9 @@
 #'
 #'   subset <- RTCGA.miRNASeq::ACC.miRNASeq[1:200, 1:20]
 #'   sample <- subset[subset$miRNA_ID == "read_count", ]
+#'   # remove non-numeric columns
+#'   sample <- sample[, 3:20]
+#'
 #'   result <- compareNormalization(miRNAdata = sample,
 #'                                  methods = c("zscore", "quantile"),
 #'                                  report_summary = TRUE,

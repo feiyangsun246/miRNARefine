@@ -53,6 +53,9 @@ if (requireNamespace("RTCGA.miRNASeq", quietly = TRUE)) {
 
   subset <- RTCGA.miRNASeq::ACC.miRNASeq[1:200, 1:20]
   sample <- subset[subset$miRNA_ID == "read_count", ]
+  # remove non-numeric columns
+  sample <- sample[, 3:20]
+
   filtered <- adaptiveFiltering(miRNAdata = sample,
                                 min_expression = NULL,
                                 min_variance = NULL,
@@ -72,8 +75,7 @@ Castelluzzo M., Detassis S., Denti M., and Ricci L. (2023).
 R package version 1.1.3.
 \href{https://CRAN.R-project.org/package=MiRNAQCD}{Link}.
 
-Chodor W. (2025). \emph{RTCGA.miRNASeq: miRNASeq datasets from The Cancer
-Genome Atlas Project}. R package version 1.36.0.
+Chodor W. (2025). RTCGA.miRNASeq: miRNASeq datasets from The Cancer Genome Atlas Project.
 
 Hastie T., Tibshirani R., and Friedman J. (2009).
 \emph{The Elements of Statistical Learning}, 2nd Edition. Springer.

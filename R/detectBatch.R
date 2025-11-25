@@ -37,8 +37,12 @@
 #'
 #'   subset <- RTCGA.miRNASeq::ACC.miRNASeq[1:200, 1:20]
 #'   sample <- subset[subset$miRNA_ID == "read_count", ]
-#'   result <- detectBatch(miRNAdata = sample, correct = TRUE,
-#'                         batch = rep(1:2, each = 50)
+#'   # remove non-numeric columns
+#'   sample <- sample[, 3:20]
+#'
+#'   result <- detectBatch(miRNAdata = sample,
+#'                         correct = TRUE,
+#'                         batch = c(rep(1, 34), rep(2, 33)),
 #'                         report_summary = FALSE)
 #'   result$corrected_data
 #'   result$batch_effects

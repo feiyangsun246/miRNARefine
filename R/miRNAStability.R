@@ -47,7 +47,10 @@
 #'
 #'   subset <- RTCGA.miRNASeq::ACC.miRNASeq[1:200, 1:20]
 #'   sample <- subset[subset$miRNA_ID == "read_count", ]
-#'   result <- miRNAStability(miRNAdata = sample, report_summary = FALSE)
+#'   # remove non-numeric columns
+#'   sample <- sample[, 3:20]
+#'
+#'   result3 <- miRNAStability(miRNAdata = sample, report_summary = FALSE)
 #'
 #'   result3$most_stable
 #'   result3$least_stable

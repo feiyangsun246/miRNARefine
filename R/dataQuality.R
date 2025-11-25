@@ -45,12 +45,14 @@
 #'
 #'   subset <- RTCGA.miRNASeq::ACC.miRNASeq[1:200, 1:20]
 #'   sample_ori <- subset[subset$miRNA_ID == "read_count", ]
+#'   # remove non-numeric columns
+#'   sample_ori <- sample_ori[, 3:20]
 #'
 #'   # deal with missing values first in case of errors
 #'   sample <- missingValueHandling(miRNAdata = sample_ori,
 #'                                  method = "knn",
 #'                                  k = 5,
-#'                                  report_summary = TRUE))
+#'                                  report_summary = TRUE)
 #'
 #'   result <- detectOutliersPCA(miRNAdata = sample,
 #'                               n_components = 2,
@@ -195,6 +197,9 @@ detectOutliersPCA <- function(miRNAdata,
 #'
 #'   subset <- RTCGA.miRNASeq::ACC.miRNASeq[1:200, 1:20]
 #'   sample <- subset[subset$miRNA_ID == "read_count", ]
+#'   # remove non-numeric columns
+#'   sample <- sample[, 3:20]
+#'
 #'   filled <- missingValueHandling(miRNAdata = sample,
 #'                                  method = "knn",
 #'                                  k = 5,
