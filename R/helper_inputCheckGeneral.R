@@ -62,3 +62,6 @@ inputCheckGeneral <- function(miRNAdata) {
 
   return(miRNAdata)
 }
+
+
+# [END]

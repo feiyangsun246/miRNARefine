@@ -136,13 +136,14 @@ plotStabilityDistribution <- function(stability_results,
 
   if (isTRUE(show_labels)) {
     p <- p + ggrepel::geom_text_repel(data = subset(scores_df,
-                                                    highlight != "Normal"),
+                                                    scores_df$highlight != "Normal"),
                                       aes(label = miRNA),
                                       size = 3,
                                       max.overlaps = Inf)
   }
 
   return(p)
-
 }
 
+
+# [END]

@@ -136,6 +136,7 @@ miRNAStability <- function(miRNAdata,
   return(list(stability_scores = results,
               most_stable = most_stable,
               least_stable = least_stable))
-
 }
 
+
+# [END]

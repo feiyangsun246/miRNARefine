@@ -147,6 +147,7 @@ compareNormalization <- function(miRNAdata,
 
   return(list(normalized = normalized,
               best_method = best_method))
-
 }
 
+
+# [END]

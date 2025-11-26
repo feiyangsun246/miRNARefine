@@ -15,14 +15,12 @@ miRNA Expression Data
 potential data irregularities such as outliers, batch effects, and
 instability in miRNA expression across samples, and to provide
 diagnostic visualizations that help researchers assess data reliability
-before downstream analyses.
-
-Existing R packages handle aspects like normalization or batch
-correction, but none specifically combine outlier detection, batch
-effect adjustment, and miRNA stability assessment in one workflow.
-`miRNARefine` fills this gap, providing a set of functions that can be
-used independently or combined into a pipeline for miRNA data
-refinement.
+before downstream analyses. Existing R packages handle aspects like
+normalization or batch correction, but none specifically combine outlier
+detection, batch effect adjustment, and miRNA stability assessment in
+one workflow. `miRNARefine` fills this gap, providing a set of functions
+that can be used independently or combined into a pipeline for miRNA
+data refinement.
 
 `miRNARefine` was developed in the following environment:  
 R version: 4.5.1 (2025-06-13) - “Great Square Root”  
@@ -48,7 +46,7 @@ library("miRNARefine")
 To run the Shiny app:
 
 ``` r
-# Under construction
+runmiRNARefine()
 ```
 
 ## Overview
