@@ -21,7 +21,9 @@ Imports:
     impute,
     preprocessCore,
     utils,
-    ggrepel
+    ggrepel,
+    shiny,
+    shinyalert
 Depends: 
     R (>= 3.5)
 RoxygenNote: 7.3.3
@@ -35,5 +37,6 @@ Suggests:
     tidyr,
     tibble
 Config/testthat/edition: 3
-URL: https://github.com/feiyangsun246/miRNARefine
 VignetteBuilder: knitr
+URL: https://github.com/feiyangsun246/miRNARefine
+BugReports: https://github.com/feiyangsun246/miRNARefine/issues
