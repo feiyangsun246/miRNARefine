@@ -30,9 +30,16 @@ researchers assess data reliability before downstream analyses.
 To download **miRNARefine**, use the following commands:
 
 ```r
-require("devtools")
+# Install Bioconductor dependencies
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install(c("preprocessCore", "impute", "sva"), force = TRUE)
+
+install.packages("devtools")
+library("devtools")
 devtools::install_github("feiyangsun246/miRNARefine", build_vignettes = TRUE)
-library(miRNARefine)
+library("miRNARefine")
 ```
 
 To list all sample functions available in the package:
