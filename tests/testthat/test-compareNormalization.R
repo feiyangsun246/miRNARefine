@@ -98,8 +98,7 @@ test_that("Check if best method selection", {
   set.seed(624)
   df <- matrix(abs(rnorm(20)), nrow = 5)
   res <- compareNormalization(miRNAdata = df,
-                              report_summary = FALSE,
-                              choose_best = TRUE)
+                              report_summary = FALSE)
 
   # Whether the best_method is valid
   expect_true(res$best_method %in% names(res$normalized))

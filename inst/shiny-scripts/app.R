@@ -189,6 +189,36 @@ ui <- fluidPage(
       ),
 
 
+      tags$h4(tags$b("5. Stability Plot")),
+      tags$p("Visualizes the distribution of miRNA stability metrics across
+      all features. Highlights highly stable or highly variable miRNAs, helping
+      users quickly assess feature quality."),
+      tags$b("Make sure miRNA stability is calculated (e.g. Step 4 is checked)"),
+
+      # 5. Stability Plot
+      checkboxInput("do_stability_plot",
+                    "Generate miRNA stability plot?",
+                    value = FALSE),
+
+      conditionalPanel(
+        condition = "input.do_stability_plot == true",
+
+        # Inputs for miRNA stability parameters
+        wellPanel(
+          tags$b("stability calculation methods:"),
+          checkboxGroupInput(inputId = "stability_plot_methods",
+                             label = NULL,
+                             choices = c("CV", "MAD"),
+                             selected = c("CV", "MAD"))),
+
+        numericInput("num_top", "number of most/least stable miRNAs to be selected:",
+                     value = 5, min = 1, step = 1),
+
+        # True/False for show labels
+        checkboxInput("stability_plot_labels", "Show labels?", value = TRUE)
+      ),
+
+
       # action button
       actionButton("run_btn", "Run")
 
@@ -216,6 +246,9 @@ ui <- fluidPage(
         tabPanel("miRNA Stability Calculation",
                  uiOutput("stability_calculation_preview"),
                  uiOutput("stability_download")),
+
+        tabPanel("miRNA Stability Plot")
+
       )
     ) # end of main panel
   )

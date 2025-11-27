@@ -129,10 +129,11 @@ miRNAStability <- function(miRNAdata,
 
   # Optional summary
   if (isTRUE(report_summary)) {
-    cat("Most stable miRNAs (lowest variability):\n")
-    print(most_stable)
-    cat("\nLeast stable miRNAs (highest variability):\n")
-    print(least_stable)
+    message("Most stable miRNAs (lowest variability):")
+    message(sprintf("  %s", paste(most_stable, collapse = ", ")))
+
+    message("Least stable miRNAs (highest variability):")
+    message(sprintf("  %s", paste(least_stable, collapse = ", ")))
   }
 
   return(list(stability_scores = results,
