@@ -74,7 +74,7 @@ ui <- fluidPage(
       tags$h4(tags$b("0. Remove zeros")),
 
       # 0. Remove all-zero columns
-      checkboxInput("remove_zeros", "Remove columns that are all zeros?",
+      checkboxInput("do_remove_zeros", "Remove columns that are all zeros?",
                     value = FALSE),
 
 
@@ -245,17 +245,24 @@ ui <- fluidPage(
       tabsetPanel(
         id = "preprocess_tabs",
 
-        tabPanel("Raw Data Preview", tableOutput("raw_preview")),
+        tabPanel("Raw Data Preview",
+                 tableOutput("raw_preview"),
+                 uiOutput("raw_download")),
 
-        tabPanel("Remove all-zero columns", uiOutput("zeros_removed_preview")),
+        tabPanel("Remove all-zero columns",
+                 uiOutput("zeros_removed_preview"),
+                 uiOutput("zeros_removed_download")),
 
-        tabPanel("Missing Value Handling", uiOutput("missing_val_preview"),
+        tabPanel("Missing Value Handling",
+                 uiOutput("missing_val_preview"),
                  uiOutput("missing_val_download")),
 
-        tabPanel("Adaptive Filtering", uiOutput("filtering_preview"),
+        tabPanel("Adaptive Filtering",
+                 uiOutput("filtering_preview"),
                  uiOutput("filtering_download")),
 
-        tabPanel("Compare Normalization", uiOutput("normalization_preview"),
+        tabPanel("Compare Normalization",
+                 uiOutput("normalization_preview"),
                  uiOutput("normalization_download")),
 
         tabPanel("miRNA Stability Calculation",
@@ -304,12 +311,28 @@ server <- function(input, output) {
     head(miRNAdata())
   })
 
+  # raw data download
+  output$raw_download <- renderUI({
+    req(miRNAdata())
+    downloadButton("download_raw", "Download Raw Data")
+  })
+
+  output$download_raw <- downloadHandler(
+    filename = function() {
+      paste0("data_raw_", Sys.Date(), ".csv")
+    },
+    content = function(file) {
+      req(miRNAdata())
+      write.csv(miRNAdata(), file, row.names = FALSE)
+    }
+  )
+
 
   # 0. Remove all-zero columns
   removed_zeros_data <- eventReactive(input$run_btn,{
     req(miRNAdata())
     data <- miRNAdata()
-    if (isTRUE(input$remove_zeros)) {
+    if (isTRUE(input$do_remove_zeros)) {
       data <- data[, colSums(data != 0, na.rm = TRUE) > 0]
     }
     data
@@ -317,7 +340,7 @@ server <- function(input, output) {
 
   output$zeros_removed_preview <- renderUI({
     req(removed_zeros_data())
-    if (!isTRUE(input$remove_zeros)) {
+    if (!isTRUE(input$do_remove_zeros)) {
       HTML("<i>User preferred not to remove all-zero columns.</i>")
     } else {
       tableOutput("zeros_removed_table")
@@ -327,6 +350,27 @@ server <- function(input, output) {
   output$zeros_removed_table <- renderTable({
     head(removed_zeros_data())
   })
+
+  # data download after all-zero columns removed
+  output$zeros_removed_download <- renderUI({
+    req(removed_zeros_data())
+    if (isTRUE(input$do_remove_zeros)) {
+      downloadButton("download_zeros_removed",
+                     "Download Data After All-zero Columns Removed")
+    } else {
+      NULL
+    }
+  })
+
+  output$download_zeros_removed <- downloadHandler(
+    filename = function() {
+      paste0("data_after_zeros_removed_", Sys.Date(), ".csv")
+    },
+    content = function(file) {
+      req(removed_zeros_data())
+      write.csv(removed_zeros_data(), file, row.names = FALSE)
+    }
+  )
 
 
   # 1. Missing Value Handling
@@ -398,7 +442,7 @@ server <- function(input, output) {
 
   output$download_imputed <- downloadHandler(
     filename = function() {
-      paste0("data_after_imputation", Sys.Date(), ".csv")
+      paste0("data_after_imputation_", Sys.Date(), ".csv")
     },
     content = function(file) {
       req(after_imputation_result())
@@ -478,7 +522,7 @@ server <- function(input, output) {
 
   output$download_filtered <- downloadHandler(
     filename = function() {
-      paste0("data_after_filtering", Sys.Date(), ".csv")
+      paste0("data_after_filtering_", Sys.Date(), ".csv")
     },
     content = function(file) {
       req(after_filtering_result())
@@ -561,7 +605,7 @@ server <- function(input, output) {
 
   output$download_normalization <- downloadHandler(
     filename = function() {
-      paste0("data_after_normalization", Sys.Date(), ".csv")
+      paste0("data_after_normalization_", Sys.Date(), ".csv")
     },
     content = function(file) {
       req(after_normalization_result())
@@ -646,7 +690,7 @@ server <- function(input, output) {
 
   output$download_stability <- downloadHandler(
     filename = function() {
-      paste0("data_after_stability_calculation", Sys.Date(), ".csv")
+      paste0("data_after_stability_calculation_", Sys.Date(), ".csv")
     },
     content = function(file) {
       req(stability_result())
