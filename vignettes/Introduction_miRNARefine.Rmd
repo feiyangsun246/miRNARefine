@@ -30,12 +30,6 @@ researchers assess data reliability before downstream analyses.
 To download **miRNARefine**, use the following commands:
 
 ```r
-# Install Bioconductor dependencies
-if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-
-BiocManager::install(c("preprocessCore", "impute", "sva"), force = TRUE)
-
 install.packages("devtools")
 library("devtools")
 devtools::install_github("feiyangsun246/miRNARefine", build_vignettes = TRUE)
@@ -132,7 +126,7 @@ data.
 # Using miRNASeq data available with package
 data(miRNASeq1)
 result <- compareNormalization(miRNAdata = miRNASeq1,
-                               choose_best = TRUE)
+                               report_summary = TRUE)
 result$normalized$log2[1:5, 1:5]
 result$best_method
 ```

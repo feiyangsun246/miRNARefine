@@ -23,9 +23,10 @@ Imports:
     utils,
     ggrepel,
     shiny,
-    shinyalert
+    shinyalert，
 Depends: 
     R (>= 3.5)
+biocViews:
 RoxygenNote: 7.3.3
 Roxygen: list(markdown = TRUE)
 Suggests: 
