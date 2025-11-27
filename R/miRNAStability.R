@@ -101,6 +101,8 @@ miRNAStability <- function(miRNAdata,
 
   # Initialize results
   results <- data.frame(miRNA = colnames(miRNAdata))
+  results$CV <- NULL
+  results$MAD <- NULL
 
   # Compute metrics (Hastie et al., 2009; Hima Bindu et al., 2019)
   if ("CV" %in% metrics) {

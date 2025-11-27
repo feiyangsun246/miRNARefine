@@ -33,8 +33,6 @@ ui <- fluidPage(
                 " to remove uninformative or noisy miRNAs."),
         tags$li("Compare and apply ", tags$b("normalization strategies"),
                 " for consistent expression data."),
-        tags$li("Detect and correct ", tags$b("batch effects"),
-                " to avoid technical confounding."),
         tags$li("Evaluate ", tags$b("miRNA stability"),
                 " using metrics like CV or MAD, identifying the most reliable
                 features."),
@@ -157,10 +155,37 @@ ui <- fluidPage(
 
 
         # True/False for report summary
-        checkboxInput("normalization_report", "Report summary?", value = TRUE),
+        checkboxInput("normalization_report", "Report summary?", value = TRUE)
+      ),
 
-        # True/False for choose best normalization method
-        checkboxInput("choose_best", "Choose best method?", value = TRUE),
+
+      tags$h4(tags$b("4. miRNA Stability")),
+      tags$p("Calculates feature-level stability metrics such as Coefficient
+      of Variation (CV) and Median Absolute Deviation (MAD) for each miRNA
+      across samples. Helps identify the most stable miRNAs for reliable
+      downstream analyses."),
+
+      # 4. miRNA Stability
+      checkboxInput("do_stability_calculation",
+                    "Perform miRNA stability calculation?",
+                    value = FALSE),
+
+      conditionalPanel(
+        condition = "input.do_stability_calculation == true",
+
+        # Inputs for miRNA stability parameters
+        wellPanel(
+          tags$b("stability calculation methods:"),
+          checkboxGroupInput(inputId = "stability_calculation_methods",
+                             label = NULL,
+                             choices = c("CV", "MAD"),
+                             selected = c("CV", "MAD"))),
+
+        numericInput("num_top", "number of most/least stable miRNAs to be selected:",
+                     value = 5, min = 1, step = 1),
+
+        # True/False for report summary
+        checkboxInput("stability_calculation_report", "Report summary?", value = TRUE)
       ),
 
 
@@ -186,8 +211,11 @@ ui <- fluidPage(
                  uiOutput("filtering_download")),
 
         tabPanel("Compare Normalization", uiOutput("normalization_preview"),
-                 uiOutput("normalization_download"))
+                 uiOutput("normalization_download")),
 
+        tabPanel("miRNA Stability Calculation",
+                 uiOutput("stability_calculation_preview"),
+                 uiOutput("stability_download")),
       )
     ) # end of main panel
   )
@@ -420,14 +448,16 @@ server <- function(input, output) {
         result <- withCallingHandlers(
           compareNormalization(after_filtering_result()$data,
                                methods = input$normalization_methods,
-                               report_summary = input$impute_report,
-                               choose_best = input$choose_best),
+                               report_summary = input$impute_report),
           message = function(m) {
             msgs <<- c(msgs, m$message)
             invokeRestart("muffleMessage")
           }
         )
-        list(data = result, summary = paste(msgs, collapse = "\n"))
+        list(data = result$normalized,
+             best = result$best_method,
+             best_data = result$best_norm,
+             summary = paste(msgs, collapse = "\n"))
 
       },error = function(e) {
         # show error message to user
@@ -441,7 +471,10 @@ server <- function(input, output) {
         stopApp()
       })
     } else{
-      list(data = after_filtering_data(), summary = NULL)
+      list(data = NULL,
+           best = NULL,
+           best_data = after_filtering_result()$data,
+           summary = NULL)
     }
   })
 
@@ -464,7 +497,7 @@ server <- function(input, output) {
 
   output$after_normalization_table <- renderTable({
     req(after_normalization_result())
-    head(after_normalization_result()$data)
+    head(after_normalization_result()$best_data)
   })
 
   # data download after compare normalization
@@ -483,7 +516,92 @@ server <- function(input, output) {
     },
     content = function(file) {
       req(after_normalization_result())
-      write.csv(after_normalization_result()$data, file, row.names = FALSE)
+      write.csv(after_normalization_result()$best_data, file, row.names = FALSE)
+    }
+  )
+
+
+  # 4. miRNA Stability Calculation
+  stability_result <- eventReactive(input$run_btn, {
+    req(after_normalization_result())
+
+    if (isTRUE(input$do_stability_calculation)) {
+      tryCatch({
+        msgs <- character(0)
+        result <- withCallingHandlers(
+          miRNAStability(after_normalization_result()$best_data,
+                         metrics = input$stability_calculation_methods,
+                         num_top = input$num_top,
+                         report_summary = input$stability_calculation_report),
+          message = function(m) {
+            msgs <<- c(msgs, m$message)
+            invokeRestart("muffleMessage")
+          }
+        )
+        list(stability_scores = result$stability_scores,
+             most_stable = result$most_stable,
+             least_stable = result$least_stable,
+             summary = paste(msgs, collapse = "\n"))
+
+      },error = function(e) {
+        # show error message to user
+        message("Error: ", e$message)
+        showModal(modalDialog(
+          title = "Error",
+          paste("miRNA stability calculation failed:", e$message),
+          easyClose = TRUE
+        ))
+        # stop current session
+        stopApp()
+      })
+    } else{
+      list(stability_scores = NULL,
+           most_stable = NULL,
+           least_stable = NULL,
+           summary = NULL)
+    }
+  })
+
+  output$stability_calculation_preview <- renderUI({
+    req(stability_result())
+    if (!isTRUE(input$do_stability_calculation)) {
+      HTML("<i>User preferred not to perform stability calculation.</i>")
+    } else {
+      tagList(
+        verbatimTextOutput("stability_calculation_summary"),
+        tableOutput("stability_calculation_table")
+      )
+    }
+  })
+
+  output$stability_calculation_summary <- renderText({
+    req(stability_result())
+    stability_result()$summary
+  })
+
+  output$stability_calculation_table <- renderTable({
+    req(stability_result())
+    head(stability_result()$stability_scores)
+  })
+
+  # data download after compare normalization
+  output$stability_download <- renderUI({
+    req(stability_result())
+    if (isTRUE(input$do_stability_calculation)) {
+      downloadButton("download_stability",
+                     "Download Data After Stability Calculation")
+    } else {
+      NULL
+    }
+  })
+
+  output$download_stability <- downloadHandler(
+    filename = function() {
+      paste0("data_after_stability_calculation", Sys.Date(), ".csv")
+    },
+    content = function(file) {
+      req(stability_result())
+      write.csv(stability_result()$stability_scores, file, row.names = FALSE)
     }
   )
 
