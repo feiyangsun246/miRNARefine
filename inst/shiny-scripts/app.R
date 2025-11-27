@@ -8,8 +8,8 @@ Sys.setlocale(category = "LC_ALL", locale = "C")
 ui <- fluidPage(
 
   # App title ----
-  titlePanel(tags$h1("miRNA Data Explorer: Preprocessing, Analysis, and
-                     Stability Visualization")),
+  titlePanel(tags$h1(tags$b("miRNA Data Explorer:"), "Preprocessing, Analysis,
+  and Stability Visualization")),
 
   # Sidebar layout with input and output definitions ----
   sidebarLayout(
