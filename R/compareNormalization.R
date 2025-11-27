@@ -9,7 +9,6 @@
 #' @param methods A character vector of normalization methods to apply.
 #' Supported: "log2", "zscore", "quantile". Default is all three.
 #' @param report_summary Logical, whether to print summary information. Default TRUE.
-#' @param choose_best Logical, whether to automatically recommend the best method. Default FALSE.
 #'
 #' @return A result list containing:
 #' \describe{
@@ -21,8 +20,7 @@
 #' # Example 1:
 #' # Using miRNASeq data available with package
 #' data(miRNASeq1)
-#' result <- compareNormalization(miRNAdata = miRNASeq1,
-#'                                choose_best = TRUE)
+#' result <- compareNormalization(miRNAdata = miRNASeq1)
 #' result$normalized$log2[1:5, 1:5]
 #' result$best_method
 #'
@@ -41,8 +39,7 @@
 #'
 #'   result <- compareNormalization(miRNAdata = sample,
 #'                                  methods = c("zscore", "quantile"),
-#'                                  report_summary = TRUE,
-#'                                  choose_best = TRUE)
+#'                                  report_summary = TRUE)
 #'   head(result)
 #' }}
 #'
@@ -71,8 +68,7 @@
 #'
 compareNormalization <- function(miRNAdata,
                                  methods = c("log2", "zscore", "quantile"),
-                                 report_summary = TRUE,
-                                 choose_best = TRUE) {
+                                 report_summary = TRUE) {
 
   # Check if input is a matrix or dataframe
   miRNAdata <- inputCheckGeneral(miRNAdata)
@@ -133,12 +129,16 @@ compareNormalization <- function(miRNAdata,
 
   # Choose best method based on variance uniformity (Castelluzzo et al., 2023; Hastie et al., 2009)
   best_method <- NULL
+  best_norm <- NULL
+  choose_best <- TRUE
+
   if (isTRUE(choose_best)) {
     score <- sapply(normalized, function(x) {
       vars <- apply(x, 2, stats::var, na.rm = TRUE)
       sd(vars)  # smaller SD of variances = more uniform
     })
     best_method <- names(which.min(score))
+    best_norm <- normalized[[best_method]]
 
     if (isTRUE(report_summary)) {
       message(sprintf("Recommended method: %s", best_method))
@@ -146,7 +146,8 @@ compareNormalization <- function(miRNAdata,
   }
 
   return(list(normalized = normalized,
-              best_method = best_method))
+              best_method = best_method,
+              best_norm = best_norm))
 }
 
 
