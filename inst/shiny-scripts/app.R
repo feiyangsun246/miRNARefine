@@ -44,7 +44,6 @@ ui <- fluidPage(
       ),
 
       br(),
-      br(),
 
       # input
       tags$h3("Dataset input selection/upload"),
@@ -83,7 +82,7 @@ ui <- fluidPage(
 
       tags$h4(tags$b("1. Missing Value Handling")),
       tags$p("Detects and imputes missing values in a miRNA dataset. Supports
-      adaptive methods like mean, median, or KNN imputation (Campesato, 2023),
+      adaptive methods like mean, median, or KNN imputation,
       ensuring completeness for downstream analysis."),
 
       # 1. Missing Value Handling
@@ -109,6 +108,9 @@ ui <- fluidPage(
 
 
       tags$h4(tags$b("2. Adaptive Filtering")),
+      tags$p("Automatically filters miRNAs based on expression, variance, and
+      missing values. Thresholds are adapted to the dataset's characteristics
+      to retain informative features while removing noise."),
 
       # 2. Adaptive Filtering
       checkboxInput("do_filtering", "Perform adaptive filtering?",
@@ -150,6 +152,9 @@ ui <- fluidPage(
 
         tabPanel("Missing Value Handling", uiOutput("missing_val_preview"),
                  uiOutput("missing_val_download")),
+
+        tabPanel("Adaptive Filtering", uiOutput("filtering_preview"),
+                 uiOutput("filtering_download"))
 
       )
     ) # end of main panel
@@ -218,35 +223,40 @@ server <- function(input, output) {
   # 1. Missing Value Handling
   after_imputation_result <- eventReactive(input$run_btn, {
     req(removed_zeros_data())
-    tryCatch({
-      msgs <- character(0)
-      result <- withCallingHandlers(
-        missingValueHandling(removed_zeros_data(),
-                             method = input$impute_method,
-                             k = input$k_value,
-                             report_summary = input$impute_report),
-        message = function(m) {
-          msgs <<- c(msgs, m$message)
-          invokeRestart("muffleMessage")
-        }
-      )
-      list(data = result, summary = paste(msgs, collapse = "\n"))
 
-    },error = function(e) {
-      # show error message to user
-      message("Error: ", e$message)
-      showModal(modalDialog(
-        title = "Error",
-        paste("missing value handling failed:", e$message),
-        easyClose = TRUE
-      ))
-      # stop current session
-      stopApp()
-    })
+    if (isTRUE(input$do_missing_val)) {
+      tryCatch({
+        msgs <- character(0)
+        result <- withCallingHandlers(
+          missingValueHandling(removed_zeros_data(),
+                               method = input$impute_method,
+                               k = input$k_value,
+                               report_summary = input$impute_report),
+          message = function(m) {
+            msgs <<- c(msgs, m$message)
+            invokeRestart("muffleMessage")
+          }
+        )
+        list(data = result, summary = paste(msgs, collapse = "\n"))
+
+      },error = function(e) {
+        # show error message to user
+        message("Error: ", e$message)
+        showModal(modalDialog(
+          title = "Error",
+          paste("missing value handling failed:", e$message),
+          easyClose = TRUE
+        ))
+        # stop current session
+        stopApp()
+      })
+    } else{
+      list(data = removed_zeros_data(), summary = NULL)
+    }
   })
 
   output$missing_val_preview <- renderUI({
-    req(after_imputation_result)
+    req(after_imputation_result())
     if (!isTRUE(input$do_missing_val)) {
       HTML("<i>User preferred not to perform missing value handling.</i>")
     } else {
@@ -286,6 +296,87 @@ server <- function(input, output) {
       write.csv(after_imputation_result()$data, file, row.names = FALSE)
     }
   )
+
+
+  # 2. Adaptive Filtering
+  after_filtering_result <- eventReactive(input$run_btn, {
+    req(after_imputation_result())
+    min_expr_value <- if (is.na(input$min_expression)) NULL else input$min_expression
+    min_var_value  <- if (is.na(input$min_variance)) NULL else input$min_variance
+
+    if (isTRUE(input$do_filtering)) {
+      tryCatch({
+        msgs <- character(0)
+        result <- withCallingHandlers(
+          adaptiveFiltering(after_imputation_result()$data,
+                            min_expression = min_expr_value,
+                            min_variance = min_var_value,
+                            report_summary = input$filtering_report),
+          message = function(m) {
+            msgs <<- c(msgs, m$message)
+            invokeRestart("muffleMessage")
+          }
+        )
+        list(data = result, summary = paste(msgs, collapse = "\n"))
+
+      },error = function(e) {
+        # show error message to user
+        message("Error: ", e$message)
+        showModal(modalDialog(
+          title = "Error",
+          paste("adaptive filtering failed:", e$message),
+          easyClose = TRUE
+        ))
+        # stop current session
+        stopApp()
+      })
+    } else{
+      list(data = after_imputation_result()$data, summary = NULL)
+    }
+  })
+
+  output$filtering_preview <- renderUI({
+    req(after_filtering_result())
+    if (!isTRUE(input$do_filtering)) {
+      HTML("<i>User preferred not to perform adaptive filtering.</i>")
+    } else {
+      tagList(
+        verbatimTextOutput("filtering_summary"),
+        tableOutput("after_filtering_table")
+      )
+    }
+  })
+
+  output$filtering_summary <- renderText({
+    req(after_filtering_result())
+    after_filtering_result()$summary
+  })
+
+  output$after_filtering_table <- renderTable({
+    req(after_filtering_result())
+    head(after_filtering_result()$data)
+  })
+
+  # data download after adaptive filtering
+  output$filtering_download <- renderUI({
+    req(after_filtering_result())
+    if (isTRUE(input$do_filtering)) {
+      downloadButton("download_filtered", "Download Filtered Data")
+    } else {
+      NULL
+    }
+  })
+
+  output$download_filtered <- downloadHandler(
+    filename = function() {
+      paste0("data_after_filtering", Sys.Date(), ".csv")
+    },
+    content = function(file) {
+      req(after_filtering_result())
+      write.csv(after_filtering_result()$data, file, row.names = FALSE)
+    }
+  )
+
 }
 
 
