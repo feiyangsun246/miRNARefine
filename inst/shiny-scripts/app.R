@@ -17,18 +17,18 @@ ui <- fluidPage(
     # Sidebar panel for inputs ----
     sidebarPanel(
 
-      tags$p("Description: This is a Shiny App that is part of the miRNARefine
+      tags$h3("Description"),
+      tags$p("This is a Shiny App that is part of the miRNARefine
              R package. This Shiny application provides an interactive interface
              to explore, preprocess, and assess miRNA expression datasets. It
              integrates the core functions of the package to help researchers
-             improve data quality beyond standard QC."),
+             improve data quality beyond standard QC. It also also allows users
+             to save the processed dataset after performing certain operations."),
 
       tags$ul(
 
         tags$li("Handle ", tags$b("missing values"),
                 " with adaptive imputation methods (mean, median, KNN)."),
-        tags$li("Detect and correct ", tags$b("outliers"),
-                " using PCA-based diagnostics."),
         tags$li("Perform ", tags$b("adaptive filtering"),
                 " to remove uninformative or noisy miRNAs."),
         tags$li("Compare and apply ", tags$b("normalization strategies"),
@@ -47,6 +47,7 @@ ui <- fluidPage(
       br(),
 
       # input
+      tags$h3("Dataset input selection/upload"),
       tags$b("Instruction: You can either upload your own miRNA expression
              dataset in CSV format,",
              "or use the example dataset included in this package.",
@@ -73,14 +74,17 @@ ui <- fluidPage(
 
       # Preprocessing options
       tags$h3("Preprocessing options"),
-      tags$h4("0. Remove zeros"),
+      tags$h4(tags$b("0. Remove zeros")),
 
       # 0. Remove all-zero columns
       checkboxInput("remove_zeros", "Remove columns that are all zeros?",
                     value = FALSE),
 
 
-      tags$h4("1. Missing Value Handling"),
+      tags$h4(tags$b("1. Missing Value Handling")),
+      tags$p("Detects and imputes missing values in a miRNA dataset. Supports
+      adaptive methods like mean, median, or KNN imputation (Campesato, 2023),
+      ensuring completeness for downstream analysis."),
 
       # 1. Missing Value Handling
       checkboxInput("do_missing_val", "Perform missing value handling?",
@@ -104,6 +108,31 @@ ui <- fluidPage(
       ),
 
 
+      tags$h4(tags$b("2. Adaptive Filtering")),
+
+      # 2. Adaptive Filtering
+      checkboxInput("do_filtering", "Perform adaptive filtering?",
+                    value = FALSE),
+
+      conditionalPanel(
+        condition = "input.do_filtering == true",
+
+        # Numeric inputs for adaptive filtering parameters
+        numericInput("min_expression", "Minimum expression: (if NA, then 25th
+                     percentiles of the mean of all miRNAs)",
+                     value = NA, min = 0, step = 1),
+        numericInput("min_variance", "Minimum variance: (if NA, then 25th
+                     percentiles of the variance of all miRNAs)",
+                     value = NA, min = 0, step = 1),
+        numericInput("max_na", "Maximum allowed NA proportion:",
+                     value = 0.2, min = 0, max = 1, step = 0.01),
+
+        # True/False for report summary
+        checkboxInput("filtering_report", "Report summary?", value = TRUE)
+      ),
+
+
+
       # action button
       actionButton("run_btn", "Run")
 
@@ -111,9 +140,7 @@ ui <- fluidPage(
     ), # end of sidebar panel
 
     mainPanel(
-
       style = "max-width: 1000px; overflow-x: auto;",
-
       tabsetPanel(
         id = "preprocess_tabs",
 
@@ -121,9 +148,10 @@ ui <- fluidPage(
 
         tabPanel("Remove all-zero columns", uiOutput("zeros_removed_preview")),
 
-        tabPanel("Missing Value Handling", uiOutput("missing_val_preview"))
-      )
+        tabPanel("Missing Value Handling", uiOutput("missing_val_preview"),
+                 uiOutput("missing_val_download")),
 
+      )
     ) # end of main panel
   )
 )
@@ -133,9 +161,7 @@ ui <- fluidPage(
 server <- function(input, output) {
 
   # Reactive expression to read dataset based on user selection
-
   miRNAdata <- reactive({
-
     data <- if (input$dataset_source == "Example dataset") {
 
       # Load package-internal example data
@@ -146,7 +172,6 @@ server <- function(input, output) {
         data("miRNASeq2", package = "miRNARefine")  # Load Example 2
         miRNASeq2
       }
-
     } else {
       # Read user-uploaded CSV file
       req(input$file)  # Ensure the file has been uploaded
@@ -157,25 +182,19 @@ server <- function(input, output) {
     data[] <- lapply(data, function(x) {
       if (is.factor(x)) as.numeric(as.character(x)) else x
     })
-
     data
-
   })
 
   # raw data preview
-
   output$raw_preview <- renderTable({
     head(miRNAdata())
   })
 
 
   # 0. Remove all-zero columns
-
   removed_zeros_data <- eventReactive(input$run_btn,{
-
     req(miRNAdata())
     data <- miRNAdata()
-
     if (isTRUE(input$remove_zeros)) {
       data <- data[, colSums(data != 0, na.rm = TRUE) > 0]
     }
@@ -183,11 +202,9 @@ server <- function(input, output) {
   })
 
   output$zeros_removed_preview <- renderUI({
-
     req(removed_zeros_data())
     if (!isTRUE(input$remove_zeros)) {
       HTML("<i>User preferred not to remove all-zero columns.</i>")
-
     } else {
       tableOutput("zeros_removed_table")
     }
@@ -199,53 +216,39 @@ server <- function(input, output) {
 
 
   # 1. Missing Value Handling
-
   after_imputation_result <- eventReactive(input$run_btn, {
-
     req(removed_zeros_data())
-
     tryCatch({
-
       msgs <- character(0)
-
       result <- withCallingHandlers(
-
         missingValueHandling(removed_zeros_data(),
                              method = input$impute_method,
                              k = input$k_value,
                              report_summary = input$impute_report),
-
         message = function(m) {
           msgs <<- c(msgs, m$message)
           invokeRestart("muffleMessage")
         }
       )
-
       list(data = result, summary = paste(msgs, collapse = "\n"))
 
     },error = function(e) {
-
       # show error message to user
       message("Error: ", e$message)
-
       showModal(modalDialog(
         title = "Error",
         paste("missing value handling failed:", e$message),
         easyClose = TRUE
       ))
-
       # stop current session
       stopApp()
     })
   })
 
   output$missing_val_preview <- renderUI({
-
     req(after_imputation_result)
-
     if (!isTRUE(input$do_missing_val)) {
       HTML("<i>User preferred not to perform missing value handling.</i>")
-
     } else {
       tagList(
         verbatimTextOutput("impute_summary"),
@@ -264,7 +267,27 @@ server <- function(input, output) {
     head(after_imputation_result()$data)
   })
 
+  # data download after missing value handling
+  output$missing_val_download <- renderUI({
+    req(after_imputation_result())
+    if (isTRUE(input$do_missing_val)) {
+      downloadButton("download_imputed", "Download Imputed Data")
+    } else {
+      NULL
+    }
+  })
+
+  output$download_imputed <- downloadHandler(
+    filename = function() {
+      paste0("data_after_imputation", Sys.Date(), ".csv")
+    },
+    content = function(file) {
+      req(after_imputation_result())
+      write.csv(after_imputation_result()$data, file, row.names = FALSE)
+    }
+  )
 }
+
 
 # Create shiny app ----
 shiny::shinyApp(ui = ui, server = server)
