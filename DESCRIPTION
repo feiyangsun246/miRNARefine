@@ -23,7 +23,7 @@ Imports:
     utils,
     ggrepel,
     shiny,
-    shinyalert，
+    shinyalert
 Depends: 
     R (>= 3.5)
 biocViews:
