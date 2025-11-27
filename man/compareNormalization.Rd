@@ -38,6 +38,7 @@ data(miRNASeq1)
 result <- compareNormalization(miRNAdata = miRNASeq1)
 result$normalized$log2[1:5, 1:5]
 result$best_method
+result$best_norm
 
 \dontrun{
 # Example 2:
