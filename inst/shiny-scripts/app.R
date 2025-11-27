@@ -92,7 +92,7 @@ ui <- fluidPage(
       conditionalPanel(
         condition = "input.do_missing_val == true",
 
-        # Numeric inputs for missing value handling parameters
+        # Inputs for missing value handling parameters
         radioButtons(inputId = "impute_method",
                      label = "imputation method:",
                      choices = c("median", "mean", "knn"),
@@ -119,7 +119,7 @@ ui <- fluidPage(
       conditionalPanel(
         condition = "input.do_filtering == true",
 
-        # Numeric inputs for adaptive filtering parameters
+        # Inputs for adaptive filtering parameters
         numericInput("min_expression", "Minimum expression: (if NA, then 25th
                      percentiles of the mean of all miRNAs)",
                      value = NA, min = 0, step = 1),
@@ -133,6 +133,35 @@ ui <- fluidPage(
         checkboxInput("filtering_report", "Report summary?", value = TRUE)
       ),
 
+
+      tags$h4(tags$b("3. Compare Normalization")),
+      tags$p("Applies multiple normalization methods (log2 transformation,
+      z-score scaling, and quantile normalization) and compares their effects
+      on miRNA expression data. Helps select the most appropriate normalization
+      strategy for consistent and comparable expression levels."),
+
+      # 3. Compare Normalization
+      checkboxInput("do_normalization", "Perform compare normalization?",
+                    value = FALSE),
+
+      conditionalPanel(
+        condition = "input.do_normalization == true",
+
+        # Inputs for compare normalization parameters
+        wellPanel(
+          tags$b("normalization methods:"),
+          checkboxGroupInput(inputId = "normalization_methods",
+                             label = NULL,
+                             choices = c("log2", "zscore", "quantile"),
+                             selected = c("log2", "zscore", "quantile"))),
+
+
+        # True/False for report summary
+        checkboxInput("normalization_report", "Report summary?", value = TRUE),
+
+        # True/False for choose best normalization method
+        checkboxInput("choose_best", "Choose best method?", value = TRUE),
+      ),
 
 
       # action button
@@ -154,7 +183,10 @@ ui <- fluidPage(
                  uiOutput("missing_val_download")),
 
         tabPanel("Adaptive Filtering", uiOutput("filtering_preview"),
-                 uiOutput("filtering_download"))
+                 uiOutput("filtering_download")),
+
+        tabPanel("Compare Normalization", uiOutput("normalization_preview"),
+                 uiOutput("normalization_download"))
 
       )
     ) # end of main panel
@@ -374,6 +406,84 @@ server <- function(input, output) {
     content = function(file) {
       req(after_filtering_result())
       write.csv(after_filtering_result()$data, file, row.names = FALSE)
+    }
+  )
+
+
+  # 3. Compare Normalization
+  after_normalization_result <- eventReactive(input$run_btn, {
+    req(after_filtering_result())
+
+    if (isTRUE(input$do_normalization)) {
+      tryCatch({
+        msgs <- character(0)
+        result <- withCallingHandlers(
+          compareNormalization(after_filtering_result()$data,
+                               methods = input$normalization_methods,
+                               report_summary = input$impute_report,
+                               choose_best = input$choose_best),
+          message = function(m) {
+            msgs <<- c(msgs, m$message)
+            invokeRestart("muffleMessage")
+          }
+        )
+        list(data = result, summary = paste(msgs, collapse = "\n"))
+
+      },error = function(e) {
+        # show error message to user
+        message("Error: ", e$message)
+        showModal(modalDialog(
+          title = "Error",
+          paste("compare normalization failed:", e$message),
+          easyClose = TRUE
+        ))
+        # stop current session
+        stopApp()
+      })
+    } else{
+      list(data = after_filtering_data(), summary = NULL)
+    }
+  })
+
+  output$normalization_preview <- renderUI({
+    req(after_normalization_result())
+    if (!isTRUE(input$do_normalization)) {
+      HTML("<i>User preferred not to perform compare normalization.</i>")
+    } else {
+      tagList(
+        verbatimTextOutput("normalization_summary"),
+        tableOutput("after_normalization_table")
+      )
+    }
+  })
+
+  output$normalization_summary <- renderText({
+    req(after_normalization_result())
+    after_normalization_result()$summary
+  })
+
+  output$after_normalization_table <- renderTable({
+    req(after_normalization_result())
+    head(after_normalization_result()$data)
+  })
+
+  # data download after compare normalization
+  output$normalization_download <- renderUI({
+    req(after_normalization_result())
+    if (isTRUE(input$do_normalization)) {
+      downloadButton("download_normalization", "Download Data After Normalization")
+    } else {
+      NULL
+    }
+  })
+
+  output$download_normalization <- downloadHandler(
+    filename = function() {
+      paste0("data_after_normalization", Sys.Date(), ".csv")
+    },
+    content = function(file) {
+      req(after_normalization_result())
+      write.csv(after_normalization_result()$data, file, row.names = FALSE)
     }
   )
 
