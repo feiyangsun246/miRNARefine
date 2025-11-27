@@ -7,8 +7,7 @@
 compareNormalization(
   miRNAdata,
   methods = c("log2", "zscore", "quantile"),
-  report_summary = TRUE,
-  choose_best = TRUE
+  report_summary = TRUE
 )
 }
 \arguments{
@@ -18,8 +17,6 @@ compareNormalization(
 Supported: "log2", "zscore", "quantile". Default is all three.}
 
 \item{report_summary}{Logical, whether to print summary information. Default TRUE.}
-
-\item{choose_best}{Logical, whether to automatically recommend the best method. Default FALSE.}
 }
 \value{
 A result list containing:
@@ -38,8 +35,7 @@ and comparable expression levels.
 # Example 1:
 # Using miRNASeq data available with package
 data(miRNASeq1)
-result <- compareNormalization(miRNAdata = miRNASeq1,
-                               choose_best = TRUE)
+result <- compareNormalization(miRNAdata = miRNASeq1)
 result$normalized$log2[1:5, 1:5]
 result$best_method
 
@@ -58,8 +54,7 @@ if (requireNamespace("RTCGA.miRNASeq", quietly = TRUE)) {
 
   result <- compareNormalization(miRNAdata = sample,
                                  methods = c("zscore", "quantile"),
-                                 report_summary = TRUE,
-                                 choose_best = TRUE)
+                                 report_summary = TRUE)
   head(result)
 }}
 
