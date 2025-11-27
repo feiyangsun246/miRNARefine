@@ -291,7 +291,7 @@ missingValueHandling <- function(miRNAdata,
   # Report missing values after
   if (isTRUE(report_summary)) {
     message(sprintf("Missing values after imputation: %d",
-                    sum(is.na(miRNAdata))))
+                    sum(is.na(filled_miRNA))))
   }
 
   return(filled_miRNA)
