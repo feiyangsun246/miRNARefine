@@ -209,18 +209,33 @@ ui <- fluidPage(
           checkboxGroupInput(inputId = "stability_plot_methods",
                              label = NULL,
                              choices = c("CV", "MAD"),
-                             selected = c("CV", "MAD"))),
+                             selected = c("CV"))),
 
-        numericInput("num_top", "number of most/least stable miRNAs to be selected:",
+        numericInput("num_top_plot", "number of most/least stable miRNAs to be selected:",
                      value = 5, min = 1, step = 1),
 
         # True/False for show labels
-        checkboxInput("stability_plot_labels", "Show labels?", value = TRUE)
+        checkboxInput("stability_plot_labels", "Show labels?", value = TRUE),
+
+        sliderInput("preview_height", "Plot preview height (px):",
+                    min = 300, max = 2000, value = 800),
+
+        wellPanel(
+          numericInput("plot_width", "For download plot width (px):",
+                       value = 1600, min = 300, max = 3000, step = 100),
+
+          numericInput("plot_height", "For download plot height (px):",
+                       value = 900, min = 300, max = 2000, step = 50),
+
+          numericInput("plot_res", "For download plot resolution (dpi):",
+                       value = 150, min = 72, max = 300, step = 10))
       ),
 
-
+      br(),
+      br(),
       # action button
-      actionButton("run_btn", "Run")
+      actionButton("run_btn", "Run"),
+      tags$p("*click on run button to start the session")
 
 
     ), # end of sidebar panel
@@ -247,8 +262,9 @@ ui <- fluidPage(
                  uiOutput("stability_calculation_preview"),
                  uiOutput("stability_download")),
 
-        tabPanel("miRNA Stability Plot")
-
+        tabPanel("miRNA Stability Plot",
+                 uiOutput("stability_plot_preview"),
+                 uiOutput("plot_download"))
       )
     ) # end of main panel
   )
@@ -617,7 +633,7 @@ server <- function(input, output) {
     head(stability_result()$stability_scores)
   })
 
-  # data download after compare normalization
+  # data download after stability calculation
   output$stability_download <- renderUI({
     req(stability_result())
     if (isTRUE(input$do_stability_calculation)) {
@@ -638,6 +654,73 @@ server <- function(input, output) {
     }
   )
 
+
+  # 5. miRNA Stability Plot
+  plot_result <- eventReactive(input$run_btn, {
+    req(stability_result())
+    stability_result_clean <- stability_result()[names(stability_result()) != "summary"]
+
+    if (isTRUE(input$do_stability_plot)) {
+      tryCatch({
+        plot <- plotStabilityDistribution(stability_result_clean,
+                                          metric = input$stability_plot_methods,
+                                          num_top = input$num_top_plot,
+                                          show_labels = input$stability_plot_labels)
+      },error = function(e) {
+        # show error message to user
+        message("Error: ", e$message)
+        showModal(modalDialog(
+          title = "Error",
+          paste("stability plot failed:", e$message),
+          easyClose = TRUE
+        ))
+        # stop current session
+        stopApp()
+      })
+    } else{
+      plot = NULL
+    }
+  })
+
+  output$stability_plot_preview <- renderUI({
+    if (!isTRUE(input$do_stability_plot)) {
+      HTML("<i>User preferred not to generate stability plot.</i>")
+    } else {
+      tagList(
+        plotOutput("stability_plot", height = paste0(input$preview_height, "px"))
+      )
+    }
+  })
+
+  output$stability_plot <- renderPlot({
+    req(plot_result())
+    print(plot_result())
+  })
+
+  # plot download
+  output$plot_download <- renderUI({
+    req(plot_result())
+    if (isTRUE(input$do_stability_plot)) {
+      downloadButton("stability_plot_download",
+                     "Download Stability Plot")
+    } else {
+      NULL
+    }
+  })
+
+  output$stability_plot_download <- downloadHandler(
+    filename = function() {
+      paste0("stability_plot_", Sys.Date(), ".png")
+    },
+    content = function(file) {
+      png(file,
+          width = input$plot_width,
+          height = input$plot_height,
+          res = input$plot_res)
+      print(plot_result())
+      dev.off()
+    }
+  )
 }
 
 
