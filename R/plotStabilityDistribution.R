@@ -19,7 +19,7 @@
 #' result1 <- miRNAStability(miRNAdata = miRNASeq1, report_summary = FALSE)
 #' plot1 <- plotStabilityDistribution(stability_results = result1)
 #'
-#' # print(plot1)
+#' print(plot1)
 #'
 #' #Example 2:
 #' # Using miRNASeq2 available with package
