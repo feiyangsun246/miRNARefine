@@ -160,7 +160,10 @@ array data based on variance and bias. Bioinformatics, 19(2), 185–193.
 
 Campesato, O. (2023). Managing Datasets and Models (First edition.).
 Mercury Learning and Information LLC.
-<https://doi.org/10.1515/9781683929512>
+<https://doi.org/10.1515/9781683929512/>
+
+Grolemund, G. (2015). Learn Shiny - Video Tutorials.
+<https://shiny.rstudio.com/tutorial/>
 
 Hastie, T., Tibshirani, R., & Friedman, J. (2009). The Elements of
 Statistical Learning, 2nd Edition. Springer.
