@@ -64,12 +64,13 @@ represents a sample, and each column represents a miRNA feature.
 
 ## Automatic filter of miRNAs
 
-### description
+__description__
+
 Function `adaptiveFiltering` automatically filters miRNAs based on expression, 
 variance, or missing values. Adjusts thresholds according to the dataset’s 
 characteristics to retain informative features while removing noise.
 
-### usage
+__usage__
 ``` r
 # Using miRNASeq data available with package
 data(miRNASeq1)
@@ -83,7 +84,8 @@ filtered_data
 
 ## Outlier detect and missing value handling
 
-### description
+__description__
+
 Function `detectOutliersPCA` identifies anomalous samples using principal 
 component analysis (Jolliffe, 2002). Flags samples that deviate strongly from 
 the majority, helping to improve overall data quality.
@@ -92,7 +94,7 @@ Function `missingValueHandling` detects and imputes missing values in the miRNA
 dataset. Supports adaptive methods like mean, median, or KNN imputation 
 (Campesato, 2023), ensuring completeness for downstream analysis.
 
-### usage
+__usage__
 ``` r
 # Using miRNASeq data available with package
 data(miRNASeq1)
@@ -115,13 +117,14 @@ head(filled)
 ```
 ## Compare normalization methods
 
-### description
+__description__
+
 Function `compareNormalization` applies multiple normalization methods (e.g., 
 log2, z-score, quantile) and compares their effects. Helps select the most 
 appropriate normalization strategy for consistent and comparable expression 
 data.
 
-### usage
+__usage__
 ``` r
 # Using miRNASeq data available with package
 data(miRNASeq1)
@@ -134,12 +137,13 @@ head(result$best_norm)
 
 ## Batch effect detect
 
-### description
+__description__
+
 Function `detectBatch` detects and optionally corrects batch effects in the 
 dataset. Ensures that technical or experimental batch differences do not 
 confound downstream analyses.
 
-### usage
+__usage__
 ``` r
 # Using miRNASeq data available with package
 data(miRNASeq2)
@@ -154,13 +158,14 @@ result$batch_effects
 
 ## miRNA stability calculation
 
-### description
+__description__
+
 Function `miRNAStability` calculates feature-level stability metrics such as 
 coefficient of variation (CV) or median absolute deviation (MAD). Identifies 
 the most reliable miRNAs for robust downstream analyses (Hima Bindu et al., 
 2019).
 
-### usage
+__usage__
 ``` r
 # Using miRNASeq1 available with package
 data(miRNASeq1)
@@ -172,12 +177,13 @@ result$least_stable
 
 ## Generate stability distribution plot
 
-### description
+__description__
+
 Function `plotStabilityDistribution` visualizes the distribution of miRNA 
 stability metrics across all features. Highlights highly stable or highly 
 variable miRNAs, helping users quickly assess feature quality.
 
-### usage
+__usage__
 ``` r
 # Using miRNASeq1 available with package
 data(miRNASeq1)
@@ -186,6 +192,10 @@ plot1 <- plotStabilityDistribution(stability_results = result1)
 
 # print(plot1)
 ```
+__example plot for stability distribution__ is shown below:
+
+<div style="text-align:left"><img src="stability_plot.png" alt="stability_plot" width="680"/>
+
 
 <br>
 
