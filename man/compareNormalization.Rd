@@ -22,7 +22,8 @@ Supported: "log2", "zscore", "quantile". Default is all three.}
 A result list containing:
 \describe{
 \item{normalized}{list of normalized datasets}
-\item{best_method}{recommended method if \code{choose_best = TRUE}}
+\item{best_method}{recommended normalization method}
+\item{best_norm}{normalized dataset using best normalization method}
 }
 }
 \description{
@@ -56,7 +57,7 @@ if (requireNamespace("RTCGA.miRNASeq", quietly = TRUE)) {
   result <- compareNormalization(miRNAdata = sample,
                                  methods = c("zscore", "quantile"),
                                  report_summary = TRUE)
-  head(result)
+  head(result$best_norm)
 }}
 
 }
