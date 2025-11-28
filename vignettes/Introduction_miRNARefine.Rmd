@@ -129,6 +129,7 @@ result <- compareNormalization(miRNAdata = miRNASeq1,
                                report_summary = TRUE)
 result$normalized$log2[1:5, 1:5]
 result$best_method
+head(result$best_norm)
 ```
 
 ## Batch effect detect
